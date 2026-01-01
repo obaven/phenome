@@ -1,0 +1,56 @@
+id: BSP-145
+title: 'UI-1A: Rotappo Runtime + State API'
+type: Epic
+layer: 5
+domain: core
+component: rotappo-runtime
+cli_surface:
+  - rotappo ui
+  - rotappo server
+
+description: |
+  Create a shared runtime that exposes actions, state snapshots, and
+  event streams for all UI surfaces. This runtime becomes the single
+  source of truth for UI data and command execution. Implement the
+  runtime inside lib/rotappo so it can be developed independently and
+  adapted for Bootstrappo and Rotato.
+
+deliverables:
+  - Rotappo runtime modules under lib/rotappo/src/runtime
+  - Action router and command registry used by all surfaces
+  - State snapshot model aggregating plan, capabilities, and health
+  - Event bus for logs and step transitions
+  - Bootstrappo + Rotato adapters for runtime data
+  - UI configuration schema and persistence
+
+acceptance_criteria:
+  - UI surfaces can call a stable action API without direct CLI calls
+  - State snapshot can be fetched without heavy cluster polling
+  - Log and event streams support live UIs (TUI/Web/Desktop)
+  - Runtime remains usable without any UI (headless CLI mode)
+  - Runtime compiles as an independent crate under lib/rotappo
+
+dependencies:
+  - BSP-144
+
+children:
+  - BSP-150
+  - BSP-151
+  - BSP-152
+  - BSP-153
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - ui
+  - runtime
+  - api
+  - core
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

@@ -1,0 +1,58 @@
+id: BSP-154
+title: 'Rotappo CLI Action Registry + UI Mapping'
+type: Story
+layer: 5
+domain: core
+component: rotappo-cli-registry
+cli_surface:
+  - rotappo ui
+  - rotappo server
+  - bootstrappo plan validate
+  - bootstrappo reconcile
+  - bootstrappo rotate
+  - bootstrappo debug
+  - bootstrappo nuke
+
+description: |
+  Create a command registry that lists all CLI actions with metadata
+  used by the UI runtime. This is the single source of truth for action
+  IDs, help text, parameters, and safety requirements. The registry
+  lives in lib/rotappo and is adapted for Bootstrappo.
+
+deliverables:
+  - Rotappo action registry with IDs, labels, and parameter schemas
+  - Mapping between Bootstrappo CLI subcommands and runtime actions
+  - Registry output for UI clients (json export)
+
+acceptance_criteria:
+  - Adding a new CLI command requires a single registry entry
+  - UI surfaces can list available actions from the registry
+  - Registry includes safety metadata (confirm required, dry-run support)
+
+dependencies:
+  - BSP-146
+  - BSP-152
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - ui
+  - cli
+  - registry
+  - actions
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/src/runtime/registry.rs
+    context: "Define action registry for UI surfaces"
+  - file: lib/rotappo/src/adapters/bootstrappo/registry.rs
+    context: "Expose Bootstrappo CLI actions via registry metadata"
+  - file: lib/rotappo/src/runtime/actions.rs
+    context: "Bind registry entries to runtime actions"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

@@ -1,0 +1,48 @@
+id: BSP-164
+title: 'Rotappo Web Actions + Access Guardrails'
+type: Task
+layer: 5
+domain: core
+component: rotappo-web-auth
+cli_surface: []
+
+description: |
+  Add action triggers to the web UI and enforce access guardrails.
+  Provide a local-only mode by default, with optional token-based
+  access for remote use.
+
+deliverables:
+  - Action trigger UI with confirmations
+  - Access guardrails (local-only default, token override)
+  - Request audit logging for action executions
+
+acceptance_criteria:
+  - Destructive actions require confirmation in the web UI
+  - Unauthorized requests are rejected with clear errors
+  - Action audit logs include requester and timestamp
+
+dependencies:
+  - BSP-152
+  - BSP-162
+
+phase_gate: gitops
+effort: S
+risk: med
+
+labels:
+  - ui
+  - web
+  - actions
+  - security
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/web/src/app/actions
+    context: "Implement action triggers and confirmations"
+  - file: lib/rotappo/src/web/server.rs
+    context: "Add access guardrails for action routes"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

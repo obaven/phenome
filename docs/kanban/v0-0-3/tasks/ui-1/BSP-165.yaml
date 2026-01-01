@@ -1,0 +1,46 @@
+id: BSP-165
+title: 'Rotappo Desktop Shell + Webview Integration'
+type: Story
+layer: 5
+domain: core
+component: rotappo-desktop-shell
+cli_surface: []
+
+description: |
+  Create a cross-platform desktop shell that hosts the web UI with
+  native window controls, menus, and keyboard shortcuts.
+
+deliverables:
+  - Desktop app scaffold (Tauri or Dioxus)
+  - Embedded web UI build integration
+  - Window management and basic menus
+
+acceptance_criteria:
+  - Desktop shell launches the web UI locally
+  - Menu actions route to the same action API as web
+  - Keyboard shortcuts work on Mac, Linux, and Windows
+
+dependencies:
+  - BSP-149
+  - BSP-162
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - ui
+  - desktop
+  - webview
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/desktop/README.md
+    context: "Document desktop build and packaging"
+  - file: lib/rotappo/desktop/src/main.rs
+    context: "Initialize desktop shell and webview"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

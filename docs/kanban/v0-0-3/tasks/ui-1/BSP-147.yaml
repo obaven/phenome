@@ -1,0 +1,51 @@
+id: BSP-147
+title: 'UI-1C: Rotappo Terminal UI (Fullstack Terminal App)'
+type: Epic
+layer: 5
+domain: core
+component: rotappo-tui
+cli_surface:
+  - rotappo ui
+
+description: |
+  Build an htop-style terminal UI for Bootstrappo using ratatui,
+  enabling live status monitoring and action triggers from a single
+  screen. This is the primary local operator experience. Implement
+  the TUI in the lib/rotappo crate to keep it decoupled from the CLI.
+
+deliverables:
+  - TUI shell with layouts, keybindings, and help panel
+  - Live plan and capability views with status indicators
+  - Action launcher with confirmations and progress feedback
+  - Streaming log panel with filtering
+
+acceptance_criteria:
+  - TUI can observe the runtime snapshot without blocking the CLI
+  - TUI can trigger core actions and show progress/results
+  - Terminal state is restored cleanly on exit or crash
+
+dependencies:
+  - BSP-144
+  - BSP-145
+
+children:
+  - BSP-157
+  - BSP-158
+  - BSP-159
+  - BSP-160
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - ui
+  - tui
+  - terminal
+  - experience
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

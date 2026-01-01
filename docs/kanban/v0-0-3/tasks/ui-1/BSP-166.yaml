@@ -1,0 +1,47 @@
+id: BSP-166
+title: 'Rotappo Desktop Local Runtime Bridge'
+type: Task
+layer: 5
+domain: core
+component: rotappo-desktop-bridge
+cli_surface: []
+
+description: |
+  Implement a local IPC bridge so the desktop app can talk to the
+  runtime without requiring an external server process. Provide
+  a fallback to remote HTTP when configured.
+
+deliverables:
+  - IPC transport between desktop shell and runtime
+  - Configured fallback to HTTP API mode
+  - Connection status indicator for UI
+
+acceptance_criteria:
+  - Desktop app can execute actions without running a separate server
+  - Remote mode works when explicitly configured
+  - Connection status is visible to the user
+
+dependencies:
+  - BSP-145
+  - BSP-165
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - ui
+  - desktop
+  - ipc
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/desktop/src/ipc.rs
+    context: "Define IPC transport and message types"
+  - file: lib/rotappo/src/runtime/actions.rs
+    context: "Expose runtime action hooks for IPC"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

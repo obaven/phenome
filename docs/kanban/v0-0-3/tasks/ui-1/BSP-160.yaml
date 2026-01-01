@@ -1,0 +1,48 @@
+id: BSP-160
+title: 'Rotappo TUI Log + Event Stream Panel'
+type: Task
+layer: 5
+domain: core
+component: rotappo-tui-logs
+cli_surface:
+  - rotappo ui
+
+description: |
+  Add a log and event panel to the terminal UI with filtering and
+  scrollback support. The panel should consume the runtime event bus
+  without blocking other UI updates.
+
+deliverables:
+  - Log panel rendering with level-based coloring
+  - Search and filter controls (level, component, text)
+  - Scrollback buffer with bounded memory usage
+
+acceptance_criteria:
+  - Log stream updates without freezing the UI
+  - Filters apply locally without runtime restarts
+  - Scrollback size is configurable and bounded
+
+dependencies:
+  - BSP-151
+  - BSP-157
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - ui
+  - tui
+  - logs
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/src/tui/views/logs.rs
+    context: "Render log stream with filters"
+  - file: lib/rotappo/src/runtime/events.rs
+    context: "Expose log event stream"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

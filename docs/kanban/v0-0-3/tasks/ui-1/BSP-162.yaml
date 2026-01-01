@@ -1,0 +1,48 @@
+id: BSP-162
+title: 'Rotappo Web UI Shell + Routing'
+type: Story
+layer: 5
+domain: core
+component: rotappo-web-shell
+cli_surface: []
+
+description: |
+  Create the web UI shell with routing, navigation, and a shared API
+  client. Establish build tooling and local dev workflow for UI teams.
+
+deliverables:
+  - Web UI project scaffold with routing and layout
+  - API client for snapshot/action/event endpoints
+  - Local dev scripts and build documentation
+
+acceptance_criteria:
+  - Web UI builds and runs locally with stubbed data
+  - API client can connect to the local server
+  - Routing supports dashboard, actions, and logs views
+
+dependencies:
+  - BSP-148
+  - BSP-161
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - ui
+  - web
+  - frontend
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/web/README.md
+    context: "Document web UI build and dev workflow"
+  - file: lib/rotappo/web/src/app
+    context: "Define routing and layout scaffold"
+  - file: lib/rotappo/web/src/lib/api.ts
+    context: "Implement API client for UI runtime"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

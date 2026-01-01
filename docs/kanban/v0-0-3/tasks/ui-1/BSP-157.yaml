@@ -1,0 +1,51 @@
+id: BSP-157
+title: 'Rotappo TUI Shell + Layout Scaffolding'
+type: Story
+layer: 5
+domain: core
+component: rotappo-tui-shell
+cli_surface:
+  - rotappo ui
+
+description: |
+  Create the terminal UI shell using ratatui and crossterm. Establish
+  the layout grid, keybindings, and terminal restoration handling so
+  future panels can plug in cleanly.
+
+deliverables:
+  - TUI entrypoint binary with event loop
+  - Layout scaffolding (header, main panel, log panel)
+  - Keybindings and help overlay
+  - Graceful terminal restore on exit
+
+acceptance_criteria:
+  - TUI launches without interfering with CLI logs
+  - Terminal settings restore on crash or normal exit
+  - Layout scaffolding renders on common terminal sizes
+
+dependencies:
+  - BSP-145
+  - BSP-147
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - ui
+  - tui
+  - terminal
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/src/bin/rotappo-tui.rs
+    context: "Define TUI entrypoint"
+  - file: lib/rotappo/src/tui/mod.rs
+    context: "Set up layout and event loop"
+  - file: lib/rotappo/Cargo.toml
+    context: "Add ratatui and crossterm dependencies"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

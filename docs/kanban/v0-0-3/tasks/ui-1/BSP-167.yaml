@@ -1,0 +1,45 @@
+id: BSP-167
+title: 'Rotappo Desktop Packaging + Updates + Notifications'
+type: Task
+layer: 5
+domain: core
+component: rotappo-desktop-package
+cli_surface: []
+
+description: |
+  Add packaging, auto-update hooks, and OS notifications for the
+  desktop app. This supports long-running sessions and safe upgrades.
+
+deliverables:
+  - Packaging configs for Mac, Linux, and Windows
+  - Auto-update workflow or release guidance
+  - OS notifications for action completion and errors
+
+acceptance_criteria:
+  - Desktop builds produce installable artifacts on all targets
+  - Update flow is documented and reproducible
+  - Notifications fire for action success and failure
+
+dependencies:
+  - BSP-165
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - ui
+  - desktop
+  - packaging
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/desktop/tauri.conf.json
+    context: "Define packaging and update settings"
+  - file: lib/rotappo/desktop/src/notifications.rs
+    context: "Emit OS notifications for action results"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

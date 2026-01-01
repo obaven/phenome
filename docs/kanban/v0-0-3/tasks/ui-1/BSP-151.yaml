@@ -1,0 +1,51 @@
+id: BSP-151
+title: 'Rotappo Runtime Event Bus + Log Stream'
+type: Story
+layer: 5
+domain: core
+component: rotappo-runtime-events
+cli_surface: []
+
+description: |
+  Provide an event bus for runtime notifications and a log stream that
+  bridges tracing output into UI-friendly messages. This enables live
+  dashboards and terminal log panes. Implement in lib/rotappo so the
+  event stream can be shared across TUI, web, and desktop.
+
+deliverables:
+  - Event types for step transitions, action results, and health changes
+  - Broadcast channel for multi-subscriber event delivery
+  - Tracing sink that emits log lines into the event stream
+  - Backpressure handling for slow UI subscribers
+
+acceptance_criteria:
+  - Multiple UI clients can subscribe without blocking the runtime
+  - Log messages stream in near real-time with level metadata
+  - Event bus remains safe when no subscribers are connected
+
+dependencies:
+  - BSP-145
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - ui
+  - runtime
+  - events
+  - logging
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/src/runtime/events.rs
+    context: "Define event bus types and subscriber API"
+  - file: lib/rotappo/src/runtime/tracing.rs
+    context: "Add tracing bridge for UI log streaming"
+  - file: lib/rotappo/src/runtime/subscriber.rs
+    context: "Register UI-aware tracing subscriber"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

@@ -1,0 +1,48 @@
+id: BSP-149
+title: 'UI-1E: Rotappo Cross-Platform Desktop App'
+type: Epic
+layer: 5
+domain: core
+component: rotappo-desktop
+cli_surface: []
+
+description: |
+  Deliver a cross-platform desktop app that wraps the web UI with
+  native packaging, local runtime integration, and OS-level features.
+  This becomes the primary long-lived operator console. The desktop
+  app lives in lib/rotappo to keep it independent from Bootstrappo.
+
+deliverables:
+  - Desktop shell using Tauri or Dioxus
+  - Local runtime bridge (IPC) to avoid remote server setup
+  - Packaging and update pipeline for Mac, Linux, and Windows
+
+acceptance_criteria:
+  - Desktop app runs against a local runtime without extra config
+  - Packaging artifacts are reproducible across supported OS targets
+  - Notifications and tray integration support long-running sessions
+
+dependencies:
+  - BSP-144
+  - BSP-145
+
+children:
+  - BSP-165
+  - BSP-166
+  - BSP-167
+
+phase_gate: gitops
+effort: L
+risk: med
+
+labels:
+  - ui
+  - desktop
+  - cross-platform
+  - packaging
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

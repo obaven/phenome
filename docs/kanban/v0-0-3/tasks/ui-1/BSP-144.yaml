@@ -1,0 +1,60 @@
+id: BSP-144
+title: 'UI-1: Rotappo Multi-Surface UX Platform'
+type: Epic
+layer: 5
+domain: core
+component: rotappo-platform
+cli_surface:
+  - rotappo ui
+  - rotappo server
+  - bootstrappo plan validate
+  - bootstrappo reconcile
+
+description: |
+  Deliver a unified UX across CLI, terminal UI, web dashboard, and desktop
+  app by introducing a shared action/runtime model, consistent state
+  snapshots, and standard safety controls. This is packaged as Rotappo,
+  an independent UI toolkit/app that plugs into Bootstrappo and the
+  Rotato GitOps app at /home/jdean/gitops/apps/security/rotato.
+
+deliverables:
+  - Rotappo crate under lib/rotappo with shared UI runtime
+  - Bootstrappo + Rotato adapters to surface actions and state
+  - Terminal UI surface for local operations and monitoring
+  - Web UI surface for remote dashboards and collaboration
+  - Cross-platform desktop app packaging and distribution plan
+  - CLI parity and action registry alignment across surfaces
+
+acceptance_criteria:
+  - All surfaces can execute core actions (reconcile, validate, rotate, nuke)
+  - State and logs are consistent across CLI, TUI, and web views
+  - Destructive actions require explicit confirmation or permissions
+  - UI surfaces remain optional; CLI workflows continue to work unchanged
+  - Rotappo can run independently while integrating Bootstrappo state
+
+dependencies:
+  - BSP-101
+  - BSP-109
+
+children:
+  - BSP-145
+  - BSP-146
+  - BSP-147
+  - BSP-148
+  - BSP-149
+
+phase_gate: gitops
+effort: L
+risk: med
+
+labels:
+  - ui
+  - platform
+  - rotappo
+  - meta-initiative
+  - experience
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

@@ -1,0 +1,55 @@
+id: BSP-150
+title: 'Rotappo Runtime State Snapshot + Aggregation'
+type: Story
+layer: 5
+domain: core
+component: rotappo-runtime-state
+cli_surface: []
+
+description: |
+  Define a state snapshot model that aggregates plan execution status,
+  capabilities, storage designation, and health into a single payload.
+  The snapshot should be cheap to compute and safe for frequent UI polls.
+  Implement it inside lib/rotappo with adapters for Bootstrappo and Rotato.
+
+deliverables:
+  - StateSnapshot struct with plan steps, gates, and status fields
+  - Aggregation layer that merges plan data, config, and cached k8s state
+  - JSON serialization for UI surfaces
+  - Unit tests for snapshot completeness and defaults
+  - Adapter hooks for Bootstrappo and Rotato data sources
+
+acceptance_criteria:
+  - Snapshot includes plan steps with ready/blocked/running states
+  - Capabilities and default storage class appear in the snapshot
+  - Snapshot retrieval avoids direct kubectl calls per request
+  - JSON output is stable for UI clients
+
+dependencies:
+  - BSP-145
+
+phase_gate: gitops
+effort: M
+risk: low
+
+labels:
+  - ui
+  - runtime
+  - state
+  - aggregation
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/src/runtime/state.rs
+    context: "Define state snapshot model and aggregation helpers"
+  - file: lib/rotappo/src/adapters/bootstrappo/reconciler.rs
+    context: "Expose step status for runtime snapshots"
+  - file: lib/rotappo/src/adapters/bootstrappo/capabilities.rs
+    context: "Surface capabilities for snapshot aggregation"
+  - file: lib/rotappo/src/adapters/bootstrappo/config.rs
+    context: "Expose config fields needed for snapshots"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

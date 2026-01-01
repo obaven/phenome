@@ -1,0 +1,57 @@
+id: BSP-155
+title: 'Rotappo CLI Structured Output Modes'
+type: Story
+layer: 5
+domain: core
+component: rotappo-cli-output
+cli_surface:
+  - rotappo ui
+  - rotappo server
+  - bootstrappo plan validate
+  - bootstrappo reconcile
+  - bootstrappo rotate
+  - bootstrappo debug
+  - bootstrappo nuke
+
+description: |
+  Provide structured output modes (json, ndjson) for CLI commands so
+  UI surfaces and automation can parse results reliably. Preserve
+  the existing human-readable output by default. Implement output
+  schemas inside lib/rotappo and adapt Bootstrappo output as needed.
+
+deliverables:
+  - Output mode flags shared across commands
+  - JSON/NDJSON schemas for action results and progress events
+  - Error code conventions for automation
+
+acceptance_criteria:
+  - CLI supports --output json and --output ndjson
+  - Structured output includes action IDs and timing info
+  - Default output remains unchanged for human operators
+
+dependencies:
+  - BSP-146
+
+phase_gate: gitops
+effort: M
+risk: low
+
+labels:
+  - ui
+  - cli
+  - output
+  - automation
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/src/runtime/output.rs
+    context: "Define structured output schemas and encoders"
+  - file: lib/rotappo/src/adapters/bootstrappo/output.rs
+    context: "Render Bootstrappo results in structured formats"
+  - file: lib/rotappo/src/adapters/bootstrappo/commands.rs
+    context: "Emit action results through shared output helpers"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

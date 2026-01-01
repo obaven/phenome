@@ -1,0 +1,53 @@
+id: BSP-148
+title: 'UI-1D: Rotappo Web UI + API'
+type: Epic
+layer: 5
+domain: core
+component: rotappo-web
+cli_surface:
+  - rotappo server
+
+description: |
+  Provide a web dashboard for Bootstrappo with a local API server and
+  live event streaming. This enables remote visibility, collaboration,
+  and browser-based operations. Package the web UI as Rotappo under
+  lib/rotappo and integrate with the Rotato GitOps app at
+  /home/jdean/gitops/apps/security/rotato.
+
+deliverables:
+  - HTTP API for state snapshots, actions, and health
+  - SSE or WebSocket event streaming for logs and step updates
+  - Web UI shell with routing and API client
+  - GitOps app packaging for Rotappo web UI (Rotato integration)
+  - Dashboard views for plan, capabilities, and storage status
+
+acceptance_criteria:
+  - Web UI can connect to a local server and render live status
+  - Action triggers are available with confirmations and guardrails
+  - API is documented and versioned for future clients
+
+dependencies:
+  - BSP-144
+  - BSP-145
+
+children:
+  - BSP-161
+  - BSP-162
+  - BSP-163
+  - BSP-164
+
+phase_gate: gitops
+effort: L
+risk: med
+
+labels:
+  - ui
+  - web
+  - api
+  - dashboard
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

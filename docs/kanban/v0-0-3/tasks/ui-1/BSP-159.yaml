@@ -1,0 +1,50 @@
+id: BSP-159
+title: 'Rotappo TUI Action Panel + Confirmations'
+type: Story
+layer: 5
+domain: core
+component: rotappo-tui-actions
+cli_surface:
+  - rotappo ui
+
+description: |
+  Provide an action launcher in the TUI that lists available runtime
+  actions, gathers parameters, and enforces safety confirmations.
+
+deliverables:
+  - Action list populated from the action registry
+  - Parameter input widgets and validation
+  - Confirmation modal for destructive actions
+  - Action progress and result display
+
+acceptance_criteria:
+  - Action list is generated dynamically from registry metadata
+  - Confirmations are required for destructive operations
+  - Action result status is visible in the TUI
+
+dependencies:
+  - BSP-152
+  - BSP-154
+  - BSP-157
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - ui
+  - tui
+  - actions
+  - safety
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/src/tui/views/actions.rs
+    context: "Render action list and dispatch actions"
+  - file: lib/rotappo/src/runtime/actions.rs
+    context: "Expose action metadata and results"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

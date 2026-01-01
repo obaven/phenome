@@ -1,0 +1,54 @@
+id: BSP-156
+title: 'Rotappo CLI Prompt/Confirm + Dry-run Guardrails'
+type: Task
+layer: 5
+domain: core
+component: rotappo-cli-safety
+cli_surface:
+  - rotappo ui
+  - rotappo server
+  - bootstrappo rotate
+  - bootstrappo nuke
+  - bootstrappo reconcile
+
+description: |
+  Standardize CLI confirmations and dry-run safeguards to align with
+  UI action safety gates. This reduces operator error and keeps behavior
+  consistent across surfaces. Implement shared helpers in lib/rotappo
+  and adapt Bootstrappo prompts to use them.
+
+deliverables:
+  - Shared confirmation prompt utility
+  - --yes/--no flags and consistent dry-run handling
+  - Safety checks for destructive commands
+
+acceptance_criteria:
+  - Destructive commands always require confirmation or explicit flags
+  - Dry-run behavior is consistent across commands
+  - Prompt text uses a single shared helper
+
+dependencies:
+  - BSP-146
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - ui
+  - cli
+  - safety
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/src/runtime/confirm.rs
+    context: "Create shared prompt helper"
+  - file: lib/rotappo/src/adapters/bootstrappo/confirm.rs
+    context: "Add shared confirmation guard for Bootstrappo commands"
+  - file: lib/rotappo/src/adapters/bootstrappo/rotate.rs
+    context: "Apply dry-run and prompt conventions"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

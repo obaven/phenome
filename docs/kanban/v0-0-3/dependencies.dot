@@ -1,0 +1,253 @@
+digraph v0_0_3_Cohesion {
+    rankdir = LR;
+    node [shape = box; style = filled; fillcolor = "#e0e0e0";];
+    
+    subgraph cluster_layer0 {
+        label = "Layer 0: Security (Blocking)";
+        style = filled;
+        fillcolor = "#ffcccc";
+        BSP_010 [label = "BSP-010\nSealed Secrets";];
+        BSP_011 [label = "BSP-011\nAuthelia (SSO)";];
+        BSP_012 [label = "BSP-012\nVaultwarden + ESO";];
+        BSP_013 [label = "BSP-013\nCrowdSec";];
+        BSP_014 [label = "BSP-014\nKyverno";];
+    }
+    
+    subgraph cluster_layer1 {
+        label = "Layer 1: Datastores";
+        style = filled;
+        fillcolor = "#ccffcc";
+        BSP_030 [label = "BSP-030\nCNPG (Postgres)";];
+        BSP_031 [label = "BSP-031\nRedis HA";];
+    }
+    
+    subgraph cluster_layer5 {
+        label = "Layer 5: Infra";
+        style = filled;
+        fillcolor = "#ccccff";
+        BSP_021 [label = "BSP-021\nVelero (Backups)";];
+        BSP_022 [label = "BSP-022\nHarbor";];
+    }
+    
+    subgraph cluster_layer2 {
+        label = "Layer 2: Observability";
+        BSP_041 [label = "BSP-041\nPrometheus/Loki";];
+        BSP_042 [label = "BSP-042\nGrafana";];
+    }
+    
+    subgraph cluster_layer4 {
+        label = "Layer 4: Apps";
+        BSP_060 [label = "BSP-060\nArr Suite";];
+    }
+    
+    subgraph cluster_meta4 {
+        label = "Meta 4: Cohesion & Readiness";
+        style = filled;
+        fillcolor = "#ffffcc";
+        BSP_101 [label = "BSP-101\nCohesion Epic";style = "filled";fillcolor = "lightgreen";];
+        BSP_112 [label = "BSP-112\nReadiness Epic";];
+        BSP_109 [label = "BSP-109\nPlan Validation";style = "filled";fillcolor = "lightgreen";];
+        BSP_110 [label = "BSP-110\nRegistry Graph";style = "filled";fillcolor = "lightgreen";];
+        BSP_111 [label = "BSP-111\nDocs Alignment";style = "filled";fillcolor = "lightgreen";];
+        BSP_113 [label = "BSP-113\nKanban Hygiene";];
+        BSP_114 [label = "BSP-114\nPlan Scaffolding";];
+        BSP_115 [label = "BSP-115\nDriver Kit";];
+        BSP_116 [label = "BSP-116\nConfig Schema";];
+        BSP_117 [label = "BSP-117\nVerification";];
+        BSP_118 [label = "BSP-118\nRunbooks";];
+    }
+
+    subgraph cluster_meta5 {
+        label = "Meta 5: Kro Helm Compatibility";
+        style = filled;
+        fillcolor = "#fff2cc";
+        BSP_119 [label = "BSP-119\nKro Helm Compatibility";];
+        BSP_120 [label = "BSP-120\nRender Sanitization";];
+        BSP_121 [label = "BSP-121\nSanitization Utility";];
+        BSP_122 [label = "BSP-122\nKro Render Tests";];
+        BSP_123 [label = "BSP-123\nCEL/Bash Audit";];
+    }
+
+    subgraph cluster_meta7 {
+        label = "Meta 7: Storage Designation Automation";
+        style = filled;
+        fillcolor = "#e6f7ff";
+        BSP_129 [label = "BSP-129\nStorage Designation Epic";];
+        BSP_130 [label = "BSP-130\nStorage Inventory";];
+        BSP_131 [label = "BSP-131\nStorage Schema";];
+        BSP_132 [label = "BSP-132\nStorage Propagation";];
+        BSP_133 [label = "BSP-133\nStorage App Integration";];
+    }
+
+    subgraph cluster_meta8 {
+        label = "Meta 8: Resource Designation + Providers";
+        style = filled;
+        fillcolor = "#f0f5ff";
+        BSP_134 [label = "BSP-134\nResource Designation Epic";];
+        BSP_135 [label = "BSP-135\nCluster Bootstrap";];
+        BSP_136 [label = "BSP-136\nNode Role Designation";];
+        BSP_137 [label = "BSP-137\nResource Schema";];
+        BSP_138 [label = "BSP-138\nResource Propagation";];
+    }
+
+    subgraph cluster_meta9 {
+        label = "Meta 9: Bootstrap Acceleration + Free Lunch Wins";
+        style = filled;
+        fillcolor = "#e8f5e9";
+        BSP_139 [label = "BSP-139\nBootstrap Acceleration Epic";];
+        BSP_140 [label = "BSP-140\nTiming Baseline + Hotspots";];
+        BSP_141 [label = "BSP-141\nFast-path Plan Execution";];
+        BSP_142 [label = "BSP-142\nPlan Step Cache";];
+        BSP_143 [label = "BSP-143\nParallel Step Execution";];
+    }
+
+    subgraph cluster_ui1 {
+        label = "UI-1: Rotappo Multi-Surface UX Platform";
+        style = filled;
+        fillcolor = "#f2f7ff";
+        BSP_144 [label = "BSP-144\nRotappo Platform";];
+        BSP_145 [label = "BSP-145\nRotappo Runtime Epic";];
+        BSP_146 [label = "BSP-146\nRotappo CLI Parity";];
+        BSP_147 [label = "BSP-147\nRotappo TUI Epic";];
+        BSP_148 [label = "BSP-148\nRotappo Web Epic";];
+        BSP_149 [label = "BSP-149\nRotappo Desktop Epic";];
+        BSP_150 [label = "BSP-150\nRotappo State Snapshot";];
+        BSP_151 [label = "BSP-151\nRotappo Event Bus";];
+        BSP_152 [label = "BSP-152\nRotappo Action Router";];
+        BSP_153 [label = "BSP-153\nRotappo Config";];
+        BSP_154 [label = "BSP-154\nRotappo Action Registry";];
+        BSP_155 [label = "BSP-155\nRotappo Structured Output";];
+        BSP_156 [label = "BSP-156\nRotappo CLI Guardrails";];
+        BSP_157 [label = "BSP-157\nRotappo TUI Shell";];
+        BSP_158 [label = "BSP-158\nRotappo TUI Plan View";];
+        BSP_159 [label = "BSP-159\nRotappo TUI Actions";];
+        BSP_160 [label = "BSP-160\nRotappo TUI Logs";];
+        BSP_161 [label = "BSP-161\nRotappo Web API";];
+        BSP_162 [label = "BSP-162\nRotappo Web UI Shell";];
+        BSP_163 [label = "BSP-163\nRotappo Web Dashboard";];
+        BSP_164 [label = "BSP-164\nRotappo Web Actions";];
+        BSP_165 [label = "BSP-165\nRotappo Desktop Shell";];
+        BSP_166 [label = "BSP-166\nRotappo Desktop Bridge";];
+        BSP_167 [label = "BSP-167\nRotappo Desktop Packaging";];
+    }
+    
+    // Dependencies
+    BSP_010 -> BSP_012;
+    // Sealed Secrets needed to bootstrap ESO? Or parallel? safely parallel but strictly Sealed first for GitOps sanity.
+    BSP_031 -> BSP_011;
+    // Redis needed for Authelia Session
+    BSP_011 -> BSP_060;
+    // Auth needed for Apps
+    BSP_011 -> BSP_042;
+    // Auth needed for Grafana
+    BSP_022 -> BSP_021;
+    // MinIO (via BSP-022 implicitly or separate) -> Velero
+    BSP_021 -> BSP_041;
+    // MinIO needed for Loki chunks
+    BSP_030 -> BSP_060;
+    // Postgres needed for Arrs (if using PG backend)
+    
+    // Meta-4 dependencies
+    BSP_101 -> BSP_112;
+    // Readiness comes after Cohesion
+    BSP_112 -> BSP_113;
+    BSP_112 -> BSP_114;
+    BSP_112 -> BSP_115;
+    BSP_112 -> BSP_116;
+    BSP_112 -> BSP_117;
+    BSP_112 -> BSP_118;
+    // All children depend on epic
+
+    // Meta-5 dependencies
+    BSP_101 -> BSP_119;
+    BSP_119 -> BSP_120;
+    BSP_119 -> BSP_121;
+    BSP_119 -> BSP_122;
+    BSP_119 -> BSP_123;
+
+    // Meta-7 dependencies
+    BSP_101 -> BSP_129;
+    BSP_119 -> BSP_129;
+    BSP_129 -> BSP_130;
+    BSP_129 -> BSP_131;
+    BSP_129 -> BSP_132;
+    BSP_129 -> BSP_133;
+    BSP_130 -> BSP_132;
+    BSP_131 -> BSP_132;
+    BSP_132 -> BSP_133;
+
+    // Meta-8 dependencies
+    BSP_101 -> BSP_134;
+    BSP_119 -> BSP_134;
+    BSP_065 -> BSP_134;
+    BSP_134 -> BSP_135;
+    BSP_134 -> BSP_136;
+    BSP_134 -> BSP_137;
+    BSP_134 -> BSP_138;
+    BSP_135 -> BSP_136;
+    BSP_136 -> BSP_138;
+    BSP_137 -> BSP_138;
+
+    // Meta-9 dependencies
+    BSP_101 -> BSP_139;
+    BSP_065 -> BSP_139;
+    BSP_139 -> BSP_140;
+    BSP_139 -> BSP_141;
+    BSP_139 -> BSP_142;
+    BSP_139 -> BSP_143;
+    BSP_140 -> BSP_141;
+    BSP_140 -> BSP_142;
+    BSP_141 -> BSP_143;
+
+    // UI-1 dependencies
+    BSP_101 -> BSP_144;
+    BSP_109 -> BSP_144;
+    BSP_144 -> BSP_145;
+    BSP_144 -> BSP_146;
+    BSP_144 -> BSP_147;
+    BSP_144 -> BSP_148;
+    BSP_144 -> BSP_149;
+    BSP_145 -> BSP_146;
+    BSP_145 -> BSP_147;
+    BSP_145 -> BSP_148;
+    BSP_145 -> BSP_149;
+    BSP_145 -> BSP_150;
+    BSP_145 -> BSP_151;
+    BSP_145 -> BSP_152;
+    BSP_145 -> BSP_153;
+    BSP_146 -> BSP_154;
+    BSP_146 -> BSP_155;
+    BSP_146 -> BSP_156;
+    BSP_147 -> BSP_157;
+    BSP_147 -> BSP_158;
+    BSP_147 -> BSP_159;
+    BSP_147 -> BSP_160;
+    BSP_148 -> BSP_161;
+    BSP_148 -> BSP_162;
+    BSP_148 -> BSP_163;
+    BSP_148 -> BSP_164;
+    BSP_149 -> BSP_165;
+    BSP_149 -> BSP_166;
+    BSP_149 -> BSP_167;
+    BSP_152 -> BSP_154;
+    BSP_145 -> BSP_157;
+    BSP_150 -> BSP_158;
+    BSP_157 -> BSP_158;
+    BSP_152 -> BSP_159;
+    BSP_154 -> BSP_159;
+    BSP_157 -> BSP_159;
+    BSP_151 -> BSP_160;
+    BSP_157 -> BSP_160;
+    BSP_145 -> BSP_161;
+    BSP_151 -> BSP_161;
+    BSP_152 -> BSP_161;
+    BSP_161 -> BSP_162;
+    BSP_150 -> BSP_163;
+    BSP_162 -> BSP_163;
+    BSP_152 -> BSP_164;
+    BSP_162 -> BSP_164;
+    BSP_162 -> BSP_165;
+    BSP_145 -> BSP_166;
+    BSP_165 -> BSP_166;
+    BSP_165 -> BSP_167;
+}

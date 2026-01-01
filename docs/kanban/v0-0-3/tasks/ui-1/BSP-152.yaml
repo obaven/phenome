@@ -1,0 +1,54 @@
+id: BSP-152
+title: 'Rotappo Runtime Action Router + Safety Gate'
+type: Story
+layer: 5
+domain: core
+component: rotappo-runtime-actions
+cli_surface: []
+
+description: |
+  Implement an action router that executes core operations and exposes
+  structured results. Add safety gates for destructive actions and
+  standardize dry-run handling across surfaces. The router lives in
+  lib/rotappo with adapters for Bootstrappo and Rotato.
+
+deliverables:
+  - Action enum covering reconcile, validate, visualize, rotate, nuke
+  - Dispatcher that reuses existing CLI command handlers
+  - Safety gate requiring explicit confirmation or guard flags
+  - Structured ActionResult with error classification
+  - Bootstrappo and Rotato adapter modules
+
+acceptance_criteria:
+  - UI action triggers map to the same code paths as the CLI
+  - Destructive actions require explicit confirmations
+  - Action results include status, timing, and error category
+
+dependencies:
+  - BSP-145
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - ui
+  - runtime
+  - actions
+  - safety
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/src/runtime/actions.rs
+    context: "Define action enum and dispatcher"
+  - file: lib/rotappo/src/adapters/bootstrappo/actions.rs
+    context: "Expose command handlers for UI router"
+  - file: lib/rotappo/src/adapters/bootstrappo/safety.rs
+    context: "Integrate safety gate for destructive actions"
+  - file: lib/rotappo/src/adapters/rotato/actions.rs
+    context: "Add Rotato action hooks where needed"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

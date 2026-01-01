@@ -1,0 +1,49 @@
+id: BSP-153
+title: 'Rotappo Config Schema + Persistence'
+type: Task
+layer: 5
+domain: core
+component: rotappo-runtime-config
+cli_surface: []
+
+description: |
+  Extend the config system with UI-specific settings for endpoints,
+  refresh rates, and theme preferences. Ensure the config merges with
+  overlays and can be validated alongside existing config sections.
+  Implement this in lib/rotappo so the UI can run independently.
+
+deliverables:
+  - UI config struct with defaults and validation rules
+  - Schema updates for config docs and JSON schema output
+  - Config load/merge behavior for UI settings
+
+acceptance_criteria:
+  - UI config loads with existing bootstrap config without errors
+  - Defaults apply when no UI section is specified
+  - Validation rejects invalid refresh or endpoint values
+
+dependencies:
+  - BSP-145
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - ui
+  - config
+  - schema
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/src/config.rs
+    context: "Add UI config to Rotappo settings"
+  - file: lib/rotappo/src/config/schema.rs
+    context: "Expose UI config in schema output"
+  - file: lib/rotappo/src/config/validation.rs
+    context: "Validate UI config values"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

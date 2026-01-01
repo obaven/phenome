@@ -1,0 +1,48 @@
+id: BSP-158
+title: 'Rotappo TUI Plan + Gate Status View'
+type: Story
+layer: 5
+domain: core
+component: rotappo-tui-plan
+cli_surface:
+  - rotappo ui
+
+description: |
+  Render plan steps with readiness and gate status in the TUI. This
+  view should mirror plan execution order and highlight blocked steps.
+
+deliverables:
+  - Plan list view with step state indicators
+  - Gate details panel (deployment/daemonset/crd/statefulset readiness)
+  - Filters for layer, component, and status
+
+acceptance_criteria:
+  - Step list reflects runtime snapshot ordering
+  - Blocked steps show which gates are failing
+  - Filtering does not require a new runtime call
+
+dependencies:
+  - BSP-150
+  - BSP-157
+
+phase_gate: gitops
+effort: M
+risk: low
+
+labels:
+  - ui
+  - tui
+  - plan
+  - gates
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/src/tui/views/plan.rs
+    context: "Render plan steps and gate status"
+  - file: lib/rotappo/src/runtime/state.rs
+    context: "Provide plan status fields for UI"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

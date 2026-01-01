@@ -1,0 +1,52 @@
+id: BSP-161
+title: 'Rotappo Web API Server + Event Streaming'
+type: Story
+layer: 5
+domain: core
+component: rotappo-web-api
+cli_surface:
+  - rotappo server
+
+description: |
+  Implement a local HTTP API that exposes runtime state snapshots,
+  action execution, and event streaming for the web UI. Support
+  SSE or WebSocket streams for live updates.
+
+deliverables:
+  - HTTP endpoints for snapshots, actions, and health
+  - SSE/WebSocket stream for logs and step events
+  - API versioning and basic request validation
+
+acceptance_criteria:
+  - Web UI can fetch state snapshots over HTTP
+  - Action requests execute through the runtime router
+  - Event stream provides logs and step transitions in real time
+
+dependencies:
+  - BSP-145
+  - BSP-151
+  - BSP-152
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - ui
+  - web
+  - api
+  - streaming
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/src/web/server.rs
+    context: "Define HTTP server and routing"
+  - file: lib/rotappo/src/web/routes.rs
+    context: "Expose state, action, and event endpoints"
+  - file: lib/rotappo/Cargo.toml
+    context: "Add web server dependencies"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

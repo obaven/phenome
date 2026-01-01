@@ -1,0 +1,58 @@
+id: BSP-146
+title: 'UI-1B: Rotappo CLI Parity + Action Registry'
+type: Epic
+layer: 5
+domain: core
+component: rotappo-cli
+cli_surface:
+  - rotappo ui
+  - rotappo server
+  - bootstrappo plan validate
+  - bootstrappo reconcile
+  - bootstrappo rotate
+  - bootstrappo debug
+  - bootstrappo nuke
+
+description: |
+  Upgrade the CLI surface so it aligns with UI runtime actions and
+  exposes structured output modes. The CLI remains the automation
+  backbone, but shares metadata and safety behaviors with other UIs.
+  The action registry lives in lib/rotappo and is adapted for the
+  Bootstrappo CLI.
+
+deliverables:
+  - Rotappo action registry with CLI metadata and help text
+  - Bootstrappo CLI adapter to the Rotappo registry
+  - Structured output modes (json, ndjson, plain)
+  - Consistent confirmation and dry-run guardrails
+
+acceptance_criteria:
+  - CLI and UI share a single action registry source of truth
+  - CLI can emit machine-readable output for automation and UIs
+  - Destructive commands require explicit confirmation or flags
+  - CLI parity works without importing UI-only dependencies
+
+dependencies:
+  - BSP-144
+  - BSP-145
+
+children:
+  - BSP-154
+  - BSP-155
+  - BSP-156
+
+phase_gate: gitops
+effort: M
+risk: low
+
+labels:
+  - ui
+  - cli
+  - automation
+  - safety
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

@@ -1,0 +1,48 @@
+id: BSP-163
+title: 'Rotappo Web Dashboard: Plan, Capabilities, Storage'
+type: Story
+layer: 5
+domain: core
+component: rotappo-web-dashboard
+cli_surface: []
+
+description: |
+  Implement the primary web dashboard views covering plan execution,
+  capability readiness, and storage designation status. Emphasize
+  clarity for operators diagnosing cluster state.
+
+deliverables:
+  - Plan execution dashboard with step and gate status
+  - Capability readiness view with storage defaults
+  - Health indicators and recent action summary
+
+acceptance_criteria:
+  - Dashboard renders live state snapshots without manual refresh
+  - Plan view highlights blocked steps and failed gates
+  - Storage defaults and capabilities are visible in the UI
+
+dependencies:
+  - BSP-150
+  - BSP-162
+
+phase_gate: gitops
+effort: M
+risk: low
+
+labels:
+  - ui
+  - web
+  - dashboard
+  - storage
+  - rotappo
+
+source_files:
+  - file: lib/rotappo/web/src/app/dashboard
+    context: "Render plan and capability dashboards"
+  - file: lib/rotappo/web/src/components
+    context: "Shared UI components for status views"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned
