@@ -1,6 +1,9 @@
 use anyhow::Result;
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
-use ratatui::{layout::Rect, widgets::ListState};
+use ratatui::{
+    layout::{Margin, Position, Rect},
+    widgets::ListState,
+};
 use std::time::{Duration, Instant};
 
 use crate::adapters::bootstrappo::BootstrappoBackend;
@@ -15,6 +18,11 @@ mod scroll;
 mod tooltips;
 
 const COLLAPSED_HEIGHT: u16 = 2;
+const LOG_CONTROLS_BASE_HEIGHT: u16 = 3;
+const LOG_MENU_FILTER_LEN: u16 = 4;
+const LOG_MENU_STREAM_LEN: u16 = 5;
+const FILTER_LABEL: &str = "Filter ";
+const STREAM_LABEL: &str = "Stream ";
 
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub(crate) enum PanelId {
@@ -81,7 +89,7 @@ impl App {
             action_state.select(Some(0));
         }
 
-        Self {
+        let mut app = Self {
             backend,
             runtime,
             action_state,
@@ -89,7 +97,9 @@ impl App {
             last_refresh: Instant::now(),
             should_quit: false,
             ui: UiState::new(),
-        }
+        };
+        app.refresh_log_cache(true);
+        app
     }
 
     pub fn on_tick(&mut self) {
@@ -97,6 +107,7 @@ impl App {
             self.runtime.refresh_snapshot();
             self.last_refresh = Instant::now();
         }
+        self.refresh_log_cache(false);
 
         let hold_trigger = if let Some(hold) = &mut self.ui.hold_state {
             if !hold.triggered && hold.started_at.elapsed() >= Duration::from_secs(3) {
@@ -117,10 +128,6 @@ impl App {
         }
 
         if !self.ui.log_paused && self.ui.last_log_emit.elapsed() >= self.ui.log_interval {
-            self.runtime.events_mut().push(Event::new(
-                EventLevel::Info,
-                "Event stream heartbeat",
-            ));
             self.ui.last_log_emit = Instant::now();
         }
     }
@@ -140,7 +147,10 @@ impl App {
         match key.code {
             KeyCode::Char('q') | KeyCode::Esc => self.should_quit = true,
             KeyCode::Char('r') => self.runtime.refresh_snapshot(),
-            KeyCode::Char('f') => self.ui.log_filter = self.ui.log_filter.next(),
+            KeyCode::Char('f') => {
+                self.ui.log_filter = self.ui.log_filter.next();
+                self.refresh_log_cache(true);
+            }
             KeyCode::Char('s') => self.toggle_settings_panel(),
             KeyCode::Char('w') => self.ui.auto_refresh = !self.ui.auto_refresh,
             KeyCode::Char('a') => self.handle_settings_shortcut(true),
@@ -174,5 +184,56 @@ impl App {
         self.ui.log_menu_len = 0;
         self.ui.log_menu_area = Rect::default();
         self.ui.log_menu_hover_index = None;
+    }
+
+    pub fn log_controls_height(&self) -> u16 {
+        if self.ui.collapsed_log_controls {
+            return COLLAPSED_HEIGHT;
+        }
+        let menu_items = if self.ui.log_menu_pinned {
+            match self.ui.log_menu_mode {
+                Some(crate::ui::state::LogMenuMode::Filter) => LOG_MENU_FILTER_LEN,
+                Some(crate::ui::state::LogMenuMode::Stream) => LOG_MENU_STREAM_LEN,
+                None => 0,
+            }
+        } else {
+            0
+        };
+        let menu_height = if menu_items > 0 { menu_items + 2 } else { 0 };
+        LOG_CONTROLS_BASE_HEIGHT.saturating_add(menu_height)
+    }
+
+    fn log_menu_trigger_contains(&self, pos: Position) -> bool {
+        if self.ui.log_filter_tag_area.contains(pos)
+            || self.ui.log_stream_tag_area.contains(pos)
+        {
+            return true;
+        }
+        if self.ui.log_controls_area.height == 0 {
+            return false;
+        }
+        let inner = self.ui.log_controls_area.inner(Margin {
+            horizontal: 1,
+            vertical: 1,
+        });
+        if inner.height == 0 || pos.y != inner.y {
+            return false;
+        }
+        let filter_start =
+            self.ui.log_filter_tag_area.x.saturating_sub(FILTER_LABEL.len() as u16);
+        let filter_end = self
+            .ui
+            .log_filter_tag_area
+            .x
+            .saturating_add(self.ui.log_filter_tag_area.width);
+        let stream_start =
+            self.ui.log_stream_tag_area.x.saturating_sub(STREAM_LABEL.len() as u16);
+        let stream_end = self
+            .ui
+            .log_stream_tag_area
+            .x
+            .saturating_add(self.ui.log_stream_tag_area.width);
+        let x = pos.x;
+        (x >= filter_start && x < filter_end) || (x >= stream_start && x < stream_end)
     }
 }

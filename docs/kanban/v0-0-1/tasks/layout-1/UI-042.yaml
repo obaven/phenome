@@ -1,0 +1,50 @@
+id: UI-042
+title: 'LAYOUT-1D: Migrate TUI Panels to Grid Layout'
+type: Task
+layer: 5
+domain: core
+component: rotappo-tui-layout-migration
+cli_surface:
+  - rotappo ui
+
+description: |
+  Replace bespoke layout wiring in the current TUI with the grid layout
+  system. Migrate panel rendering so collapse/open behavior is driven by
+  the layout policy engine and layout spec macros. Ensure migration
+  preserves async-safe layout updates.
+
+deliverables:
+  - TUI render pipeline uses grid resolver for panel Rects
+  - Legacy layout math removed from render code
+  - Collapse/open behavior delegated to layout policy
+  - Updated panel groups and header/footer placement
+  - Layout state updates moved to concurrency-safe storage
+
+acceptance_criteria:
+  - UI renders with the same panel arrangement by default
+  - Collapsing/opening panels uses the grid policy engine
+  - Layout code is centralized and reusable
+  - Layout updates do not introduce UI thread stalls
+
+dependencies:
+  - UI-040
+  - UI-041
+  - UI-026
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - layout
+  - grid
+  - tui
+  - refactor
+  - tokio
+  - concurrency
+  - locking
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

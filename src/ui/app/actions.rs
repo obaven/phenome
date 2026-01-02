@@ -115,10 +115,25 @@ impl App {
     }
 
     pub fn filtered_events(&self) -> Vec<&crate::runtime::Event> {
-        self.runtime
+        self.ui.log_cache.iter().collect()
+    }
+
+    pub fn refresh_log_cache(&mut self, force: bool) {
+        if !force {
+            if self.ui.log_paused {
+                return;
+            }
+            if self.ui.last_log_emit.elapsed() < self.ui.log_interval {
+                return;
+            }
+        }
+        self.ui.last_log_emit = std::time::Instant::now();
+        self.ui.log_cache = self
+            .runtime
             .events()
             .iter()
             .filter(|event| self.ui.log_filter.matches(event.level))
-            .collect()
+            .cloned()
+            .collect();
     }
 }

@@ -1,0 +1,48 @@
+id: UI-041
+title: 'LAYOUT-1C: Collapse/Open Policy Engine'
+type: Story
+layer: 5
+domain: core
+component: rotappo-tui-layout-policy
+cli_surface:
+  - rotappo ui
+
+description: |
+  Centralize collapse/open logic in a layout policy engine so the grid
+  can make space based on priorities and usage without custom rules in
+  each panel. Make policy evaluation safe to run asynchronously without
+  race conditions.
+
+deliverables:
+  - Policy model for panel priorities and grouping rules
+  - Auto-collapse logic for low space conditions
+  - Deterministic open behavior for requested panels
+  - Hooks for "last used" or "must stay open" flags
+  - Concurrency-safe policy evaluation with minimal lock contention
+
+acceptance_criteria:
+  - Opening a panel auto-collapses others based on policy
+  - Policy engine removes per-panel layout toggles
+  - The same policy applies across all grid groups
+  - Policy evaluation is safe under concurrent updates
+
+dependencies:
+  - UI-039
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - layout
+  - grid
+  - tui
+  - policy
+  - tokio
+  - concurrency
+  - locking
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

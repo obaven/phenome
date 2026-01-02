@@ -26,11 +26,13 @@ impl App {
         self.ui.mouse_pos = Some((mouse.column, mouse.row));
         match mouse.kind {
             MouseEventKind::Down(MouseButton::Left) => {
+                let click_pos = (mouse.column, mouse.row).into();
                 if self.handle_header_click(mouse.column, mouse.row) {
                     return Ok(());
                 }
                 if self.ui.log_menu_pinned
-                    && !self.ui.log_menu_area.contains((mouse.column, mouse.row).into())
+                    && !self.ui.log_menu_area.contains(click_pos)
+                    && !self.log_menu_trigger_contains(click_pos)
                 {
                     self.close_log_menu();
                 }
@@ -87,6 +89,7 @@ impl App {
     }
 
     fn apply_log_menu_action(&mut self, mode: crate::ui::state::LogMenuMode, index: usize) {
+        let mut refresh = matches!(mode, crate::ui::state::LogMenuMode::Filter);
         match (mode, index) {
             (crate::ui::state::LogMenuMode::Filter, 0) => {
                 self.ui.log_filter = crate::ui::state::LogFilter::All
@@ -101,21 +104,29 @@ impl App {
                 self.ui.log_filter = crate::ui::state::LogFilter::Error
             }
             (crate::ui::state::LogMenuMode::Stream, 0) => {
-                self.ui.log_interval = std::time::Duration::from_secs(1)
+                self.ui.log_interval = std::time::Duration::from_secs(1);
+                refresh = true;
             }
             (crate::ui::state::LogMenuMode::Stream, 1) => {
-                self.ui.log_interval = std::time::Duration::from_secs(2)
+                self.ui.log_interval = std::time::Duration::from_secs(2);
+                refresh = true;
             }
             (crate::ui::state::LogMenuMode::Stream, 2) => {
-                self.ui.log_interval = std::time::Duration::from_secs(5)
+                self.ui.log_interval = std::time::Duration::from_secs(5);
+                refresh = true;
             }
             (crate::ui::state::LogMenuMode::Stream, 3) => {
-                self.ui.log_interval = std::time::Duration::from_secs(10)
+                self.ui.log_interval = std::time::Duration::from_secs(10);
+                refresh = true;
             }
             (crate::ui::state::LogMenuMode::Stream, 4) => {
-                self.ui.log_paused = !self.ui.log_paused
+                self.ui.log_paused = !self.ui.log_paused;
+                refresh = true;
             }
             _ => {}
+        }
+        if refresh {
+            self.refresh_log_cache(true);
         }
         self.close_log_menu();
     }
@@ -127,6 +138,42 @@ impl App {
             return true;
         }
         if self.ui.log_stream_tag_area.contains(pos) {
+            self.toggle_log_menu(crate::ui::state::LogMenuMode::Stream);
+            return true;
+        }
+        if self.ui.collapsed_log_controls {
+            return false;
+        }
+        let inner = self.ui.log_controls_area.inner(Margin {
+            horizontal: 1,
+            vertical: 1,
+        });
+        if inner.height == 0
+            || row != inner.y
+            || column < inner.x
+            || column >= inner.x.saturating_add(inner.width)
+        {
+            return false;
+        }
+        let filter_start =
+            self.ui.log_filter_tag_area.x.saturating_sub(super::FILTER_LABEL.len() as u16);
+        let filter_end = self
+            .ui
+            .log_filter_tag_area
+            .x
+            .saturating_add(self.ui.log_filter_tag_area.width);
+        if column >= filter_start && column < filter_end {
+            self.toggle_log_menu(crate::ui::state::LogMenuMode::Filter);
+            return true;
+        }
+        let stream_start =
+            self.ui.log_stream_tag_area.x.saturating_sub(super::STREAM_LABEL.len() as u16);
+        let stream_end = self
+            .ui
+            .log_stream_tag_area
+            .x
+            .saturating_add(self.ui.log_stream_tag_area.width);
+        if column >= stream_start && column < stream_end {
             self.toggle_log_menu(crate::ui::state::LogMenuMode::Stream);
             return true;
         }

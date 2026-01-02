@@ -68,3 +68,16 @@
 ### Review
 ### Blocked
 ### Done
+
+## E. v0.0.1 Layout Board (LAYOUT-1) Grid Layout System
+### Backlog
+- UI-038 — [Epic] LAYOUT-1: Rotappo TUI Grid Layout System
+- UI-039 — [Story] LAYOUT-1A: Grid Model + Rect Resolver
+- UI-040 — [Story] LAYOUT-1B: Layout Macro DSL + Composition
+- UI-041 — [Story] LAYOUT-1C: Collapse/Open Policy Engine
+- UI-042 — [Task] LAYOUT-1D: Migrate TUI Panels to Grid Layout
+### Ready
+### In Progress
+### Review
+### Blocked
+### Done

@@ -151,11 +151,7 @@ fn render(frame: &mut Frame, app: &mut App) {
     } else {
         Constraint::Min(4)
     };
-    let log_controls_constraint = if app.ui.collapsed_log_controls {
-        Constraint::Length(collapsed)
-    } else {
-        Constraint::Min(3)
-    };
+    let log_controls_constraint = Constraint::Length(app.log_controls_height());
     let logs_constraint = if app.ui.collapsed_logs {
         Constraint::Length(collapsed)
     } else {
@@ -176,6 +172,9 @@ fn render(frame: &mut Frame, app: &mut App) {
     if middle_panel != Some(crate::ui::app::PanelId::Logs) {
         panels::render_logs(frame, right_right[1], app);
     }
+    app.ui.help_area = ratatui::layout::Rect::default();
+    app.ui.settings_area = ratatui::layout::Rect::default();
+    app.ui.settings_controls_row = None;
     if middle_panel == Some(crate::ui::app::PanelId::Help) {
         if !app.ui.collapsed_settings {
             panels::render_settings(frame, layout[2], app);

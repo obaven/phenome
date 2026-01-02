@@ -1,0 +1,49 @@
+id: UI-040
+title: 'LAYOUT-1B: Layout Macro DSL + Composition'
+type: Story
+layer: 5
+domain: core
+component: rotappo-tui-layout-dsl
+cli_surface:
+  - rotappo ui
+
+description: |
+  Build macro helpers for declaring grid layouts with composable
+  row/column/slot definitions. The DSL should reduce boilerplate and
+  make layout definitions readable across modules. Ensure macro output
+  integrates with async-safe layout updates.
+
+deliverables:
+  - Macro DSL for grid/row/column/slot declarations
+  - Compile-time validation for layout spec inputs
+  - Composable sub-layouts for panel groups
+  - Examples wired into current UI modules
+  - Macro expansion that supports thread-safe layout caches
+
+acceptance_criteria:
+  - Layout specs can be declared in a few lines of macro syntax
+  - Nested/composed layouts are supported without manual wiring
+  - Macro output integrates with the grid resolver
+  - Macro-defined layouts can be updated from Tokio tasks safely
+
+dependencies:
+  - UI-039
+  - UI-029
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - layout
+  - grid
+  - tui
+  - macros
+  - ratatui
+  - tokio
+  - concurrency
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

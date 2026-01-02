@@ -119,9 +119,14 @@ pub fn render_logs(frame: &mut Frame, area: Rect, app: &mut App) {
         })
         .collect();
 
+    let updated_secs = app.ui.last_log_emit.elapsed().as_secs();
     let title_left = Title::from(format!("Logs ({})", app.ui.log_filter.as_str()))
         .alignment(Alignment::Left);
-    let title_right = Title::from(format!("events: {}", total)).alignment(Alignment::Right);
+    let title_right = Title::from(format!(
+        "events: {} | updated: {}s",
+        total, updated_secs
+    ))
+    .alignment(Alignment::Right);
     let mut list_block = Block::default()
         .title(title_left)
         .title(title_right)
@@ -214,13 +219,12 @@ fn log_menu_items(app: &App, mode: crate::ui::state::LogMenuMode) -> Vec<LogMenu
 }
 
 fn render_log_menu(frame: &mut Frame, app: &mut App) {
-    let Some((x, y)) = app.ui.mouse_pos else {
+    let Some((_x, _y)) = app.ui.mouse_pos else {
         app.ui.log_menu_area = Rect::default();
         app.ui.log_menu_len = 0;
         app.ui.log_menu_hover_index = None;
         return;
     };
-    let pos = (x, y).into();
     if !app.ui.log_menu_pinned || app.ui.collapsed_log_controls {
         app.ui.log_menu_area = Rect::default();
         app.ui.log_menu_len = 0;
@@ -251,7 +255,11 @@ fn render_log_menu(frame: &mut Frame, app: &mut App) {
         .max(12);
     let height = items.len() as u16 + 2;
     let area = app.ui.log_controls_area;
-    let bottom = area.y.saturating_add(area.height);
+    let inner = area.inner(Margin {
+        horizontal: 1,
+        vertical: 1,
+    });
+    let anchor_y = inner.y.saturating_add(1);
     let screen_bottom = bounds.y.saturating_add(bounds.height);
     let mut x = if mode == crate::ui::state::LogMenuMode::Filter {
         app.ui.log_filter_tag_area.x
@@ -262,10 +270,10 @@ fn render_log_menu(frame: &mut Frame, app: &mut App) {
     if x.saturating_add(width) > right_bound {
         x = right_bound.saturating_sub(width);
     }
-    let y = if bottom.saturating_add(height) <= screen_bottom {
-        bottom
+    let y = if anchor_y.saturating_add(height) <= screen_bottom {
+        anchor_y
     } else {
-        area.y.saturating_sub(height)
+        inner.y.saturating_sub(height)
     };
     let y = y.max(bounds.y);
     let height = height.min(screen_bottom.saturating_sub(y)).max(3);

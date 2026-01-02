@@ -1,0 +1,64 @@
+id: UI-038
+title: 'LAYOUT-1: Rotappo TUI Grid Layout System'
+type: Epic
+layer: 5
+domain: core
+component: rotappo-tui-layout
+cli_surface:
+  - rotappo ui
+
+description: |
+  Introduce a composable grid layout system for Ratatui components so
+  panels can be organized, collapsed, and opened without bespoke layout
+  logic. Provide a declarative layout spec and macro DSL that keeps the
+  UI structure cohesive while allowing flexible reflow rules. Provide
+  async-safe layout evaluation with Tokio-friendly primitives so layout
+  state can be updated without blocking the UI loop.
+
+deliverables:
+  - Grid layout spec (rows/columns/slots) with visibility rules
+  - Layout resolver that outputs Rects for panels
+  - Collapse/open policy engine with prioritization
+  - Macro DSL for declaring grid layouts
+  - Async layout update pipeline with Tokio tasks where appropriate
+  - Concurrency-safe state sharing (mutexes/spinlocks) for layout cache
+  - Migration plan for current TUI layout
+
+acceptance_criteria:
+  - Panels can collapse/expand without panel-specific layout code
+  - Layout spec is composable across modules
+  - Grid resolver handles min sizes and overflow gracefully
+  - Macro DSL reduces layout boilerplate in UI render code
+  - Layout updates do not block UI redraws under heavy activity
+  - Concurrency primitives are selected for safety and low contention
+
+dependencies:
+  - UI-004
+  - UI-026
+  - UI-029
+
+children:
+  - UI-039
+  - UI-040
+  - UI-041
+  - UI-042
+
+phase_gate: gitops
+effort: L
+risk: med
+
+labels:
+  - layout
+  - grid
+  - tui
+  - ratatui
+  - macros
+  - tokio
+  - concurrency
+  - locking
+  - ui
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

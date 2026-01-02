@@ -1,7 +1,7 @@
 use ratatui::layout::Rect;
 use std::time::{Duration, Instant};
 
-use crate::runtime::EventLevel;
+use crate::runtime::{Event, EventLevel};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum HoverPanel {
@@ -123,6 +123,7 @@ pub struct UiState {
     pub actions_scroll: u16,
     pub problems_scroll: u16,
     pub log_interval: Duration,
+    pub log_cache: Vec<Event>,
     pub last_log_emit: Instant,
     pub hold_state: Option<HoldState>,
     pub pinned_tooltip: Option<Tooltip>,
@@ -184,6 +185,7 @@ impl UiState {
             actions_scroll: 0,
             problems_scroll: 0,
             log_interval: Duration::from_secs(2),
+            log_cache: Vec::new(),
             last_log_emit: Instant::now(),
             hold_state: None,
             pinned_tooltip: None,

@@ -31,6 +31,28 @@ digraph v0_0_3_Cohesion {
         UI_023 [label = "UI-023\nRotappo Desktop Bridge";];
         UI_024 [label = "UI-024\nRotappo Desktop Packaging";];
     }
+
+    subgraph cluster_meta1 {
+        label = "META-1: Rotappo Refactor + Ports/Adapters";
+        style = filled;
+        fillcolor = "#f7f2ff";
+        UI_025 [label = "UI-025\nPorts + Adapters Refactor";];
+        UI_026 [label = "UI-026\nTUI Module Decomposition";];
+        UI_027 [label = "UI-027\nRuntime Ports + Status";];
+        UI_028 [label = "UI-028\nAdapter Module Cleanup";];
+        UI_029 [label = "UI-029\nUI Macro Helpers";];
+    }
+
+    subgraph cluster_layout1 {
+        label = "LAYOUT-1: Grid Layout System";
+        style = filled;
+        fillcolor = "#f2fff7";
+        UI_038 [label = "UI-038\nTUI Grid Layout System";];
+        UI_039 [label = "UI-039\nGrid Model + Resolver";];
+        UI_040 [label = "UI-040\nLayout Macro DSL";];
+        UI_041 [label = "UI-041\nCollapse/Open Policy";];
+        UI_042 [label = "UI-042\nMigrate to Grid Layout";];
+    }
     
  
     // UI-1 dependencies
@@ -82,4 +104,31 @@ digraph v0_0_3_Cohesion {
     UI_002 -> UI_023;
     UI_022 -> UI_023;
     UI_022 -> UI_024;
+
+    // META-1 dependencies
+    UI_002 -> UI_025;
+    UI_003 -> UI_025;
+    UI_004 -> UI_025;
+    UI_025 -> UI_026;
+    UI_025 -> UI_027;
+    UI_025 -> UI_028;
+    UI_025 -> UI_029;
+    UI_004 -> UI_026;
+    UI_002 -> UI_027;
+    UI_026 -> UI_029;
+
+    // LAYOUT-1 dependencies
+    UI_004 -> UI_038;
+    UI_026 -> UI_038;
+    UI_029 -> UI_038;
+    UI_038 -> UI_039;
+    UI_038 -> UI_040;
+    UI_038 -> UI_041;
+    UI_038 -> UI_042;
+    UI_039 -> UI_040;
+    UI_039 -> UI_041;
+    UI_029 -> UI_040;
+    UI_040 -> UI_042;
+    UI_041 -> UI_042;
+    UI_026 -> UI_042;
 }

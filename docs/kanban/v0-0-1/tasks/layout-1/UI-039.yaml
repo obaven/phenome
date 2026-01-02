@@ -1,0 +1,49 @@
+id: UI-039
+title: 'LAYOUT-1A: Grid Model + Rect Resolver'
+type: Story
+layer: 5
+domain: core
+component: rotappo-tui-layout-core
+cli_surface:
+  - rotappo ui
+
+description: |
+  Define the grid layout data model and resolve it into concrete Ratatui
+  Rects. Provide row/column constraints, slot addressing, and visibility
+  rules so panels can be placed predictably without custom math in the
+  render loop. Build the resolver to be safe for async access and
+  background layout updates.
+
+deliverables:
+  - Grid spec types: rows, columns, slots, constraints
+  - Rect resolver with deterministic sizing rules
+  - Visibility handling for collapsed panels
+  - Unit fixtures for layout resolution
+  - Thread-safe layout cache for fast reads in the UI loop
+
+acceptance_criteria:
+  - Given a screen area and layout spec, outputs stable Rects
+  - Collapsed panels are excluded without breaking surrounding layout
+  - Resolver handles min sizes and clamps overflow
+  - Layout resolution is safe for concurrent readers/writers
+
+dependencies:
+  - UI-038
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - layout
+  - grid
+  - tui
+  - ratatui
+  - tokio
+  - concurrency
+  - locking
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

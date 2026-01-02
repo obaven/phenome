@@ -9,11 +9,12 @@ impl App {
     pub fn update_hover(&mut self, column: u16, row: u16) {
         let pos = (column, row).into();
         self.ui.mouse_pos = Some((column, row));
-        if self.ui.log_menu_pinned
-            && self.ui.log_menu_area.width > 0
-            && !self.ui.log_menu_area.contains(pos)
-        {
-            self.close_log_menu();
+        if self.ui.log_menu_pinned && self.ui.log_menu_area.width > 0 {
+            let in_menu = self.ui.log_menu_area.contains(pos);
+            let in_trigger = self.log_menu_trigger_contains(pos);
+            if !in_menu && !in_trigger {
+                self.close_log_menu();
+            }
         }
         self.ui.hover_panel = HoverPanel::None;
         self.ui.hover_plan_index = None;
