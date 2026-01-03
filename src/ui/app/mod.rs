@@ -7,12 +7,13 @@ use ratatui::{
 use std::time::{Duration, Instant};
 
 use crate::adapters::bootstrappo::BootstrappoBackend;
+use crate::logging::LOG_INTERVALS_SECS;
 use crate::runtime::{ActionId, ActionSafety, Event, EventLevel, Runtime};
 use crate::ui::state::UiState;
 use crate::ui::layout::{
-    SLOT_ACTIONS, SLOT_CAPABILITIES, SLOT_FOOTER_HELP, SLOT_FOOTER_SETTINGS,
-    SLOT_LOGS, SLOT_LOG_CONTROLS, SLOT_PLAN_PROGRESS, SLOT_PLAN_STEPS,
-    SLOT_PROBLEMS, SLOT_SNAPSHOT,
+    GroupPolicy, PanelPriority, SlotPolicy, SLOT_ACTIONS, SLOT_CAPABILITIES,
+    SLOT_FOOTER_HELP, SLOT_FOOTER_SETTINGS, SLOT_LOGS, SLOT_LOG_CONTROLS,
+    SLOT_PLAN_PROGRESS, SLOT_PLAN_STEPS, SLOT_PROBLEMS, SLOT_SNAPSHOT,
 };
 
 mod actions;
@@ -25,7 +26,7 @@ mod tooltips;
 const COLLAPSED_HEIGHT: u16 = 2;
 const LOG_CONTROLS_BASE_HEIGHT: u16 = 3;
 const LOG_MENU_FILTER_LEN: u16 = 4;
-const LOG_MENU_STREAM_LEN: u16 = 5;
+const LOG_MENU_STREAM_LEN: u16 = (LOG_INTERVALS_SECS.len() + 1) as u16;
 const FILTER_LABEL: &str = "Filter ";
 const STREAM_LABEL: &str = "Stream ";
 
@@ -122,9 +123,73 @@ impl App {
             ui: UiState::new(),
             layout_policy: crate::ui::layout::LayoutPolicy::new(),
         };
+        app.configure_layout_policy();
         app.sync_layout_policy();
         app.refresh_log_cache(true);
         app
+    }
+
+    fn configure_layout_policy(&mut self) {
+        self.layout_policy.set_policy(
+            SLOT_PLAN_PROGRESS,
+            SlotPolicy::new(PanelPriority::High),
+        );
+        self.layout_policy
+            .set_policy(SLOT_SNAPSHOT, SlotPolicy::new(PanelPriority::High));
+        self.layout_policy
+            .set_policy(SLOT_CAPABILITIES, SlotPolicy::new(PanelPriority::Normal));
+        self.layout_policy
+            .set_policy(SLOT_PLAN_STEPS, SlotPolicy::new(PanelPriority::High));
+        self.layout_policy
+            .set_policy(SLOT_ACTIONS, SlotPolicy::new(PanelPriority::Normal));
+        self.layout_policy
+            .set_policy(SLOT_PROBLEMS, SlotPolicy::new(PanelPriority::Low));
+        self.layout_policy
+            .set_policy(SLOT_LOG_CONTROLS, SlotPolicy::new(PanelPriority::Normal));
+        self.layout_policy
+            .set_policy(SLOT_LOGS, SlotPolicy::new(PanelPriority::Normal));
+        self.layout_policy
+            .set_policy(SLOT_FOOTER_HELP, SlotPolicy::new(PanelPriority::Low));
+        self.layout_policy
+            .set_policy(SLOT_FOOTER_SETTINGS, SlotPolicy::new(PanelPriority::Low));
+
+        self.layout_policy.set_group(
+            GroupPolicy::new(
+                "left_column",
+                vec![
+                    SLOT_PLAN_PROGRESS.into(),
+                    SLOT_SNAPSHOT.into(),
+                    SLOT_CAPABILITIES.into(),
+                ],
+            )
+            .min_area(0, 12),
+        );
+        self.layout_policy.set_group(
+            GroupPolicy::new(
+                "middle_aux",
+                vec![
+                    SLOT_PLAN_STEPS.into(),
+                    SLOT_FOOTER_HELP.into(),
+                    SLOT_LOGS.into(),
+                ],
+            )
+            .min_area(0, 12),
+        );
+        self.layout_policy.set_group(
+            GroupPolicy::new(
+                "right_left",
+                vec![SLOT_ACTIONS.into(), SLOT_PROBLEMS.into()],
+            )
+            .min_area(0, 10),
+        );
+        self.layout_policy.set_group(
+            GroupPolicy::new(
+                "right_right",
+                vec![SLOT_LOG_CONTROLS.into(), SLOT_LOGS.into()],
+            )
+            .min_area(0, 10),
+        );
+
     }
 
     pub fn on_tick(&mut self) {
@@ -152,7 +217,9 @@ impl App {
             }
         }
 
-        if !self.ui.log_paused && self.ui.last_log_emit.elapsed() >= self.ui.log_interval {
+        if !self.ui.log_paused
+            && self.ui.last_log_emit.elapsed() >= self.ui.log_config.interval
+        {
             self.ui.last_log_emit = Instant::now();
         }
     }
@@ -173,7 +240,7 @@ impl App {
             KeyCode::Char('q') | KeyCode::Esc => self.should_quit = true,
             KeyCode::Char('r') => self.runtime.refresh_snapshot(),
             KeyCode::Char('f') => {
-                self.ui.log_filter = self.ui.log_filter.next();
+                self.ui.log_config.filter = self.ui.log_config.filter.next();
                 self.refresh_log_cache(true);
             }
             KeyCode::Char('s') => self.toggle_settings_panel(),

@@ -1,5 +1,6 @@
 use anyhow::Result;
 
+use crate::logging::next_log_interval_secs;
 use crate::runtime::{ActionId, ActionSafety, Event, EventLevel};
 
 use super::{App, ConfirmPrompt};
@@ -90,13 +91,9 @@ impl App {
     }
 
     pub fn cycle_log_interval(&mut self) {
-        let next = match self.ui.log_interval.as_secs() {
-            1 => 2,
-            2 => 5,
-            5 => 10,
-            _ => 1,
-        };
-        self.ui.log_interval = std::time::Duration::from_secs(next);
+        let current = self.ui.log_config.interval.as_secs();
+        let next = next_log_interval_secs(current);
+        self.ui.log_config.interval = std::time::Duration::from_secs(next);
     }
 
     pub fn mark_action_flash(&mut self, index: usize) {
@@ -123,7 +120,7 @@ impl App {
             if self.ui.log_paused {
                 return;
             }
-            if self.ui.last_log_emit.elapsed() < self.ui.log_interval {
+            if self.ui.last_log_emit.elapsed() < self.ui.log_config.interval {
                 return;
             }
         }
@@ -132,7 +129,7 @@ impl App {
             .runtime
             .events()
             .iter()
-            .filter(|event| self.ui.log_filter.matches(event.level))
+            .filter(|event| self.ui.log_config.filter.matches(event.level))
             .cloned()
             .collect();
     }

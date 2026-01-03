@@ -3,7 +3,9 @@ use crossterm::event::{
     KeyCode, KeyEvent, KeyEventKind, MouseButton, MouseEvent, MouseEventKind,
 };
 use ratatui::layout::Margin;
+use std::time::Duration;
 
+use crate::logging::{LogFilter, LOG_INTERVALS_SECS};
 use crate::runtime::{Event, EventLevel};
 
 use super::App;
@@ -90,40 +92,23 @@ impl App {
 
     fn apply_log_menu_action(&mut self, mode: crate::ui::state::LogMenuMode, index: usize) {
         let mut refresh = matches!(mode, crate::ui::state::LogMenuMode::Filter);
-        match (mode, index) {
-            (crate::ui::state::LogMenuMode::Filter, 0) => {
-                self.ui.log_filter = crate::ui::state::LogFilter::All
+        match mode {
+            crate::ui::state::LogMenuMode::Filter => match index {
+                0 => self.ui.log_config.filter = LogFilter::All,
+                1 => self.ui.log_config.filter = LogFilter::Info,
+                2 => self.ui.log_config.filter = LogFilter::Warn,
+                3 => self.ui.log_config.filter = LogFilter::Error,
+                _ => {}
+            },
+            crate::ui::state::LogMenuMode::Stream => {
+                if let Some(&secs) = LOG_INTERVALS_SECS.get(index) {
+                    self.ui.log_config.interval = Duration::from_secs(secs);
+                    refresh = true;
+                } else if index == LOG_INTERVALS_SECS.len() {
+                    self.ui.log_paused = !self.ui.log_paused;
+                    refresh = true;
+                }
             }
-            (crate::ui::state::LogMenuMode::Filter, 1) => {
-                self.ui.log_filter = crate::ui::state::LogFilter::Info
-            }
-            (crate::ui::state::LogMenuMode::Filter, 2) => {
-                self.ui.log_filter = crate::ui::state::LogFilter::Warn
-            }
-            (crate::ui::state::LogMenuMode::Filter, 3) => {
-                self.ui.log_filter = crate::ui::state::LogFilter::Error
-            }
-            (crate::ui::state::LogMenuMode::Stream, 0) => {
-                self.ui.log_interval = std::time::Duration::from_secs(1);
-                refresh = true;
-            }
-            (crate::ui::state::LogMenuMode::Stream, 1) => {
-                self.ui.log_interval = std::time::Duration::from_secs(2);
-                refresh = true;
-            }
-            (crate::ui::state::LogMenuMode::Stream, 2) => {
-                self.ui.log_interval = std::time::Duration::from_secs(5);
-                refresh = true;
-            }
-            (crate::ui::state::LogMenuMode::Stream, 3) => {
-                self.ui.log_interval = std::time::Duration::from_secs(10);
-                refresh = true;
-            }
-            (crate::ui::state::LogMenuMode::Stream, 4) => {
-                self.ui.log_paused = !self.ui.log_paused;
-                refresh = true;
-            }
-            _ => {}
         }
         if refresh {
             self.refresh_log_cache(true);

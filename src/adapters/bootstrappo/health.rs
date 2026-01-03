@@ -9,6 +9,8 @@ use bootstrappo::ops::drivers::{DriverContext, DriverMode, HealthStatus};
 use bootstrappo::ops::k8s::cache::ClusterCache;
 use kube::Client;
 
+use crate::ports::HealthPort;
+
 #[derive(Clone)]
 pub struct LiveStatus {
     cache: Arc<RwLock<Option<ClusterCache>>>,
@@ -99,6 +101,30 @@ impl LiveStatus {
 
     pub fn last_error(&self) -> Option<String> {
         self.error.read().ok().and_then(|guard| guard.clone())
+    }
+}
+
+#[derive(Clone)]
+pub struct BootstrappoHealthPort {
+    live_status: Option<LiveStatus>,
+}
+
+impl BootstrappoHealthPort {
+    pub fn new(live_status: Option<LiveStatus>) -> Self {
+        Self { live_status }
+    }
+}
+
+impl HealthPort for BootstrappoHealthPort {
+    fn health(&self) -> HashMap<String, HealthStatus> {
+        self.live_status
+            .as_ref()
+            .map(|live| live.health())
+            .unwrap_or_default()
+    }
+
+    fn last_error(&self) -> Option<String> {
+        self.live_status.as_ref().and_then(|live| live.last_error())
     }
 }
 

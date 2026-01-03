@@ -9,6 +9,7 @@ use ratatui::{
     },
 };
 
+use crate::logging::{LogFilter, LOG_INTERVALS_SECS};
 use crate::runtime::EventLevel;
 use crate::ui::app::App;
 use crate::ui::state::HoverPanel;
@@ -32,8 +33,8 @@ pub fn render_log_controls(frame: &mut Frame, area: Rect, app: &mut App) {
         return;
     }
     let status = if app.ui.log_paused { "paused" } else { "streaming" };
-    let filter_tag = format!("[{}]", app.ui.log_filter.as_str());
-    let stream_tag = format!("[{} {}s]", status, app.ui.log_interval.as_secs());
+    let filter_tag = format!("[{}]", app.ui.log_config.filter.as_str());
+    let stream_tag = format!("[{} {}s]", status, app.ui.log_config.interval.as_secs());
     let line = Line::from(vec![
         Span::raw("Filter "),
         Span::styled(
@@ -78,7 +79,7 @@ pub fn render_logs(frame: &mut Frame, area: Rect, app: &mut App) {
     app.ui.logs_area = area;
     if app.ui.collapsed_logs {
         let mut block = Block::default()
-            .title(format!("Logs ({})", app.ui.log_filter.as_str()))
+            .title(format!("Logs ({})", app.ui.log_config.filter.as_str()))
             .borders(Borders::ALL);
         if app.ui.hover_panel == HoverPanel::Logs {
             block = block.style(Style::default().bg(Color::Rgb(0, 90, 90)));
@@ -120,7 +121,7 @@ pub fn render_logs(frame: &mut Frame, area: Rect, app: &mut App) {
         .collect();
 
     let updated_secs = app.ui.last_log_emit.elapsed().as_secs();
-    let title_left = Title::from(format!("Logs ({})", app.ui.log_filter.as_str()))
+    let title_left = Title::from(format!("Logs ({})", app.ui.log_config.filter.as_str()))
         .alignment(Alignment::Left);
     let title_right = Title::from(format!(
         "events: {} | updated: {}s",
@@ -167,54 +168,46 @@ struct LogMenuItem {
 }
 
 fn log_menu_items(app: &App, mode: crate::ui::state::LogMenuMode) -> Vec<LogMenuItem> {
-    let filter = app.ui.log_filter;
-    let interval = app.ui.log_interval.as_secs();
+    let filter = app.ui.log_config.filter;
+    let interval = app.ui.log_config.interval.as_secs();
     let paused = app.ui.log_paused;
     match mode {
         crate::ui::state::LogMenuMode::Filter => vec![
             LogMenuItem {
                 label: "Filter: all".to_string(),
-                selected: matches!(filter, crate::ui::state::LogFilter::All),
+                selected: matches!(filter, LogFilter::All),
             },
             LogMenuItem {
                 label: "Filter: info".to_string(),
-                selected: matches!(filter, crate::ui::state::LogFilter::Info),
+                selected: matches!(filter, LogFilter::Info),
             },
             LogMenuItem {
                 label: "Filter: warn".to_string(),
-                selected: matches!(filter, crate::ui::state::LogFilter::Warn),
+                selected: matches!(filter, LogFilter::Warn),
             },
             LogMenuItem {
                 label: "Filter: error".to_string(),
-                selected: matches!(filter, crate::ui::state::LogFilter::Error),
+                selected: matches!(filter, LogFilter::Error),
             },
         ],
-        crate::ui::state::LogMenuMode::Stream => vec![
-            LogMenuItem {
-                label: "Stream: 1s".to_string(),
-                selected: interval == 1,
-            },
-            LogMenuItem {
-                label: "Stream: 2s".to_string(),
-                selected: interval == 2,
-            },
-            LogMenuItem {
-                label: "Stream: 5s".to_string(),
-                selected: interval == 5,
-            },
-            LogMenuItem {
-                label: "Stream: 10s".to_string(),
-                selected: interval == 10,
-            },
-            LogMenuItem {
+        crate::ui::state::LogMenuMode::Stream => {
+            let mut items: Vec<LogMenuItem> = LOG_INTERVALS_SECS
+                .iter()
+                .map(|secs| LogMenuItem {
+                    label: format!("Stream: {}s", secs),
+                    selected: interval == *secs,
+                })
+                .collect();
+            items.push(LogMenuItem {
                 label: if paused {
                     "Stream: resume".to_string()
                 } else {
                     "Stream: pause".to_string()
                 },
                 selected: paused,
-            },
-        ],
+            });
+            items
+        }
     }
 }
 

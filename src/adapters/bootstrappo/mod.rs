@@ -1,8 +1,16 @@
+mod health;
+mod k8s;
+pub mod mapping;
+mod plan;
+
 use anyhow::{Context, Result};
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use crate::ports::{CachePort, HealthPort, PlanPort, PortSet};
+use crate::ports::{LogPort, PortSet};
+use crate::runtime::Event;
+
+pub use health::LiveStatus;
 
 pub struct BootstrappoBackend {
     pub config: Arc<bootstrappo::config::Config>,
@@ -10,7 +18,7 @@ pub struct BootstrappoBackend {
     pub plan_path: PathBuf,
     pub plan: Option<bootstrappo::ops::reconciler::plan::Plan>,
     pub plan_error: Option<String>,
-    pub live_status: Option<crate::runtime::LiveStatus>,
+    pub live_status: Option<LiveStatus>,
     ports: PortSet,
 }
 
@@ -42,18 +50,19 @@ impl BootstrappoBackend {
         let plan_path = plan_path.unwrap_or_else(|| {
             PathBuf::from("../bootstrappo/data/plans/bootstrap.v0-0-3.yaml")
         });
-        let (plan, plan_error) = match bootstrappo::ops::reconciler::plan::Plan::load(&plan_path) {
-            Ok(plan) => (Some(plan), None),
-            Err(err) => (None, Some(err.to_string())),
-        };
+        let plan_port = plan::BootstrappoPlanPort::load(&plan_path);
+        let plan = plan_port.plan();
+        let plan_error = plan_port.plan_error();
         let config = Arc::new(config);
-        let live_status = Some(crate::runtime::LiveStatus::spawn(Arc::clone(&config)));
-        let ports = BootstrappoPorts {
-            plan: plan.clone(),
-            plan_error: plan_error.clone(),
-            live_status: live_status.clone(),
-        }
-        .into_portset();
+        let live_status = Some(LiveStatus::spawn(Arc::clone(&config)));
+        let health_port = health::BootstrappoHealthPort::new(live_status.clone());
+        let cache_port = k8s::BootstrappoCachePort::new(live_status.clone());
+        let ports = PortSet {
+            plan: Arc::new(plan_port),
+            health: Arc::new(health_port),
+            cache: Arc::new(cache_port),
+            logs: Arc::new(BootstrappoLogPort),
+        };
 
         Ok(Self {
             config,
@@ -78,49 +87,11 @@ impl BootstrappoBackend {
     }
 }
 
-#[derive(Clone)]
-struct BootstrappoPorts {
-    plan: Option<bootstrappo::ops::reconciler::plan::Plan>,
-    plan_error: Option<String>,
-    live_status: Option<crate::runtime::LiveStatus>,
-}
+#[derive(Clone, Copy)]
+struct BootstrappoLogPort;
 
-impl BootstrappoPorts {
-    fn into_portset(self) -> PortSet {
-        let plan = Arc::new(self.clone());
-        let health = Arc::new(self.clone());
-        let cache = Arc::new(self);
-        PortSet { plan, health, cache }
-    }
-}
-
-impl PlanPort for BootstrappoPorts {
-    fn plan(&self) -> Option<bootstrappo::ops::reconciler::plan::Plan> {
-        self.plan.clone()
-    }
-
-    fn plan_error(&self) -> Option<String> {
-        self.plan_error.clone()
-    }
-}
-
-impl HealthPort for BootstrappoPorts {
-    fn health(&self) -> std::collections::HashMap<String, bootstrappo::ops::drivers::HealthStatus> {
-        self.live_status
-            .as_ref()
-            .map(|live| live.health())
-            .unwrap_or_default()
-    }
-
-    fn last_error(&self) -> Option<String> {
-        self.live_status.as_ref().and_then(|live| live.last_error())
-    }
-}
-
-impl CachePort for BootstrappoPorts {
-    fn cache(&self) -> Option<bootstrappo::ops::k8s::cache::ClusterCache> {
-        self.live_status
-            .as_ref()
-            .and_then(|live| live.cache())
+impl LogPort for BootstrappoLogPort {
+    fn drain_events(&self) -> Vec<Event> {
+        Vec::new()
     }
 }

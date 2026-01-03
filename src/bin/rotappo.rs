@@ -3,7 +3,8 @@ use std::env;
 use std::path::PathBuf;
 
 use rotappo::adapters::bootstrappo::BootstrappoBackend;
-use rotappo::cli::{format_actions, format_snapshot, OutputMode};
+use rotappo::cli::{format_actions, format_events, format_snapshot, OutputMode};
+use rotappo::logging::LogStreamConfig;
 
 fn main() -> Result<()> {
     let args = env::args().skip(1).collect::<Vec<_>>();
@@ -20,7 +21,7 @@ fn main() -> Result<()> {
     let mut i = 0;
     while i < args.len() {
         match args[i].as_str() {
-            "actions" | "snapshot" => {
+            "actions" | "snapshot" | "logs" => {
                 command = args[i].clone();
             }
             "--output" | "-o" => {
@@ -47,9 +48,19 @@ fn main() -> Result<()> {
     let backend = BootstrappoBackend::from_paths(config_path, plan_path)?;
     let runtime = backend.runtime();
 
+    let log_config = LogStreamConfig::default();
     let output_text = match command.as_str() {
         "actions" => format_actions(output, runtime.registry().actions())?,
         "snapshot" => format_snapshot(output, runtime.snapshot())?,
+        "logs" => {
+            let events = runtime
+                .events()
+                .iter()
+                .filter(|event| log_config.filter.matches(event.level))
+                .cloned()
+                .collect::<Vec<_>>();
+            format_events(output, &events)?
+        }
         other => return Err(anyhow!("Unknown command: {}", other)),
     };
 
@@ -58,5 +69,7 @@ fn main() -> Result<()> {
 }
 
 fn print_help() {
-    println!("rotappo [actions|snapshot] [--output plain|json|ndjson] [--config PATH] [--plan PATH]");
+    println!(
+        "rotappo [actions|snapshot|logs] [--output plain|json|ndjson] [--config PATH] [--plan PATH]"
+    );
 }

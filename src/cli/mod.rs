@@ -1,7 +1,7 @@
 use anyhow::{anyhow, Result};
 use serde::Serialize;
 
-use crate::runtime::{Action, Snapshot};
+use crate::runtime::{Action, Event, Snapshot};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum OutputMode {
@@ -58,6 +58,25 @@ pub fn format_snapshot(mode: OutputMode, snapshot: &Snapshot) -> Result<String> 
         )),
         OutputMode::Json => Ok(serde_json::to_string_pretty(snapshot)?),
         OutputMode::Ndjson => to_ndjson(snapshot),
+    }
+}
+
+pub fn format_events(mode: OutputMode, events: &[Event]) -> Result<String> {
+    match mode {
+        OutputMode::Plain => Ok(events
+            .iter()
+            .map(|event| {
+                format!(
+                    "[{}] {} {}",
+                    event.level.as_str(),
+                    event.timestamp_ms,
+                    event.message
+                )
+            })
+            .collect::<Vec<_>>()
+            .join("\n")),
+        OutputMode::Json => Ok(serde_json::to_string_pretty(events)?),
+        OutputMode::Ndjson => to_ndjson(events),
     }
 }
 

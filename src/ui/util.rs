@@ -4,6 +4,7 @@ use ratatui::{
     text::{Line, Span},
 };
 
+use crate::adapters::bootstrappo::mapping;
 use crate::runtime::{now_millis, CapabilityStatus, PlanStepStatus};
 
 pub struct PlanLine {
@@ -161,17 +162,7 @@ pub fn collect_problems(app: &crate::ui::app::App) -> Vec<String> {
             problems.push(format!("kube: {}", error));
         }
         let health = live.health();
-        for (name, status) in health {
-            match status {
-                bootstrappo::ops::drivers::HealthStatus::Healthy => {}
-                bootstrappo::ops::drivers::HealthStatus::Degraded(msg) => {
-                    problems.push(format!("{} degraded: {}", name, msg));
-                }
-                bootstrappo::ops::drivers::HealthStatus::Unhealthy(msg) => {
-                    problems.push(format!("{} unhealthy: {}", name, msg));
-                }
-            }
-        }
+        problems.extend(mapping::health_problem_lines(&health));
         if live.cache().is_none() {
             problems.push("kube cache not ready".to_string());
         }

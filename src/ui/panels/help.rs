@@ -41,7 +41,7 @@ fn help_lines(app: &App) -> Vec<Line> {
         Line::from(Span::styled("Logs", Style::default().add_modifier(Modifier::BOLD))),
         Line::from(format!(
             "f: filter logs (current: {})",
-            app.ui.log_filter.as_str()
+            app.ui.log_config.filter.as_str()
         )),
         Line::from("hover Log Controls for menu"),
         Line::from("w: toggle watch refresh"),

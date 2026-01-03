@@ -1,7 +1,8 @@
 use ratatui::layout::Rect;
-use std::time::{Duration, Instant};
+use std::time::Instant;
 
-use crate::runtime::{Event, EventLevel};
+use crate::logging::LogStreamConfig;
+use crate::runtime::Event;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum HoverPanel {
@@ -28,47 +29,10 @@ pub struct HoldState {
     pub triggered: bool,
 }
 
-#[derive(Debug, Clone, Copy)]
-pub enum LogFilter {
-    All,
-    Info,
-    Warn,
-    Error,
-}
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum LogMenuMode {
     Filter,
     Stream,
-}
-
-impl LogFilter {
-    pub fn next(self) -> Self {
-        match self {
-            LogFilter::All => LogFilter::Info,
-            LogFilter::Info => LogFilter::Warn,
-            LogFilter::Warn => LogFilter::Error,
-            LogFilter::Error => LogFilter::All,
-        }
-    }
-
-    pub fn as_str(self) -> &'static str {
-        match self {
-            LogFilter::All => "all",
-            LogFilter::Info => "info",
-            LogFilter::Warn => "warn",
-            LogFilter::Error => "error",
-        }
-    }
-
-    pub fn matches(self, level: EventLevel) -> bool {
-        match self {
-            LogFilter::All => true,
-            LogFilter::Info => level == EventLevel::Info,
-            LogFilter::Warn => level == EventLevel::Warn,
-            LogFilter::Error => level == EventLevel::Error,
-        }
-    }
 }
 
 pub struct UiState {
@@ -115,14 +79,13 @@ pub struct UiState {
     pub log_menu_mode: Option<LogMenuMode>,
     pub log_menu_pinned: bool,
     pub auto_refresh: bool,
-    pub log_filter: LogFilter,
+    pub log_config: LogStreamConfig,
     pub log_paused: bool,
     pub log_scroll: u16,
     pub plan_scroll: u16,
     pub capabilities_scroll: u16,
     pub actions_scroll: u16,
     pub problems_scroll: u16,
-    pub log_interval: Duration,
     pub log_cache: Vec<Event>,
     pub last_log_emit: Instant,
     pub hold_state: Option<HoldState>,
@@ -177,14 +140,13 @@ impl UiState {
             log_menu_mode: None,
             log_menu_pinned: false,
             auto_refresh: true,
-            log_filter: LogFilter::All,
+            log_config: LogStreamConfig::default(),
             log_paused: false,
             log_scroll: 0,
             plan_scroll: 0,
             capabilities_scroll: 0,
             actions_scroll: 0,
             problems_scroll: 0,
-            log_interval: Duration::from_secs(2),
             log_cache: Vec::new(),
             last_log_emit: Instant::now(),
             hold_state: None,

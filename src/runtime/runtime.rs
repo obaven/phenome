@@ -1,5 +1,6 @@
 use anyhow::{anyhow, Result};
 
+use crate::adapters::bootstrappo::mapping;
 use crate::runtime::actions::{ActionId, ActionRegistry, ActionSafety};
 use crate::runtime::events::{Event, EventBus, EventLevel};
 use crate::ports::PortSet;
@@ -36,6 +37,7 @@ impl Runtime {
             plan,
             ports,
         };
+        runtime.drain_port_events();
         runtime.snapshot.update_plan_summary_from_steps();
         runtime
     }
@@ -58,11 +60,18 @@ impl Runtime {
 
     pub fn refresh_snapshot(&mut self) {
         self.refresh_count = self.refresh_count.saturating_add(1);
+        self.drain_port_events();
         if !self.snapshot.plan_steps.is_empty() {
             self.update_plan_statuses();
             self.sync_capabilities_from_steps();
         }
         self.snapshot.touch();
+    }
+
+    fn drain_port_events(&mut self) {
+        for event in self.ports.logs.drain_events() {
+            self.events.push(event);
+        }
     }
 
     pub fn trigger_action(&mut self, action_id: ActionId) -> Result<()> {
@@ -96,7 +105,7 @@ impl Runtime {
 
     fn snapshot_from_plan(plan: &bootstrappo::ops::reconciler::plan::Plan) -> Snapshot {
         let mut snapshot = Snapshot::new_default();
-        let spec_map = Self::driver_specs();
+        let spec_map = mapping::driver_specs();
         snapshot.plan_steps = plan
             .steps
             .iter()
@@ -105,7 +114,7 @@ impl Runtime {
                     .get(step.id.as_str())
                     .cloned()
                     .unwrap_or_else(|| ("unknown".to_string(), None));
-                let pod = Self::derive_pod_value(step, namespace.as_deref());
+                let pod = mapping::derive_pod_value(step, namespace.as_deref());
                 PlanStep {
                     id: step.id.clone(),
                     kind: step.kind.clone(),
@@ -169,7 +178,7 @@ impl Runtime {
 
                 if let Some(def) = step_map.get(step.id.as_str()) {
                     if let Some(cache) = &cache {
-                        if Self::gates_ready(cache, def) {
+                        if mapping::gates_ready(cache, def) {
                             status = PlanStepStatus::Succeeded;
                         }
                     } else if def.gates.is_empty() && !blocked {
@@ -217,74 +226,6 @@ impl Runtime {
         }
     }
 
-    fn driver_specs() -> std::collections::HashMap<String, (String, Option<String>)> {
-        bootstrappo::components::registry::get_all_specs()
-            .into_iter()
-            .map(|spec| {
-                (
-                    spec.name.to_string(),
-                    (
-                        spec.domain.to_string(),
-                        spec.namespace.map(|namespace| namespace.to_string()),
-                    ),
-                )
-            })
-            .collect()
-    }
-
-    fn derive_pod_value(
-        step: &bootstrappo::ops::reconciler::plan::Step,
-        namespace: Option<&str>,
-    ) -> Option<String> {
-        let gate_label = step.gates.iter().find_map(|gate| match gate {
-            bootstrappo::ops::reconciler::plan::Gate::DaemonsetReady { namespace, name } => {
-                Some(format!("{}/{}", namespace, name))
-            }
-            bootstrappo::ops::reconciler::plan::Gate::DeploymentReady { namespace, name } => {
-                Some(format!("{}/{}", namespace, name))
-            }
-            bootstrappo::ops::reconciler::plan::Gate::StatefulsetReady { namespace, name } => {
-                Some(format!("{}/{}", namespace, name))
-            }
-            _ => None,
-        });
-
-        gate_label.or_else(|| namespace.map(|ns| format!("{}/{}", ns, step.id)))
-    }
-
-    fn gates_ready(
-        cache: &bootstrappo::ops::k8s::cache::ClusterCache,
-        step: &bootstrappo::ops::reconciler::plan::Step,
-    ) -> bool {
-        if step.gates.is_empty() {
-            return true;
-        }
-        for gate in &step.gates {
-            match gate {
-                bootstrappo::ops::reconciler::plan::Gate::DaemonsetReady { namespace, name } => {
-                    if !cache.is_daemonset_ready(namespace, name) {
-                        return false;
-                    }
-                }
-                bootstrappo::ops::reconciler::plan::Gate::DeploymentReady { namespace, name } => {
-                    if !cache.is_deployment_ready(namespace, name) {
-                        return false;
-                    }
-                }
-                bootstrappo::ops::reconciler::plan::Gate::StatefulsetReady { namespace, name } => {
-                    if !cache.is_statefulset_ready(namespace, name) {
-                        return false;
-                    }
-                }
-                bootstrappo::ops::reconciler::plan::Gate::CrdEstablished { name } => {
-                    if !cache.is_crd_established(name) {
-                        return false;
-                    }
-                }
-            }
-        }
-        true
-    }
 }
 
 impl Default for Runtime {
