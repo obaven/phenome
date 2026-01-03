@@ -3,7 +3,7 @@ use ratatui::{
     prelude::Frame,
     style::{Color, Style},
     text::Line,
-    widgets::{Block, Borders, List, ListItem, Scrollbar, ScrollbarOrientation, ScrollbarState},
+    widgets::{List, ListItem, Scrollbar, ScrollbarOrientation, ScrollbarState},
 };
 
 use crate::ui::app::App;
@@ -12,11 +12,9 @@ use crate::ui::util::{collect_problems, traveling_glow};
 
 pub fn render_problems(frame: &mut Frame, area: Rect, app: &mut App) {
     app.ui.problems_area = area;
+    let hovered = app.ui.hover_panel == HoverPanel::Problems;
     if app.ui.collapsed_problems {
-        let mut block = Block::default().title("Problems").borders(Borders::ALL);
-        if app.ui.hover_panel == HoverPanel::Problems {
-            block = block.style(Style::default().bg(Color::Rgb(0, 90, 90)));
-        }
+        let block = crate::ui_panel_block!("Problems", hovered);
         frame.render_widget(block, area);
         return;
     }
@@ -45,16 +43,9 @@ pub fn render_problems(frame: &mut Frame, area: Rect, app: &mut App) {
             })
             .collect()
     };
-    let mut list_block = Block::default().title("Problems").borders(Borders::ALL);
-    if app.refresh_pulse_active() {
-        list_block = list_block.style(Style::default().fg(Color::Cyan));
-    }
-    if app.ui.hover_panel == HoverPanel::Problems {
-        let active_style = Style::default().bg(Color::Rgb(0, 90, 90));
-        list_block = list_block.style(active_style);
-    }
+    let list_block = crate::ui_panel_block!("Problems", hovered, app.refresh_pulse_active());
     let mut list = List::new(items).block(list_block);
-    if app.ui.hover_panel == HoverPanel::Problems {
+    if hovered {
         let active_style = Style::default().bg(Color::Rgb(0, 90, 90));
         list = list.style(active_style);
     }

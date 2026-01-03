@@ -1,5 +1,6 @@
 pub mod app;
 pub mod layout;
+pub mod macros;
 pub mod panels;
 pub mod state;
 pub mod util;
@@ -93,7 +94,7 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> Result<()> 
 fn render(frame: &mut Frame, app: &mut App) {
     let size = frame.area();
     app.ui.screen_area = size;
-    let help_height = if app.ui.collapsed_help {
+    let help_height = if app.panel_collapsed(crate::ui::app::PanelId::Help) {
         2
     } else {
         size.height.saturating_mul(30).saturating_div(100).max(6)
@@ -237,8 +238,14 @@ fn render(frame: &mut Frame, app: &mut App) {
     app.ui.help_area = ratatui::layout::Rect::default();
     app.ui.settings_area = ratatui::layout::Rect::default();
     app.ui.settings_controls_row = None;
-    let render_help = middle_panel != Some(crate::ui::app::PanelId::Help);
-    let render_settings = true;
+    let mut render_help = middle_panel != Some(crate::ui::app::PanelId::Help);
+    let mut render_settings = true;
+    if help_open && !settings_open {
+        render_settings = false;
+    }
+    if settings_open && !help_open {
+        render_help = false;
+    }
     let footer_spec = footer_spec();
     let footer_policy = app.layout_policy.clone();
     if let Some(slot) = crate::ui::app::PanelId::Help.slot_id() {

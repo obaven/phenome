@@ -4,8 +4,8 @@ use ratatui::{
     style::{Color, Modifier, Style},
     text::{Line, Span},
     widgets::{
-        block::Title, Block, Borders, List, ListItem, Paragraph, Scrollbar,
-        ScrollbarOrientation, ScrollbarState,
+        block::Title, List, ListItem, Paragraph, Scrollbar, ScrollbarOrientation,
+        ScrollbarState,
     },
 };
 
@@ -17,6 +17,7 @@ use crate::ui::util::{format_age, traveling_glow};
 
 pub fn render_log_controls(frame: &mut Frame, area: Rect, app: &mut App) {
     app.ui.log_controls_area = area;
+    let hovered = app.ui.hover_panel == HoverPanel::Logs;
     if app.ui.collapsed_log_controls {
         app.ui.log_menu_pinned = false;
         app.ui.log_menu_mode = None;
@@ -25,10 +26,7 @@ pub fn render_log_controls(frame: &mut Frame, area: Rect, app: &mut App) {
         app.ui.log_menu_hover_index = None;
         app.ui.log_filter_tag_area = Rect::default();
         app.ui.log_stream_tag_area = Rect::default();
-        let mut block = Block::default().title("Log Controls").borders(Borders::ALL);
-        if app.ui.hover_panel == HoverPanel::Logs {
-            block = block.style(Style::default().bg(Color::Rgb(0, 90, 90)));
-        }
+        let block = crate::ui_panel_block!("Log Controls", hovered);
         frame.render_widget(block, area);
         return;
     }
@@ -54,7 +52,7 @@ pub fn render_log_controls(frame: &mut Frame, area: Rect, app: &mut App) {
         Span::raw(" | click tags"),
     ]);
     let panel = Paragraph::new(line)
-        .block(Block::default().title("Log Controls").borders(Borders::ALL))
+        .block(crate::ui_panel_block!("Log Controls", hovered))
         .alignment(Alignment::Left);
     frame.render_widget(panel, area);
 
@@ -77,13 +75,12 @@ pub fn render_log_controls(frame: &mut Frame, area: Rect, app: &mut App) {
 
 pub fn render_logs(frame: &mut Frame, area: Rect, app: &mut App) {
     app.ui.logs_area = area;
+    let hovered = app.ui.hover_panel == HoverPanel::Logs;
     if app.ui.collapsed_logs {
-        let mut block = Block::default()
-            .title(format!("Logs ({})", app.ui.log_config.filter.as_str()))
-            .borders(Borders::ALL);
-        if app.ui.hover_panel == HoverPanel::Logs {
-            block = block.style(Style::default().bg(Color::Rgb(0, 90, 90)));
-        }
+        let block = crate::ui_panel_block!(
+            format!("Logs ({})", app.ui.log_config.filter.as_str()),
+            hovered
+        );
         frame.render_widget(block, area);
         return;
     }
@@ -128,19 +125,11 @@ pub fn render_logs(frame: &mut Frame, area: Rect, app: &mut App) {
         total, updated_secs
     ))
     .alignment(Alignment::Right);
-    let mut list_block = Block::default()
-        .title(title_left)
-        .title(title_right)
-        .borders(Borders::ALL);
-    if app.refresh_pulse_active() {
-        list_block = list_block.style(Style::default().fg(Color::Cyan));
-    }
-    if app.ui.hover_panel == HoverPanel::Logs {
-        let active_style = Style::default().bg(Color::Rgb(0, 90, 90));
-        list_block = list_block.style(active_style);
-    }
+    let mut list_block =
+        crate::ui_panel_block!(title_left, hovered, app.refresh_pulse_active());
+    list_block = list_block.title(title_right);
     let mut list = List::new(items).block(list_block);
-    if app.ui.hover_panel == HoverPanel::Logs {
+    if hovered {
         let active_style = Style::default().bg(Color::Rgb(0, 90, 90));
         list = list.style(active_style);
     }
