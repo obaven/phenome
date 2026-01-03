@@ -43,6 +43,6 @@ source_files:
     context: "Expose log event stream"
 
 status: MustHaves
-state: Backlog
-status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:done)
 assignee: unassigned
