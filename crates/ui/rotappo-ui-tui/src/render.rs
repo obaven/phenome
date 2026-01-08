@@ -61,7 +61,7 @@ pub(crate) fn render(frame: &mut Frame, app: &mut App) {
     let action_progress_collapsed = app.panel_collapsed(crate::app::PanelId::AssemblyProgress);
     let snapshot_collapsed = app.panel_collapsed(crate::app::PanelId::Snapshot);
     let capabilities_collapsed = app.panel_collapsed(crate::app::PanelId::Capabilities);
-    let action_steps_collapsed = app.panel_collapsed(crate::app::PanelId::AssemblySteps);
+    let assembly_steps_collapsed = app.panel_collapsed(crate::app::PanelId::AssemblySteps);
     let actions_collapsed = app.panel_collapsed(crate::app::PanelId::Actions);
     let problems_collapsed = app.panel_collapsed(crate::app::PanelId::Problems);
     let log_controls_collapsed = app.panel_collapsed(crate::app::PanelId::LogControls);
@@ -97,16 +97,16 @@ pub(crate) fn render(frame: &mut Frame, app: &mut App) {
         .rect(SLOT_SNAPSHOT)
         .unwrap_or_else(|| Rect::default());
 
-    panels::render_action(frame, action_progress_area, snapshot_area, app);
+    panels::render_assembly(frame, action_progress_area, snapshot_area, app);
     panels::render_capabilities(frame, left_cap_area, app);
     let middle_panel = app.middle_aux_panel();
-    let middle_spec = middle_column_spec(action_steps_collapsed, collapsed);
+    let middle_spec = middle_column_spec(assembly_steps_collapsed, collapsed);
     let middle_layout = GridResolver::resolve(
         middle_area,
         &app.layout_policy.apply(&middle_spec, middle_area),
     );
     let middle_action_area = middle_layout.rect(SLOT_ASSEMBLY_STEPS).unwrap_or(middle_area);
-    if action_steps_collapsed {
+    if assembly_steps_collapsed {
         let middle_aux_area = middle_layout.rect(SLOT_AUX).unwrap_or(middle_area);
         match middle_panel {
             Some(crate::app::PanelId::Logs) => panels::render_logs(frame, middle_aux_area, app),
@@ -115,9 +115,9 @@ pub(crate) fn render(frame: &mut Frame, app: &mut App) {
             }
             _ => frame.render_widget(Clear, middle_aux_area),
         }
-        panels::render_action_steps(frame, middle_action_area, app);
+        panels::render_assembly_steps(frame, middle_action_area, app);
     } else {
-        panels::render_action_steps(frame, middle_action_area, app);
+        panels::render_assembly_steps(frame, middle_action_area, app);
     }
 
     let right_spec = right_columns_spec();

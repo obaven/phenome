@@ -107,8 +107,8 @@ pub fn action_header_spec(
 }
 
 /// Build the middle column grid based on collapsed state.
-pub fn middle_column_spec(action_steps_collapsed: bool, collapsed_height: u16) -> GridSpec {
-    if action_steps_collapsed {
+pub fn middle_column_spec(assembly_steps_collapsed: bool, collapsed_height: u16) -> GridSpec {
+    if assembly_steps_collapsed {
         crate::grid_spec!(
             rows: [TrackSize::Fill(1), TrackSize::Fixed(collapsed_height)],
             cols: [TrackSize::Fill(1)],

@@ -15,7 +15,7 @@ use crate::util::format_age;
 /// ```rust,no_run
 /// use ratatui::{backend::TestBackend, Terminal};
 /// use rotappo_ui_tui::app::App;
-/// use rotappo_ui_tui::panels::render_action;
+/// use rotappo_ui_tui::panels::render_assembly;
 ///
 /// # fn app() -> App { todo!() }
 /// let backend = TestBackend::new(80, 24);
@@ -24,11 +24,16 @@ use crate::util::format_age;
 /// terminal
 ///     .draw(|frame| {
 ///         let area = frame.area();
-///         render_action(frame, area, area, &mut app);
+///         render_assembly(frame, area, area, &mut app);
 ///     })
 ///     .unwrap();
 /// ```
-pub fn render_action(frame: &mut Frame, assembly_progress_area: Rect, snapshot_area: Rect, app: &mut App) {
+pub fn render_assembly(
+    frame: &mut Frame,
+    assembly_progress_area: Rect,
+    snapshot_area: Rect,
+    app: &mut App,
+) {
     let snapshot = app.runtime.snapshot();
     app.ui.assembly_progress_area = assembly_progress_area;
     app.ui.snapshot_area = snapshot_area;
@@ -54,11 +59,11 @@ pub fn render_action(frame: &mut Frame, assembly_progress_area: Rect, snapshot_a
     let lines = vec![
         Line::from(format!(
             "Complete: {}/{}",
-            snapshot.action.completed, snapshot.action.total
+            snapshot.assembly.completed, snapshot.assembly.total
         )),
-        Line::from(format!("In progress: {}", snapshot.action.in_progress)),
-        Line::from(format!("Blocked: {}", snapshot.action.blocked)),
-        Line::from(format!("Pending: {}", snapshot.action.pending)),
+        Line::from(format!("In progress: {}", snapshot.assembly.in_progress)),
+        Line::from(format!("Blocked: {}", snapshot.assembly.blocked)),
+        Line::from(format!("Pending: {}", snapshot.assembly.pending)),
         Line::from(format!("Health: {}", snapshot.health.as_str())),
         Line::from(format!("Last update: {}", age)),
         Line::from(format!(

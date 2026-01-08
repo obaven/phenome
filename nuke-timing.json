@@ -1,0 +1,74 @@
+{
+  "phases": [
+    {
+      "phase": "kill_reconcilers",
+      "duration_secs": 0.061478562,
+      "success": true
+    },
+    {
+      "phase": "scale_down_controllers",
+      "duration_secs": 2.020520335,
+      "success": true
+    },
+    {
+      "phase": "delete_webhooks",
+      "duration_secs": 0.014110734,
+      "success": true
+    },
+    {
+      "phase": "clean_kro_instances",
+      "duration_secs": 0.230857831,
+      "success": true
+    },
+    {
+      "phase": "clear_released_pvs",
+      "duration_secs": 0.053653032,
+      "success": true
+    },
+    {
+      "phase": "scan_cluster",
+      "duration_secs": 0.102188514,
+      "success": true,
+      "details": "21 ns, 62 crds"
+    },
+    {
+      "phase": "delete_helm_releases",
+      "duration_secs": 0.032927033,
+      "success": true
+    },
+    {
+      "phase": "delete_helm_charts",
+      "duration_secs": 0.001043013,
+      "success": true
+    },
+    {
+      "phase": "clean_kube_system",
+      "duration_secs": 0.010919561,
+      "success": true
+    },
+    {
+      "phase": "clean_default_namespace",
+      "duration_secs": 0.188772814,
+      "success": true
+    },
+    {
+      "phase": "delete_pods",
+      "duration_secs": 0.090437698,
+      "success": true,
+      "details": "21/21"
+    },
+    {
+      "phase": "delete_namespaces",
+      "duration_secs": 1.64783966,
+      "success": true,
+      "details": "20 namespaces"
+    },
+    {
+      "phase": "delete_crds",
+      "duration_secs": 10.127302752,
+      "success": true,
+      "details": "62/62"
+    }
+  ],
+  "total_duration_secs": 14.582157662
+}

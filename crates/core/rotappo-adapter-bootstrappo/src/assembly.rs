@@ -3,7 +3,7 @@ use std::sync::Arc;
 use anyhow::{Context, Result};
 use crate::mapping;
 use bootstrappo_api::contract::config::Config as BootstrappoConfig;
-use bootstrappo_api::contract::plan::Assembly as BootstrappoAssembly;
+use bootstrappo_api::contract::assembly::Assembly as BootstrappoAssembly;
 use rotappo_domain::{Assembly, AssemblyStepDef};
 use rotappo_ports::AssemblyPort;
 use super::health::LiveStatus;

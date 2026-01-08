@@ -10,13 +10,13 @@ digraph DomainModel {
   rankdir=LR;
   node [shape=box, style="rounded,filled", fillcolor="#f5f5f5"];
 
-  Snapshot -> ActionSummary;
-  Snapshot -> ActionStep [label="action_steps*"];
+  Snapshot -> AssemblySummary;
+  Snapshot -> AssemblyStep [label="assembly_steps*"];
   Snapshot -> Capability [label="capabilities*"];
   Snapshot -> ActionId [label="last_action?"];
   Snapshot -> ActionStatus [label="last_action_status?"];
 
-  ActionStep -> ActionStepStatus;
+  AssemblyStep -> AssemblyStepStatus;
   Capability -> CapabilityStatus;
 
   ActionDefinition -> ActionId;
@@ -36,15 +36,15 @@ digraph DomainModel {
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `action` | `ActionSummary` | Assembly step counters and totals. |
-| `action_steps` | `Vec<ActionStep>` | Materialized assembly steps. |
+| `assembly` | `AssemblySummary` | Assembly step counters and totals. |
+| `assembly_steps` | `Vec<AssemblyStep>` | Materialized assembly steps. |
 | `capabilities` | `Vec<Capability>` | Capability status list. |
 | `health` | `HealthStatus` | Coarse health summary. |
 | `last_updated_ms` | `u64` | Millisecond timestamp. |
 | `last_action` | `Option<ActionId>` | Most recent action id. |
 | `last_action_status` | `Option<ActionStatus>` | Status for last action. |
 
-## ActionSummary
+## AssemblySummary
 
 | Field | Type | Notes |
 | --- | --- | --- |
@@ -54,7 +54,7 @@ digraph DomainModel {
 | `blocked` | `u32` | Steps blocked. |
 | `pending` | `u32` | Steps pending. |
 
-## ActionStep
+## AssemblyStep
 
 | Field | Type | Notes |
 | --- | --- | --- |
@@ -62,7 +62,7 @@ digraph DomainModel {
 | `kind` | `String` | Step kind (apply, delete, etc.). |
 | `depends_on` | `Vec<String>` | Step dependencies. |
 | `provides` | `Vec<String>` | Outputs from the step. |
-| `status` | `ActionStepStatus` | Pending, Running, Succeeded, Failed, Blocked. |
+| `status` | `AssemblyStepStatus` | Pending, Running, Succeeded, Failed, Blocked. |
 | `domain` | `String` | Domain grouping. |
 | `pod` | `Option<String>` | Optional execution unit. |
 

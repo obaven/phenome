@@ -4,7 +4,7 @@ use rotappo_domain::{ActionId, ActionRegistry, ActionSafety};
 use rotappo_domain::{Event, EventBus, EventLevel};
 use rotappo_ports::PortSet;
 use rotappo_domain::{
-    ActionStatus, ActionStep, ActionStepStatus, Assembly, AssemblyStepDef, Snapshot,
+    ActionStatus, AssemblyStep, AssemblyStepStatus, Assembly, AssemblyStepDef, Snapshot,
 };
 
 pub struct Runtime {
@@ -39,7 +39,7 @@ impl Runtime {
             ports,
         };
         runtime.drain_port_events();
-        runtime.snapshot.update_action_summary_from_steps();
+        runtime.snapshot.update_assembly_summary_from_steps();
         runtime
     }
 
@@ -62,7 +62,7 @@ impl Runtime {
     pub fn refresh_snapshot(&mut self) {
         self.refresh_count = self.refresh_count.saturating_add(1);
         self.drain_port_events();
-        if !self.snapshot.action_steps.is_empty() {
+        if !self.snapshot.assembly_steps.is_empty() {
             self.update_action_statuses();
             self.sync_capabilities_from_steps();
         }
@@ -106,10 +106,10 @@ impl Runtime {
 
     fn snapshot_from_assembly(assembly: &Assembly) -> Snapshot {
         let mut snapshot = Snapshot::new_default();
-        snapshot.action_steps = assembly
+        snapshot.assembly_steps = assembly
             .steps
             .iter()
-            .map(|step| action_step_from_def(step))
+            .map(|step| assembly_step_from_def(step))
             .collect();
 
         snapshot.capabilities = assembly
@@ -124,7 +124,7 @@ impl Runtime {
             })
             .collect();
 
-        snapshot.update_action_summary_from_steps();
+        snapshot.update_assembly_summary_from_steps();
         snapshot
     }
 
@@ -132,7 +132,7 @@ impl Runtime {
         let assembly = match &self.assembly {
             Some(assembly) => assembly,
             None => {
-                self.snapshot.update_action_summary_from_steps();
+                self.snapshot.update_assembly_summary_from_steps();
                 return;
             }
         };
@@ -142,29 +142,29 @@ impl Runtime {
         let step_map: std::collections::HashMap<_, _> =
             assembly.steps.iter().map(|step| (step.id.as_str(), step)).collect();
 
-        let statuses: Vec<ActionStepStatus> = self
+        let statuses: Vec<AssemblyStepStatus> = self
             .snapshot
-            .action_steps
+            .assembly_steps
             .iter()
             .map(|step| {
                 let blocked = step.depends_on.iter().any(|dep| {
                     self.snapshot
-                        .action_steps
+                        .assembly_steps
                         .iter()
-                        .any(|other| other.id == *dep && other.status != ActionStepStatus::Succeeded)
+                        .any(|other| other.id == *dep && other.status != AssemblyStepStatus::Succeeded)
                 });
 
                 let mut status = if blocked {
-                    ActionStepStatus::Blocked
+                    AssemblyStepStatus::Blocked
                 } else {
-                    ActionStepStatus::Pending
+                    AssemblyStepStatus::Pending
                 };
 
                 if let Some(def) = step_map.get(step.id.as_str()) {
                     if readiness.get(step.id.as_str()).copied().unwrap_or(false) {
-                        status = ActionStepStatus::Succeeded;
+                        status = AssemblyStepStatus::Succeeded;
                     } else if !def.has_gates && !blocked {
-                        status = ActionStepStatus::Succeeded;
+                        status = AssemblyStepStatus::Succeeded;
                     }
                 }
 
@@ -172,10 +172,10 @@ impl Runtime {
                     status = match health {
                         rotappo_domain::ComponentHealthStatus::Healthy => status,
                         rotappo_domain::ComponentHealthStatus::Degraded(_) => {
-                            ActionStepStatus::Running
+                            AssemblyStepStatus::Running
                         }
                         rotappo_domain::ComponentHealthStatus::Unhealthy(_) => {
-                            ActionStepStatus::Failed
+                            AssemblyStepStatus::Failed
                         }
                     };
                 }
@@ -184,18 +184,18 @@ impl Runtime {
             })
             .collect();
 
-        for (step, status) in self.snapshot.action_steps.iter_mut().zip(statuses) {
+        for (step, status) in self.snapshot.assembly_steps.iter_mut().zip(statuses) {
             step.status = status;
         }
-        self.snapshot.update_action_summary_from_steps();
+        self.snapshot.update_assembly_summary_from_steps();
     }
 
     fn sync_capabilities_from_steps(&mut self) {
         let completed: std::collections::BTreeSet<String> = self
             .snapshot
-            .action_steps
+            .assembly_steps
             .iter()
-            .filter(|step| step.status == ActionStepStatus::Succeeded)
+            .filter(|step| step.status == AssemblyStepStatus::Succeeded)
             .flat_map(|step| step.provides.iter().cloned())
             .collect();
 
@@ -210,13 +210,13 @@ impl Runtime {
 
 }
 
-fn action_step_from_def(def: &AssemblyStepDef) -> ActionStep {
-    ActionStep {
+fn assembly_step_from_def(def: &AssemblyStepDef) -> AssemblyStep {
+    AssemblyStep {
         id: def.id.clone(),
         kind: def.kind.clone(),
         depends_on: def.depends_on.clone(),
         provides: def.provides.clone(),
-        status: ActionStepStatus::Pending,
+        status: AssemblyStepStatus::Pending,
         domain: def.domain.clone(),
         pod: def.pod.clone(),
     }

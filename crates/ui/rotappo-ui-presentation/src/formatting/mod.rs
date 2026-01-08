@@ -1,7 +1,7 @@
 //! Shared formatting helpers used by UI and CLI.
 
-mod action;
+mod assembly;
 mod problems;
 
-pub use action::{action_groups, ActionGroup, ActionStepInfo};
+pub use assembly::{assembly_groups, AssemblyGroup, AssemblyStepInfo};
 pub use problems::problem_lines;

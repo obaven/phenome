@@ -1,4 +1,4 @@
-use rotappo_domain::{ComponentHealthStatus, HealthSnapshot, ActionStepStatus, Snapshot};
+use rotappo_domain::{ComponentHealthStatus, HealthSnapshot, AssemblyStepStatus, Snapshot};
 
 pub fn problem_lines(snapshot: &Snapshot, health: Option<&HealthSnapshot>) -> Vec<String> {
     let mut problems = Vec::new();
@@ -14,8 +14,8 @@ pub fn problem_lines(snapshot: &Snapshot, health: Option<&HealthSnapshot>) -> Ve
         problems.push("live status disabled".to_string());
     }
 
-    for step in &snapshot.action_steps {
-        if step.status == ActionStepStatus::Blocked {
+    for step in &snapshot.assembly_steps {
+        if step.status == AssemblyStepStatus::Blocked {
             problems.push(format!("blocked: {} waiting on {:?}", step.id, step.depends_on));
         }
     }

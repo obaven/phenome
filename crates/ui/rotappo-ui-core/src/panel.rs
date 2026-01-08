@@ -3,10 +3,10 @@
 /// Panels displayed in the UI shell.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum UiPanelId {
-    ActionProgress,
+    AssemblyProgress,
     Snapshot,
     Capabilities,
-    ActionSteps,
+    AssemblySteps,
     Actions,
     Settings,
     LogControls,

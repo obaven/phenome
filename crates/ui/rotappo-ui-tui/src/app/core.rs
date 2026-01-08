@@ -51,7 +51,7 @@ impl AppContext {
 /// use rotappo_ports::PortSet;
 ///
 /// let runtime = Runtime::new_with_ports(ActionRegistry::default(), PortSet::empty());
-/// let context = AppContext::new(\"localhost\", \"config.yml\", \"assembly.yml\", PortSet::empty());
+/// let context = AppContext::new("localhost", "config.yml", "assembly.yml", PortSet::empty());
 /// let app = App::new(runtime, context);
 /// assert!(!app.should_quit);
 /// ```

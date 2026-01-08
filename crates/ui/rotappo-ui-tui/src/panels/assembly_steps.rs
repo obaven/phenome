@@ -7,7 +7,7 @@ use ratatui::{
 
 use crate::app::App;
 use crate::state::HoverPanel;
-use crate::util::{action_lines, traveling_glow};
+use crate::util::{assembly_lines, traveling_glow};
 
 /// Render the assembly steps panel.
 ///
@@ -15,38 +15,38 @@ use crate::util::{action_lines, traveling_glow};
 /// ```rust,no_run
 /// use ratatui::{backend::TestBackend, Terminal};
 /// use rotappo_ui_tui::app::App;
-/// use rotappo_ui_tui::panels::render_action_steps;
+/// use rotappo_ui_tui::panels::render_assembly_steps;
 ///
 /// # fn app() -> App { todo!() }
 /// let backend = TestBackend::new(80, 24);
 /// let mut terminal = Terminal::new(backend).unwrap();
 /// let mut app = app();
 /// terminal
-///     .draw(|frame| render_action_steps(frame, frame.area(), &mut app))
+///     .draw(|frame| render_assembly_steps(frame, frame.area(), &mut app))
 ///     .unwrap();
 /// ```
-pub fn render_action_steps(frame: &mut Frame, area: Rect, app: &mut App) {
+pub fn render_assembly_steps(frame: &mut Frame, area: Rect, app: &mut App) {
     app.ui.assembly_area = area;
-    if app.ui.collapsed_action_steps {
+    if app.ui.collapsed_assembly_steps {
         let mut block = Block::default().title("Assembly Steps").borders(Borders::ALL);
-        if app.ui.hover_panel == HoverPanel::Action {
+        if app.ui.hover_panel == HoverPanel::Assembly {
             block = block.style(Style::default().bg(Color::Rgb(0, 90, 90)));
         }
         frame.render_widget(block, area);
         return;
     }
     let snapshot = app.runtime.snapshot();
-    let items: Vec<ListItem> = if snapshot.action_steps.is_empty() {
+    let items: Vec<ListItem> = if snapshot.assembly_steps.is_empty() {
         vec![ListItem::new("No assembly steps loaded")]
     } else {
-        let lines = action_lines(snapshot);
+        let lines = assembly_lines(snapshot);
         let total_lines = lines.len();
         lines
             .into_iter()
-            .skip(app.ui.action_scroll as usize)
+            .skip(app.ui.assembly_scroll as usize)
             .enumerate()
             .map(|(offset, line)| {
-                let line_index = app.ui.action_scroll as usize + offset;
+                let line_index = app.ui.assembly_scroll as usize + offset;
                 let mut line_style = Style::default();
                 if let Some(color) = traveling_glow(line_index, total_lines) {
                     line_style = line_style.fg(color);
@@ -66,23 +66,24 @@ pub fn render_action_steps(frame: &mut Frame, area: Rect, app: &mut App) {
     if app.refresh_pulse_active() {
         list_block = list_block.style(Style::default().fg(Color::Cyan));
     }
-    if app.ui.hover_panel == HoverPanel::Action {
-        let active_style = Style::default().bg(Color::Rgb(0, 90, 90));
-        list_block = list_block.style(active_style);
-    }
+        if app.ui.hover_panel == HoverPanel::Assembly {
+            let active_style = Style::default().bg(Color::Rgb(0, 90, 90));
+            list_block = list_block.style(active_style);
+        }
     let mut list = List::new(items)
         .block(list_block)
         .highlight_style(Style::default().add_modifier(Modifier::BOLD));
-    if app.ui.hover_panel == HoverPanel::Action {
+    if app.ui.hover_panel == HoverPanel::Assembly {
         let active_style = Style::default().bg(Color::Rgb(0, 90, 90));
         list = list.style(active_style);
     }
     frame.render_widget(list, area);
 
-    let total_lines = action_lines(snapshot).len();
+    let total_lines = assembly_lines(snapshot).len();
     let view_height = area.height.saturating_sub(2) as usize;
     if total_lines > view_height && view_height > 0 {
-        let mut state = ScrollbarState::new(total_lines).position(app.ui.action_scroll as usize);
+        let mut state =
+            ScrollbarState::new(total_lines).position(app.ui.assembly_scroll as usize);
         let bar =
             Scrollbar::new(ScrollbarOrientation::VerticalRight).style(Style::default().fg(Color::Cyan));
         frame.render_stateful_widget(

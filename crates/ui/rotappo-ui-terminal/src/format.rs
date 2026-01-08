@@ -53,14 +53,14 @@ pub fn format_actions(mode: OutputMode, actions: &[ActionDefinition]) -> Result<
 ///
 /// let snapshot = Snapshot::new_default();
 /// let output = format_snapshot(OutputMode::Plain, &snapshot).unwrap();
-/// assert_eq!(output, "Action 3/12 complete | Health: degraded");
+/// assert_eq!(output, "Assembly 3/12 complete | Health: degraded");
 /// ```
 pub fn format_snapshot(mode: OutputMode, snapshot: &Snapshot) -> Result<String> {
     match mode {
         OutputMode::Plain => Ok(format!(
-            "Action {}/{} complete | Health: {}",
-            snapshot.action.completed,
-            snapshot.action.total,
+            "Assembly {}/{} complete | Health: {}",
+            snapshot.assembly.completed,
+            snapshot.assembly.total,
             snapshot.health.as_str()
         )),
         OutputMode::Json => Ok(serde_json::to_string_pretty(snapshot)?),
@@ -104,22 +104,22 @@ pub fn format_events(mode: OutputMode, events: &[Event]) -> Result<String> {
 /// # Examples
 /// ```rust
 /// use rotappo_ui_terminal::{format_assembly, OutputMode};
-/// use rotappo_domain::{HealthStatus, ActionStep, ActionStepStatus, ActionSummary, Snapshot};
+/// use rotappo_domain::{HealthStatus, AssemblyStep, AssemblyStepStatus, AssemblySummary, Snapshot};
 ///
 /// let snapshot = Snapshot {
-///     action: ActionSummary {
+///     assembly: AssemblySummary {
 ///         total: 1,
 ///         completed: 0,
 ///         in_progress: 1,
 ///         blocked: 0,
 ///         pending: 0,
 ///     },
-///     action_steps: vec![ActionStep {
+///     assembly_steps: vec![AssemblyStep {
 ///         id: "boot".to_string(),
 ///         kind: "apply".to_string(),
 ///         depends_on: vec![],
 ///         provides: vec![],
-///         status: ActionStepStatus::Running,
+///         status: AssemblyStepStatus::Running,
 ///         domain: "core".to_string(),
 ///         pod: None,
 ///     }],
@@ -134,7 +134,7 @@ pub fn format_events(mode: OutputMode, events: &[Event]) -> Result<String> {
 /// assert!(output.contains("boot apply"));
 /// ```
 pub fn format_assembly(mode: OutputMode, snapshot: &Snapshot) -> Result<String> {
-    let groups = formatting::action_groups(snapshot);
+    let groups = formatting::assembly_groups(snapshot);
     match mode {
         OutputMode::Plain => {
             let mut lines = Vec::new();

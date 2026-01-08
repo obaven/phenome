@@ -4,7 +4,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use super::actions::ActionId;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-pub enum ActionStepStatus {
+pub enum AssemblyStepStatus {
     Pending,
     Running,
     Succeeded,
@@ -12,31 +12,31 @@ pub enum ActionStepStatus {
     Blocked,
 }
 
-impl ActionStepStatus {
+impl AssemblyStepStatus {
     pub fn as_str(self) -> &'static str {
         match self {
-            ActionStepStatus::Pending => "pending",
-            ActionStepStatus::Running => "running",
-            ActionStepStatus::Succeeded => "completed",
-            ActionStepStatus::Failed => "failed",
-            ActionStepStatus::Blocked => "blocked",
+            AssemblyStepStatus::Pending => "pending",
+            AssemblyStepStatus::Running => "running",
+            AssemblyStepStatus::Succeeded => "completed",
+            AssemblyStepStatus::Failed => "failed",
+            AssemblyStepStatus::Blocked => "blocked",
         }
     }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ActionStep {
+pub struct AssemblyStep {
     pub id: String,
     pub kind: String,
     pub depends_on: Vec<String>,
     pub provides: Vec<String>,
-    pub status: ActionStepStatus,
+    pub status: AssemblyStepStatus,
     pub domain: String,
     pub pod: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ActionSummary {
+pub struct AssemblySummary {
     pub total: u32,
     pub completed: u32,
     pub in_progress: u32,
@@ -44,7 +44,7 @@ pub struct ActionSummary {
     pub pending: u32,
 }
 
-impl ActionSummary {
+impl AssemblySummary {
     pub fn percent_complete(&self) -> u16 {
         if self.total == 0 {
             return 0;
@@ -115,8 +115,8 @@ impl ActionStatus {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Snapshot {
-    pub action: ActionSummary,
-    pub action_steps: Vec<ActionStep>,
+    pub assembly: AssemblySummary,
+    pub assembly_steps: Vec<AssemblyStep>,
     pub capabilities: Vec<Capability>,
     pub health: HealthStatus,
     pub last_updated_ms: u64,
@@ -127,21 +127,21 @@ pub struct Snapshot {
 impl Snapshot {
     pub fn new_default() -> Self {
         Self {
-            action: ActionSummary {
+            assembly: AssemblySummary {
                 total: 12,
                 completed: 3,
                 in_progress: 2,
                 blocked: 1,
                 pending: 6,
             },
-            action_steps: vec![],
+            assembly_steps: vec![],
             capabilities: vec![
                 Capability {
-                    name: "Action Snapshot".to_string(),
+                    name: "Assembly Snapshot".to_string(),
                     status: CapabilityStatus::Ready,
                 },
                 Capability {
-                    name: "Action Router".to_string(),
+                    name: "Assembly Router".to_string(),
                     status: CapabilityStatus::Degraded,
                 },
                 Capability {
@@ -170,29 +170,29 @@ impl Snapshot {
         self.touch();
     }
 
-    pub fn update_action_summary_from_steps(&mut self) {
-        if self.action_steps.is_empty() {
+    pub fn update_assembly_summary_from_steps(&mut self) {
+        if self.assembly_steps.is_empty() {
             return;
         }
-        let total = self.action_steps.len() as u32;
+        let total = self.assembly_steps.len() as u32;
         let mut completed = 0;
         let mut in_progress = 0;
         let mut blocked = 0;
         let mut pending = 0;
-        for step in &self.action_steps {
+        for step in &self.assembly_steps {
             match step.status {
-                ActionStepStatus::Succeeded => completed += 1,
-                ActionStepStatus::Running => in_progress += 1,
-                ActionStepStatus::Blocked => blocked += 1,
-                ActionStepStatus::Pending => pending += 1,
+                AssemblyStepStatus::Succeeded => completed += 1,
+                AssemblyStepStatus::Running => in_progress += 1,
+                AssemblyStepStatus::Blocked => blocked += 1,
+                AssemblyStepStatus::Pending => pending += 1,
                 _ => {}
             }
         }
-        self.action.total = total;
-        self.action.completed = completed;
-        self.action.in_progress = in_progress;
-        self.action.blocked = blocked;
-        self.action.pending = pending;
+        self.assembly.total = total;
+        self.assembly.completed = completed;
+        self.assembly.in_progress = in_progress;
+        self.assembly.blocked = blocked;
+        self.assembly.pending = pending;
     }
 }
 

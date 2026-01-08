@@ -1,7 +1,7 @@
 use ratatui::layout::Margin;
 
 use crate::state::HoverPanel;
-use crate::util::{collect_problems, action_lines};
+use crate::util::{collect_problems, assembly_lines};
 
 use super::App;
 
@@ -28,9 +28,9 @@ impl App {
             self.ui.hover_snapshot = true;
         }
 
-        if self.ui.assembly_area.contains(pos) && !self.ui.collapsed_action_steps {
-            self.ui.hover_panel = HoverPanel::Action;
-            self.ui.hover_action_index = self.hover_index_in_action(row);
+        if self.ui.assembly_area.contains(pos) && !self.ui.collapsed_assembly_steps {
+            self.ui.hover_panel = HoverPanel::Assembly;
+            self.ui.hover_action_index = self.hover_index_in_assembly(row);
         } else if self.ui.capabilities_area.contains(pos) && !self.ui.collapsed_capabilities {
             self.ui.hover_panel = HoverPanel::Capabilities;
             self.ui.hover_capability_index = self.hover_index_in_capabilities(row);
@@ -54,7 +54,7 @@ impl App {
         }
     }
 
-    pub fn hover_index_in_action(&self, row: u16) -> Option<usize> {
+    pub fn hover_index_in_assembly(&self, row: u16) -> Option<usize> {
         let inner = self.ui.assembly_area.inner(Margin {
             horizontal: 1,
             vertical: 1,
@@ -63,8 +63,8 @@ impl App {
             return None;
         }
         let offset = row.saturating_sub(inner.y) as usize;
-        let lines = action_lines(self.runtime.snapshot());
-        let line_index = offset + self.ui.action_scroll as usize;
+        let lines = assembly_lines(self.runtime.snapshot());
+        let line_index = offset + self.ui.assembly_scroll as usize;
         lines.get(line_index).and_then(|line| line.step_index)
     }
 

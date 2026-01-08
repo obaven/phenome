@@ -11,8 +11,8 @@ fn main() -> anyhow::Result<()> {
     let context = AppContext {
         host_domain: backend.config.network.host_domain.clone(),
         config_path: backend.config_path.clone(),
-        action_path: backend.action_path.clone(),
-        action_error: backend.action_error.clone(),
+        assembly_path: backend.assembly_path.clone(),
+        assembly_error: backend.assembly_error.clone(),
         live_status_error: backend
             .live_status
             .as_ref()

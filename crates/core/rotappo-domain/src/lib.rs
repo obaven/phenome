@@ -15,6 +15,6 @@ pub use actions::{
 pub use events::{Event, EventBus, EventLevel};
 pub use health::{ComponentHealthStatus, HealthSnapshot};
 pub use snapshot::{
-    now_millis, ActionStatus, Capability, CapabilityStatus, HealthStatus, ActionStep,
-    ActionStepStatus, ActionSummary, Snapshot,
+    now_millis, ActionStatus, Capability, CapabilityStatus, HealthStatus, AssemblyStep,
+    AssemblyStepStatus, AssemblySummary, Snapshot,
 };

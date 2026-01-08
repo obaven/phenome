@@ -1,4 +1,4 @@
-//! Action rendering helpers.
+//! Assembly rendering helpers.
 
 use ratatui::{
     style::{Color, Modifier, Style},
@@ -6,32 +6,32 @@ use ratatui::{
 };
 
 use rotappo_ui_presentation::formatting;
-use rotappo_domain::{CapabilityStatus, ActionStepStatus};
+use rotappo_domain::{CapabilityStatus, AssemblyStepStatus};
 
 use super::spinner_frame;
 
-/// Rendered line for a action view.
-pub struct ActionLine {
+/// Rendered line for an assembly view.
+pub struct AssemblyLine {
     pub line: Line<'static>,
     pub step_index: Option<usize>,
 }
 
-/// Icon representing a action step status.
+/// Icon representing an assembly step status.
 ///
 /// # Examples
 /// ```rust
-/// use rotappo_domain::ActionStepStatus;
-/// use rotappo_ui_tui::util::action_status_icon;
+/// use rotappo_domain::AssemblyStepStatus;
+/// use rotappo_ui_tui::util::assembly_status_icon;
 ///
-/// assert_eq!(action_status_icon(ActionStepStatus::Succeeded), '+');
+/// assert_eq!(assembly_status_icon(AssemblyStepStatus::Succeeded), '+');
 /// ```
-pub fn action_status_icon(status: ActionStepStatus) -> char {
+pub fn assembly_status_icon(status: AssemblyStepStatus) -> char {
     match status {
-        ActionStepStatus::Running => spinner_frame(),
-        ActionStepStatus::Succeeded => '+',
-        ActionStepStatus::Failed => 'x',
-        ActionStepStatus::Blocked => '!',
-        ActionStepStatus::Pending => '.',
+        AssemblyStepStatus::Running => spinner_frame(),
+        AssemblyStepStatus::Succeeded => '+',
+        AssemblyStepStatus::Failed => 'x',
+        AssemblyStepStatus::Blocked => '!',
+        AssemblyStepStatus::Pending => '.',
     }
 }
 
@@ -52,11 +52,11 @@ pub fn capability_icon(status: CapabilityStatus) -> char {
     }
 }
 
-/// Build the formatted action lines for display.
-pub fn action_lines(snapshot: &rotappo_domain::Snapshot) -> Vec<ActionLine> {
+/// Build the formatted assembly lines for display.
+pub fn assembly_lines(snapshot: &rotappo_domain::Snapshot) -> Vec<AssemblyLine> {
     let mut lines = Vec::new();
-    for group in formatting::action_groups(snapshot) {
-        lines.push(ActionLine {
+    for group in formatting::assembly_groups(snapshot) {
+        lines.push(AssemblyLine {
             line: Line::from(Span::styled(
                 format!("{} domain", group.domain),
                 Style::default()
@@ -68,13 +68,13 @@ pub fn action_lines(snapshot: &rotappo_domain::Snapshot) -> Vec<ActionLine> {
         for step_info in group.steps {
             let step = &step_info.step;
             let status_style = match step.status {
-                ActionStepStatus::Succeeded => Style::default().fg(Color::Green),
-                ActionStepStatus::Running => Style::default().fg(Color::Yellow),
-                ActionStepStatus::Blocked => Style::default().fg(Color::Red),
-                ActionStepStatus::Failed => {
+                AssemblyStepStatus::Succeeded => Style::default().fg(Color::Green),
+                AssemblyStepStatus::Running => Style::default().fg(Color::Yellow),
+                AssemblyStepStatus::Blocked => Style::default().fg(Color::Red),
+                AssemblyStepStatus::Failed => {
                     Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)
                 }
-                ActionStepStatus::Pending => Style::default().fg(Color::Gray),
+                AssemblyStepStatus::Pending => Style::default().fg(Color::Gray),
             };
             let pod_text = step
                 .pod
@@ -83,7 +83,11 @@ pub fn action_lines(snapshot: &rotappo_domain::Snapshot) -> Vec<ActionLine> {
                 .unwrap_or_else(|| " pod: -".to_string());
             let line = Line::from(vec![
                 Span::styled(
-                    format!("[{} {:<9}]", action_status_icon(step.status), step.status.as_str()),
+                    format!(
+                        "[{} {:<9}]",
+                        assembly_status_icon(step.status),
+                        step.status.as_str()
+                    ),
                     status_style,
                 ),
                 Span::raw(" "),
@@ -92,7 +96,7 @@ pub fn action_lines(snapshot: &rotappo_domain::Snapshot) -> Vec<ActionLine> {
                 Span::raw(step.kind.clone()),
                 Span::styled(pod_text, Style::default().fg(Color::DarkGray)),
             ]);
-            lines.push(ActionLine {
+            lines.push(AssemblyLine {
                 line,
                 step_index: Some(step_info.index),
             });

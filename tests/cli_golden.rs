@@ -4,8 +4,8 @@ use std::path::{Path, PathBuf};
 
 use rotappo_domain::{
     ActionId, ActionRegistry, ActionStatus, Capability, CapabilityStatus, ComponentHealthStatus,
-    Event, EventLevel, HealthSnapshot, HealthStatus, ActionStep, ActionStepStatus, ActionSummary,
-    Snapshot,
+    Event, EventLevel, HealthSnapshot, HealthStatus, AssemblyStep, AssemblyStepStatus,
+    AssemblySummary, Snapshot,
 };
 use rotappo_ui_presentation::formatting;
 use rotappo_ui_terminal::{
@@ -52,38 +52,38 @@ fn assert_fixture(name: &str, actual: &str) {
 
 fn sample_snapshot() -> Snapshot {
     let mut snapshot = Snapshot {
-        action: ActionSummary {
+        assembly: AssemblySummary {
             total: 0,
             completed: 0,
             in_progress: 0,
             blocked: 0,
             pending: 0,
         },
-        action_steps: vec![
-            ActionStep {
+        assembly_steps: vec![
+            AssemblyStep {
                 id: "bootstrap".to_string(),
                 kind: "apply".to_string(),
                 depends_on: vec![],
                 provides: vec!["cluster".to_string()],
-                status: ActionStepStatus::Succeeded,
+                status: AssemblyStepStatus::Succeeded,
                 domain: "core".to_string(),
                 pod: Some("kube-system/boot-0".to_string()),
             },
-            ActionStep {
+            AssemblyStep {
                 id: "secrets".to_string(),
                 kind: "rotate".to_string(),
                 depends_on: vec!["bootstrap".to_string()],
                 provides: vec!["vault".to_string()],
-                status: ActionStepStatus::Running,
+                status: AssemblyStepStatus::Running,
                 domain: "core".to_string(),
                 pod: None,
             },
-            ActionStep {
+            AssemblyStep {
                 id: "apps".to_string(),
                 kind: "apply".to_string(),
                 depends_on: vec!["secrets".to_string()],
                 provides: vec!["apps".to_string()],
-                status: ActionStepStatus::Blocked,
+                status: AssemblyStepStatus::Blocked,
                 domain: "edge".to_string(),
                 pod: Some("apps/app-1".to_string()),
             },
@@ -107,7 +107,7 @@ fn sample_snapshot() -> Snapshot {
         last_action: Some(ActionId::Reconcile),
         last_action_status: Some(ActionStatus::Running),
     };
-    snapshot.update_action_summary_from_steps();
+    snapshot.update_assembly_summary_from_steps();
     snapshot
 }
 

@@ -51,10 +51,10 @@ impl App {
 
     pub(crate) fn is_collapsed(&self, panel: PanelId) -> bool {
         match panel {
-            PanelId::AssemblyProgress => self.ui.collapsed_action_progress,
+            PanelId::AssemblyProgress => self.ui.collapsed_assembly_progress,
             PanelId::Snapshot => self.ui.collapsed_snapshot,
             PanelId::Capabilities => self.ui.collapsed_capabilities,
-            PanelId::AssemblySteps => self.ui.collapsed_action_steps,
+            PanelId::AssemblySteps => self.ui.collapsed_assembly_steps,
             PanelId::Actions => self.ui.collapsed_actions,
             PanelId::Settings => self.ui.collapsed_settings,
             PanelId::LogControls => self.ui.collapsed_log_controls,
@@ -66,10 +66,10 @@ impl App {
 
     fn set_ui_collapsed(&mut self, panel: PanelId, value: bool) {
         match panel {
-            PanelId::AssemblyProgress => self.ui.collapsed_action_progress = value,
+            PanelId::AssemblyProgress => self.ui.collapsed_assembly_progress = value,
             PanelId::Snapshot => self.ui.collapsed_snapshot = value,
             PanelId::Capabilities => self.ui.collapsed_capabilities = value,
-            PanelId::AssemblySteps => self.ui.collapsed_action_steps = value,
+            PanelId::AssemblySteps => self.ui.collapsed_assembly_steps = value,
             PanelId::Actions => self.ui.collapsed_actions = value,
             PanelId::Settings => self.ui.collapsed_settings = value,
             PanelId::LogControls => self.ui.collapsed_log_controls = value,
