@@ -1,0 +1,6 @@
+controller:
+  replicas: 1
+
+webhook:
+  pdb: 
+    enabled: false

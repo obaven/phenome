@@ -1,0 +1,22 @@
+# CloudNativePG Operator Values
+# See: https://cloudnative-pg.io/documentation/current/cloudnative-pg.v1.html
+
+crds:
+  create: true
+
+config:
+  create: true
+  data:
+    INHERITED_ANNOTATIONS: |
+      minio.obaven.org/*
+
+monitoring:
+  podMonitorEnabled: false
+
+resources:
+  limits:
+    memory: 256Mi
+    cpu: 100m
+  requests:
+    memory: 128Mi
+    cpu: 50m

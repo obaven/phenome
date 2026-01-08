@@ -1,0 +1,67 @@
+# Trino Distributed SQL Engine Values
+# See: https://trino.io/docs/current/installation/kubernetes.html
+
+image:
+  tag: "438"
+
+env:
+  - name: MINIO_ACCESS_KEY
+    valueFrom:
+      secretKeyRef:
+        name: minio-creds
+        key: AWS_ACCESS_KEY_ID
+  - name: MINIO_SECRET_KEY
+    valueFrom:
+      secretKeyRef:
+        name: minio-creds
+        key: AWS_SECRET_ACCESS_KEY
+
+coordinator:
+  resources:
+    limits:
+      memory: 4Gi
+      cpu: 2000m
+    requests:
+      memory: 4Gi
+      cpu: 100m
+
+worker:
+  replicas: 1
+  resources:
+    limits:
+      memory: 4Gi
+      cpu: 2000m
+    requests:
+      memory: 4Gi
+      cpu: 100m
+
+additionalCatalogs:
+  postgresql: |
+    connector.name=postgresql
+    connection-url=jdbc:postgresql://cloudnative-pg-rw.cnpg-system.svc.cluster.local:5432/postgres
+    connection-user=postgres
+    connection-password=${ENV:POSTGRES_PASSWORD}
+  minio: |
+    connector.name=hive
+    hive.metastore=file
+    hive.metastore.catalog.dir=s3://datalake/
+    hive.s3.endpoint=http://minio.minio.svc.cluster.local:9000
+    hive.s3.aws-access-key=${ENV:MINIO_ACCESS_KEY}
+    hive.s3.aws-secret-key=${ENV:MINIO_SECRET_KEY}
+    hive.s3.path-style-access=true
+
+server:
+  config:
+    http-server.authentication.type: "PASSWORD"
+  coordinatorExtraConfig: ""
+  workerExtraConfig: ""
+
+ingress:
+  enabled: false
+  hosts:
+    - host: trino.obaven.org
+      paths:
+        - path: /
+          pathType: Prefix
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-dns-issuer

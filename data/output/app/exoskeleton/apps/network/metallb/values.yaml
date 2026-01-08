@@ -1,0 +1,9 @@
+# Default MetalLB Values
+# This file is used as a base for MetalLB configuration.
+# Specific pools can be added via separate config files.
+controller:
+  enabled: true
+speaker:
+  enabled: true
+promteheus:
+  metrics: true

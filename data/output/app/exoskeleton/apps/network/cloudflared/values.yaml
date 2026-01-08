@@ -1,0 +1,13 @@
+image:
+  repository: cloudflare/cloudflared
+  tag: 2024.1.5
+cloudflare:
+  tunnelName: {{TUNNEL_NAME}}
+  account: {{ACCOUNT_ID}}
+  secretName: {{SECRET_NAME}}
+  ingress:
+
+    - hostname: "{{HOST_DOMAIN}}"
+      service: http://nginx-ingress-nginx-controller.nginx.svc:80
+    - hostname: "*.{{HOST_DOMAIN}}"
+      service: http://nginx-ingress-nginx-controller.nginx.svc:80

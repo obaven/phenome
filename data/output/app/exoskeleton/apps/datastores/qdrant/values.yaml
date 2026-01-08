@@ -1,0 +1,32 @@
+# Qdrant Vector Database Values
+# See: https://qdrant.github.io/qdrant-helm/
+
+replicaCount: 1
+
+persistence:
+  enabled: true
+  size: 5Gi
+
+resources:
+  limits:
+    memory: 1Gi
+    cpu: 500m
+  requests:
+    memory: 512Mi
+    cpu: 100m
+
+config:
+  storage:
+    performance:
+      wal_capacity_mb: 32
+      hnsw_index:
+        max_threads: 2
+
+service:
+  type: ClusterIP
+
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: false

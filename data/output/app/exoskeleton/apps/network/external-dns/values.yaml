@@ -1,0 +1,18 @@
+provider: cloudflare
+cloudflare:
+  secretName: cloudflare-api-token-secret
+  secretName: cloudflare-api-token-secret
+  proxied: false
+domainFilters: []
+txtOwnerId: gateway.obaven.org
+policy: sync
+sources:
+  - ingress
+  - service
+
+env:
+  - name: CF_API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: cloudflare-api-token-secret
+        key: CF_API_TOKEN

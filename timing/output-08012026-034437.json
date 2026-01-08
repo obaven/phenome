@@ -1,0 +1,260 @@
+{
+  "total_elapsed_ms": 12016,
+  "steps": [
+    {
+      "step_id": "k3s",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": true
+    },
+    {
+      "step_id": "cilium",
+      "phase": "Total",
+      "duration_ms": 1,
+      "success": false
+    },
+    {
+      "step_id": "prometheus",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "network",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "kro",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "cloudnative-pg",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "homepage",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "prowlarr",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "loki",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "grafana",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "headscale",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "sealed-secrets",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "cert-manager",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "external-secrets",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "vaultwarden",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": true
+    },
+    {
+      "step_id": "jellyseerr",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "metallb",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "nfs",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "sonarr",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "nginx",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "radarr",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "external-dns",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "hnc",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "vector",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "trino",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "local-path",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "minio",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "argo-workflows",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "cloudflared",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "argo-events",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "jellyfin",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "argocd",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "argo-rollouts",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "qdrant",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "redis",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "velero",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "redpanda",
+      "phase": "Total",
+      "duration_ms": 0,
+      "success": false
+    },
+    {
+      "step_id": "authelia",
+      "phase": "Total",
+      "duration_ms": 6843,
+      "success": false
+    }
+  ],
+  "hotspots": [
+    {
+      "step_id": "authelia",
+      "total_ms": 6843,
+      "runs": 1
+    },
+    {
+      "step_id": "cilium",
+      "total_ms": 1,
+      "runs": 1
+    },
+    {
+      "step_id": "metallb",
+      "total_ms": 0,
+      "runs": 1
+    },
+    {
+      "step_id": "minio",
+      "total_ms": 0,
+      "runs": 1
+    },
+    {
+      "step_id": "nfs",
+      "total_ms": 0,
+      "runs": 1
+    }
+  ]
+}

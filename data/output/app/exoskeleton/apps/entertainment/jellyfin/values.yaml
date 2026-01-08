@@ -1,0 +1,57 @@
+# Jellyfin Media Server Values
+# Uses bjw-s app-template chart
+
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: jellyfin/jellyfin
+          tag: latest
+        env:
+          TZ: America/New_York
+        resources:
+          requests:
+            memory: 512Mi
+            cpu: 500m
+          limits:
+            memory: 4Gi
+            cpu: 4000m
+
+service:
+  main:
+    controller: main
+    ports:
+      http:
+        port: 8096
+
+persistence:
+  config:
+    enabled: true
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 5Gi
+  media:
+    enabled: true
+    type: nfs
+    server: nfs-server.nfs-server.svc.cluster.local
+    path: /mnt/media
+  cache:
+    enabled: true
+    type: emptyDir
+    medium: Memory
+    sizeLimit: 2Gi
+
+ingress:
+  main:
+    enabled: true
+    hosts:
+      - host: jellyfin.obaven.org
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              name: main
+              port: http
+    annotations:
+      cert-manager.io/cluster-issuer: cloudflare-dns-issuer

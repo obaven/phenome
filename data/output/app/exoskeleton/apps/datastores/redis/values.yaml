@@ -1,0 +1,59 @@
+# Redis HA Values
+# See: https://github.com/bitnami/charts/tree/main/bitnami/redis
+
+architecture: replication
+
+# Override default images to use latest available tags
+# The chart's default versioned tags may not exist in the registry
+image:
+  registry: docker.io
+  repository: bitnami/redis
+  tag: latest
+  pullPolicy: IfNotPresent
+
+auth:
+  enabled: true
+  sentinel: true
+  password: "0vujPa0M7ju7mU94OFTwDZ8IGOQq5Jiedes6DenTypw="
+
+master:
+  count: 1
+  persistence:
+    enabled: true
+    size: 1Gi
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+
+replica:
+  replicaCount: 1
+  persistence:
+    enabled: true
+    size: 1Gi
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+
+sentinel:
+  enabled: false
+  masterSet: mymaster
+  quorum: 2
+  image:
+    registry: docker.io
+    repository: bitnami/redis-sentinel
+    tag: latest
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 64Mi
+      cpu: 50m
+
+metrics:
+  enabled: true
+  image:
+    registry: docker.io
+    repository: bitnami/redis-exporter
+    tag: latest
+    pullPolicy: IfNotPresent

@@ -1,0 +1,45 @@
+# Vector Observability Pipeline Values
+# See: https://vector.dev/docs/setup/installation/platforms/kubernetes/
+
+role: agent
+
+customConfig:
+  sources:
+    kubernetes_logs:
+      type: kubernetes_logs
+      self_node_name: "${VECTOR_SELF_NODE_NAME}"
+
+  transforms:
+    parse_logs:
+      type: remap
+      inputs:
+        - kubernetes_logs
+      source: |
+        .namespace = .kubernetes.pod_namespace
+        .pod = .kubernetes.pod_name
+        .container = .kubernetes.container_name
+        del(.kubernetes)
+
+  sinks:
+    loki:
+      type: loki
+      inputs:
+        - parse_logs
+      endpoint: http://loki.observability.svc.cluster.local:3100
+      labels:
+        namespace: "{{ `{{ namespace }}` }}"
+        pod: "{{ `{{ pod }}` }}"
+        container: "{{ `{{ container }}` }}"
+      encoding:
+        codec: json
+
+resources:
+  limits:
+    memory: 256Mi
+    cpu: 500m
+  requests:
+    memory: 128Mi
+    cpu: 50m
+
+podMonitor:
+  enabled: false

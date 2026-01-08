@@ -1,0 +1,80 @@
+# Grafana Dashboard Values
+# See: https://github.com/grafana/helm-charts/tree/main/charts/grafana
+
+admin:
+  existingSecret: grafana-admin-creds
+  userKey: admin-user
+  passwordKey: admin-password
+
+persistence:
+  enabled: true
+  size: 5Gi
+
+resources:
+  limits:
+    memory: 512Mi
+    cpu: 500m
+  requests:
+    memory: 256Mi
+    cpu: 100m
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-server.observability.svc.cluster.local
+        access: proxy
+        isDefault: true
+      - name: Loki
+        type: loki
+        url: http://loki.observability.svc.cluster.local:3100
+        access: proxy
+
+grafana.ini:
+  auth.generic_oauth:
+    enabled: true
+    name: Authelia
+    icon: signin
+    client_id: $__file{/etc/secrets/oidc/grafana_client_id}
+    client_secret: $__file{/etc/secrets/oidc/grafana_client_secret}
+    scopes: openid profile email groups
+    auth_url: https://auth.obaven.org/api/oidc/authorization
+    token_url: https://auth.obaven.org/api/oidc/token
+    api_url: https://auth.obaven.org/api/oidc/userinfo
+    allow_sign_up: true
+  auth.anonymous:
+    enabled: false
+  server:
+    root_url: https://grafana.obaven.org
+  database:
+    type: postgres
+    host: primary-rw.cnpg-system.svc.cluster.local:5432
+    name: grafana
+    user: $__file{/etc/secrets/db/username}
+    password: $__file{/etc/secrets/db/password}
+
+# Mount secrets for database credentials
+extraSecretMounts:
+  - name: db-creds
+    secretName: shared-db-creds
+    defaultMode: 0440
+    mountPath: /etc/secrets/db
+    readOnly: true
+  # BSP-175: Mount OIDC credentials
+  - name: oidc-creds
+    secretName: grafana-oidc-creds
+    defaultMode: 0440
+    mountPath: /etc/secrets/oidc
+    readOnly: true
+
+ingress:
+  enabled: true
+  hosts:
+    - grafana.obaven.org
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-dns-issuer
+    # We remove auth-url annotations because Grafana handles auth natively via OIDC now
+    # nginx.ingress.kubernetes.io/auth-url: "https://auth.obaven.org/api/verify"
+    # nginx.ingress.kubernetes.io/auth-signin: "https://auth.obaven.org"

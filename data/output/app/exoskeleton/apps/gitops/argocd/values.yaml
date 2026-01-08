@@ -1,0 +1,36 @@
+
+server:
+  service:
+    type: LoadBalancer
+  loadBalancerIP: 192.168.1.220
+  
+  ingress:
+    enabled: true
+    hosts:
+      - argocd.obaven.org
+    annotations:
+      cert-manager.io/cluster-issuer: "cloudflare-dns-issuer"
+    podLabels:
+      io.kubernetes.pod.namespace: argocd
+  extraArgs:
+    - --insecure
+
+controller:
+  podLabels:
+    io.kubernetes.pod.namespace: argocd
+
+repoServer:
+  podLabels:
+    io.kubernetes.pod.namespace: argocd
+
+redis:
+  podLabels:
+    io.kubernetes.pod.namespace: argocd
+  enabled: true
+  persistence:
+    enabled: true
+    size: 5Gi
+
+configs:
+  params:
+    server.insecure: true

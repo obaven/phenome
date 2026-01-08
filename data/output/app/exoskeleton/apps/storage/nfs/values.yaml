@@ -1,0 +1,8 @@
+nfs:
+  server: 10.43.200.200
+  path: /
+  mountOptions:
+    - vers=4
+storageClass:
+  defaultClass: false
+  name: nfs-client

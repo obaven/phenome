@@ -6,14 +6,14 @@ edition = "2024"
 [workspace]
 members = [
   ".",
-  "crates/core/rotappo-domain",
-  "crates/core/rotappo-ports",
-  "crates/core/rotappo-application",
-  "crates/core/rotappo-adapter-bootstrappo",
-  "crates/ui/rotappo-ui-presentation",
-  "crates/ui/rotappo-ui-core",
-  "crates/ui/rotappo-ui-terminal",
-  "crates/ui/rotappo-ui-tui",
+  "lib/core/rotappo-domain",
+  "lib/core/rotappo-ports",
+  "lib/core/rotappo-application",
+  "lib/core/rotappo-adapter-bootstrappo",
+  "lib/ui/rotappo-ui-presentation",
+  "lib/ui/rotappo-ui-core",
+  "lib/ui/rotappo-ui-terminal",
+  "lib/ui/rotappo-ui-tui",
 ]
 resolver = "2"
 
@@ -39,14 +39,14 @@ required-features = ["tui", "module-bootstrappo"]
 
 [dependencies]
 anyhow = "1.0.100"
-rotappo-adapter-bootstrappo = { path = "crates/core/rotappo-adapter-bootstrappo", optional = true }
-rotappo-application = { path = "crates/core/rotappo-application" }
-rotappo-domain = { path = "crates/core/rotappo-domain" }
-rotappo-ui-core = { path = "crates/ui/rotappo-ui-core", optional = true }
-rotappo-ui-terminal = { path = "crates/ui/rotappo-ui-terminal", optional = true }
-rotappo-ui-tui = { path = "crates/ui/rotappo-ui-tui", optional = true }
+rotappo-adapter-bootstrappo = { path = "lib/core/rotappo-adapter-bootstrappo", optional = true }
+rotappo-application = { path = "lib/core/rotappo-application" }
+rotappo-domain = { path = "lib/core/rotappo-domain" }
+rotappo-ui-core = { path = "lib/ui/rotappo-ui-core", optional = true }
+rotappo-ui-terminal = { path = "lib/ui/rotappo-ui-terminal", optional = true }
+rotappo-ui-tui = { path = "lib/ui/rotappo-ui-tui", optional = true }
 tokio = { version = "1.48.0", features = ["full"], optional = true }
 
 [dev-dependencies]
-rotappo-ui-presentation = { path = "crates/ui/rotappo-ui-presentation" }
-rotappo-ui-terminal = { path = "crates/ui/rotappo-ui-terminal" }
+rotappo-ui-presentation = { path = "lib/ui/rotappo-ui-presentation" }
+rotappo-ui-terminal = { path = "lib/ui/rotappo-ui-terminal" }

@@ -1,0 +1,17 @@
+controller:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: false
+  replicaCount: 1
+
+  service:
+    loadBalancerIP: "192.168.1.238"
+
+  reportNodeInternalIp: false
+  publishService:
+    enabled: false
+  publishStatus:
+    enabled: true
+    address: "100.37.11.120"
+

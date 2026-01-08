@@ -1,0 +1,58 @@
+# Prowlarr Indexer Management Values
+# Uses bjw-s app-template chart
+
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: lscr.io/linuxserver/prowlarr
+          tag: latest
+        env:
+          TZ: America/New_York
+          PUID: "1000"
+          PGID: "1000"
+          # Postgres Configuration
+          PROWLARR__POSTGRES__HOST: primary-rw.cnpg-system.svc.cluster.local
+          PROWLARR__POSTGRES__PORT: "5432"
+          PROWLARR__POSTGRES__MAINDB: prowlarr
+          PROWLARR__POSTGRES__USER:
+            valueFrom:
+              secretKeyRef:
+                name: primary-app
+                key: username
+          PROWLARR__POSTGRES__PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: primary-app
+                key: password
+
+service:
+  main:
+    controller: main
+    ports:
+      http:
+        port: 9696
+
+persistence:
+  config:
+    enabled: true
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 1Gi
+
+ingress:
+  main:
+    enabled: true
+    hosts:
+      - host: prowlarr.obaven.org
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              name: main
+              port: http
+    annotations:
+      cert-manager.io/cluster-issuer: cloudflare-dns-issuer
+      nginx.ingress.kubernetes.io/auth-url: "https://auth.obaven.org/api/verify"
+      nginx.ingress.kubernetes.io/auth-signin: "https://auth.obaven.org"

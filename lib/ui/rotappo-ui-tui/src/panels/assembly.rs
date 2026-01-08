@@ -39,11 +39,15 @@ pub fn render_assembly(
     app.ui.snapshot_area = snapshot_area;
 
     if app.ui.collapsed_assembly_progress {
-        let block = Block::default().title("Assembly Progress").borders(Borders::ALL);
+        let block = Block::default()
+            .title("Assembly Progress")
+            .borders(Borders::ALL);
         frame.render_widget(block, assembly_progress_area);
     } else {
         let percent = snapshot.assembly.percent_complete();
-        let mut gauge_block = Block::default().title("Assembly Progress").borders(Borders::ALL);
+        let mut gauge_block = Block::default()
+            .title("Assembly Progress")
+            .borders(Borders::ALL);
         if app.refresh_pulse_active() {
             gauge_block = gauge_block.style(Style::default().fg(Color::Cyan));
         }
@@ -58,12 +62,12 @@ pub fn render_assembly(
     let age = format_age(snapshot.last_updated_ms);
     let lines = vec![
         Line::from(format!(
-            "Complete: {}/{}",
+            "Ready: {}/{}",
             snapshot.assembly.completed, snapshot.assembly.total
         )),
-        Line::from(format!("In progress: {}", snapshot.assembly.in_progress)),
-        Line::from(format!("Blocked: {}", snapshot.assembly.blocked)),
-        Line::from(format!("Pending: {}", snapshot.assembly.pending)),
+        Line::from(format!("Initializing: {}", snapshot.assembly.in_progress)),
+        Line::from(format!("Queued: {}", snapshot.assembly.blocked)),
+        Line::from(format!("Waiting: {}", snapshot.assembly.pending)),
         Line::from(format!("Health: {}", snapshot.health.as_str())),
         Line::from(format!("Last update: {}", age)),
         Line::from(format!(

@@ -1,11 +1,11 @@
-use anyhow::{anyhow, Result};
+use anyhow::{Result, anyhow};
 
 use rotappo_domain::{ActionId, ActionRegistry, ActionSafety};
+use rotappo_domain::{
+    ActionStatus, Assembly, AssemblyStep, AssemblyStepDef, AssemblyStepStatus, Snapshot,
+};
 use rotappo_domain::{Event, EventBus, EventLevel};
 use rotappo_ports::PortSet;
-use rotappo_domain::{
-    ActionStatus, AssemblyStep, AssemblyStepStatus, Assembly, AssemblyStepDef, Snapshot,
-};
 
 pub struct Runtime {
     registry: ActionRegistry,
@@ -94,7 +94,8 @@ impl Runtime {
             format!("Started action: {}", action_def.label),
         ));
 
-        self.snapshot.mark_action(action_id, ActionStatus::Succeeded);
+        self.snapshot
+            .mark_action(action_id, ActionStatus::Succeeded);
         self.events.push(Event::new(
             EventLevel::Info,
             format!("Completed action: {}", action_def.label),
@@ -139,8 +140,11 @@ impl Runtime {
 
         let health_snapshot = self.ports.health.snapshot();
         let readiness = self.ports.assembly.step_readiness();
-        let step_map: std::collections::HashMap<_, _> =
-            assembly.steps.iter().map(|step| (step.id.as_str(), step)).collect();
+        let step_map: std::collections::HashMap<_, _> = assembly
+            .steps
+            .iter()
+            .map(|step| (step.id.as_str(), step))
+            .collect();
 
         let statuses: Vec<AssemblyStepStatus> = self
             .snapshot
@@ -148,16 +152,15 @@ impl Runtime {
             .iter()
             .map(|step| {
                 let blocked = step.depends_on.iter().any(|dep| {
-                    self.snapshot
-                        .assembly_steps
-                        .iter()
-                        .any(|other| other.id == *dep && other.status != AssemblyStepStatus::Succeeded)
+                    self.snapshot.assembly_steps.iter().any(|other| {
+                        other.id == *dep && other.status != AssemblyStepStatus::Succeeded
+                    })
                 });
 
                 let mut status = if blocked {
                     AssemblyStepStatus::Blocked
                 } else {
-                    AssemblyStepStatus::Pending
+                    AssemblyStepStatus::Running
                 };
 
                 if let Some(def) = step_map.get(step.id.as_str()) {
@@ -207,7 +210,6 @@ impl Runtime {
             }
         }
     }
-
 }
 
 fn assembly_step_from_def(def: &AssemblyStepDef) -> AssemblyStep {

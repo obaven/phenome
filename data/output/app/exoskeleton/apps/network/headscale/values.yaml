@@ -1,0 +1,51 @@
+ingress:
+  main:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: "{{VPN_DOMAIN}}"
+        paths:
+          - path: /
+            pathType: Prefix
+    annotations:
+      cert-manager.io/cluster-issuer: "cloudflare-dns-issuer"
+      external-dns.alpha.kubernetes.io/target: "gateway.obaven.org"
+      external-dns.alpha.kubernetes.io/hostname: "{{VPN_DOMAIN}}"
+
+service:
+  main:
+    {{LB_CONFIG}}
+
+env:
+  HEADSCALE_SERVER_URL: "https://vpn.obaven.org"
+  HEADSCALE_DNS_MAGIC_DNS: "true"
+  HEADSCALE_DNS_BASE_DOMAIN: "{{VPN_DOMAIN}}"
+  HEADSCALE_DATABASE_TYPE: "sqlite3"
+  HEADSCALE_DATABASE_SQLITE_PATH: "/var/lib/headscale/db.sqlite"
+  HEADSCALE_DERP_URLS: ""
+  HEADSCALE_DERP_PATHS: "/etc/headscale/derp.yaml"
+  HEADSCALE_DERP_SERVER_ENABLED: "true"
+  HEADSCALE_DERP_SERVER_STUN_LISTEN_ADDR: "0.0.0.0:3478"
+  HEADSCALE_DERP_SERVER_PRIVATE_KEY_PATH: "/var/lib/headscale/derp_server_private.key"
+  HEADSCALE_DERP_AUTO_UPDATE_ENABLED: "false"
+  HEADSCALE_DERP_UPDATE_FREQUENCY: "0s"
+
+persistence:
+  data:
+    enabled: true
+    type: pvc
+    accessMode: ReadWriteOnce
+    size: 5Gi
+    mountPath: /var/lib/headscale
+    storageClassName: "local-path" # Or standard
+  config:
+    enabled: true
+    type: emptyDir
+    mountPath: /etc/headscale
+  derp:
+    enabled: true
+    type: configMap
+    name: headscale-derp
+    mountPath: /etc/headscale/derp.yaml
+    subPath: derp.yaml
+    readOnly: true

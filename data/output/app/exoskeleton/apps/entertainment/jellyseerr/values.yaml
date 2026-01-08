@@ -1,0 +1,62 @@
+# Jellyseerr Media Requests Values
+# Uses bjw-s app-template chart
+
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: fallenbagel/jellyseerr
+          tag: latest
+        env:
+          TZ: America/New_York
+          LOG_LEVEL: "info"
+          PORT: "5055"
+          # Postgres Configuration (Standard Env Vars for Jellyseerr)
+          # Note: Jellyseerr doesn't officially support env var config for DB in all versions?
+          # Actually it typically uses `overseerr` compatible envs.
+          # We'll try passing DB_HOST etc.
+          DB_TYPE: postgres
+          DB_HOST: primary-rw.cnpg-system.svc.cluster.local
+          DB_PORT: "5432"
+          DB_NAME: jellyseerr
+          DB_USER:
+            valueFrom:
+              secretKeyRef:
+                name: primary-app
+                key: username
+          DB_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: primary-app
+                key: password
+
+service:
+  main:
+    controller: main
+    ports:
+      http:
+        port: 5055
+
+persistence:
+  config:
+    enabled: true
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 1Gi
+
+ingress:
+  main:
+    enabled: true
+    hosts:
+      - host: requests.obaven.org
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              name: main
+              port: http
+    annotations:
+      cert-manager.io/cluster-issuer: cloudflare-dns-issuer
+      nginx.ingress.kubernetes.io/auth-url: "https://auth.obaven.org/api/verify"
+      nginx.ingress.kubernetes.io/auth-signin: "https://auth.obaven.org"

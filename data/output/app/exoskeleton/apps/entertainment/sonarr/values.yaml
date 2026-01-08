@@ -1,0 +1,68 @@
+# Sonarr TV Management Values
+# Uses bjw-s app-template chart
+
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: lscr.io/linuxserver/sonarr
+          tag: latest
+        env:
+          TZ: America/New_York
+          PUID: "1000"
+          PGID: "1000"
+          # Postgres Configuration
+          SONARR__POSTGRES__HOST: primary-rw.cnpg-system.svc.cluster.local
+          SONARR__POSTGRES__PORT: "5432"
+          SONARR__POSTGRES__MAINDB: sonarr
+          SONARR__POSTGRES__USER:
+            valueFrom:
+              secretKeyRef:
+                name: primary-app
+                key: username
+          SONARR__POSTGRES__PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: primary-app
+                key: password
+
+service:
+  main:
+    controller: main
+    ports:
+      http:
+        port: 8989
+
+persistence:
+  config:
+    enabled: true
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 1Gi
+  media:
+    enabled: true
+    type: nfs
+    server: nfs-server.nfs-server.svc.cluster.local
+    path: /mnt/media
+  downloads:
+    enabled: true
+    type: nfs
+    server: nfs-server.nfs-server.svc.cluster.local
+    path: /mnt/downloads
+
+ingress:
+  main:
+    enabled: true
+    hosts:
+      - host: sonarr.obaven.org
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              name: main
+              port: http
+    annotations:
+      cert-manager.io/cluster-issuer: cloudflare-dns-issuer
+      nginx.ingress.kubernetes.io/auth-url: "https://auth.obaven.org/api/verify"
+      nginx.ingress.kubernetes.io/auth-signin: "https://auth.obaven.org"

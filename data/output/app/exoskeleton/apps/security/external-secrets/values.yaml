@@ -1,0 +1,49 @@
+# External Secrets Operator Helm Values
+# Official chart: https://charts.external-secrets.io
+
+installCRDs: true
+
+# High availability deployment
+replicaCount: 1
+
+# Resource limits
+resources:
+  limits:
+    cpu: 100m
+    memory: 256Mi
+  requests:
+    cpu: 50m
+    memory: 128Mi
+
+# Webhook configuration
+webhook:
+  create: true
+  port: 9443
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+# Cert controller for webhook TLS
+certController:
+  create: true
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+# Service monitor for Prometheus (if enabled)
+serviceMonitor:
+  enabled: false
+
+# Security context
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000

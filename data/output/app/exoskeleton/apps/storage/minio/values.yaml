@@ -1,0 +1,30 @@
+mode: standalone
+replicas: 1
+persistence:
+  enabled: true
+  storageClass: local-path
+  size: 10Gi
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 100m
+auth:
+  rootUser: "admin"
+  rootPassword: "00FDm6k/vH0d3wJ41RZt5dglAy/O/vT0NNRlvjp33KA="
+service:
+  ports:
+    api: 9000
+    console: 9001
+  
+ingress:
+  enabled: true
+  hosts:
+    - minio.obaven.org
+  annotations:
+    cert-manager.io/cluster-issuer: "cloudflare-dns-issuer"
+apiIngress:
+  enabled: true
+  hosts:
+    - s3.obaven.org
+  annotations:
+    cert-manager.io/cluster-issuer: "cloudflare-dns-issuer"

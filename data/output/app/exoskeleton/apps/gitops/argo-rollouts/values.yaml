@@ -1,0 +1,16 @@
+dashboard:
+  service:
+    type: LoadBalancer
+  loadBalancerIP: 192.168.1.200
+  
+  enabled: true
+  ingress:
+    enabled: true
+    hosts:
+      - rollouts.obaven.org
+    annotations:
+      cert-manager.io/cluster-issuer: "cloudflare-dns-issuer"
+
+controller:
+  metrics:
+    enabled: true
