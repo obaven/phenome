@@ -1,5 +1,6 @@
 pub mod cache;
 pub mod catalog;
+pub mod cluster;
 pub mod debug;
 pub mod diff;
 pub mod explain;

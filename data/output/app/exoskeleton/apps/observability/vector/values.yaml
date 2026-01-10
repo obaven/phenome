@@ -1,45 +1,50 @@
-# Vector Observability Pipeline Values
-# See: https://vector.dev/docs/setup/installation/platforms/kubernetes/
+# Vector Helm Values
+# Rendered by Bootstrappo Composer
 
-role: agent
+image:
+  repository: timberio/vector
+  tag: nightly-alpine
 
-customConfig:
-  sources:
-    kubernetes_logs:
-      type: kubernetes_logs
-      self_node_name: "${VECTOR_SELF_NODE_NAME}"
+env:
+  - name: VECTOR_LOG
+    value: "info"
+  - name: VECTOR_SELF_NODE_NAME
+    valueFrom:
+      fieldRef:
+        fieldPath: spec.nodeName
+  - name: VECTOR_SELF_POD_NAME
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.name
+  - name: VECTOR_SELF_POD_NAMESPACE
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.namespace
 
-  transforms:
-    parse_logs:
-      type: remap
-      inputs:
-        - kubernetes_logs
-      source: |
-        .namespace = .kubernetes.pod_namespace
-        .pod = .kubernetes.pod_name
-        .container = .kubernetes.container_name
-        del(.kubernetes)
+service:
+  type: ClusterIP
+  port: 9000
 
-  sinks:
-    loki:
-      type: loki
-      inputs:
-        - parse_logs
-      endpoint: http://loki.observability.svc.cluster.local:3100
-      labels:
-        namespace: "{{ `{{ namespace }}` }}"
-        pod: "{{ `{{ pod }}` }}"
-        container: "{{ `{{ container }}` }}"
-      encoding:
-        codec: json
+customConfig: |
+  [api]
+  enabled = true
+  address = "0.0.0.0:8686"
 
-resources:
-  limits:
-    memory: 256Mi
-    cpu: 500m
-  requests:
-    memory: 128Mi
-    cpu: 50m
+  [sources.kubernetes_logs]
+  type = "kubernetes_logs"
 
-podMonitor:
-  enabled: false
+  # Sink to Loki
+  [sinks.loki]
+  type = "loki"
+  inputs = ["kubernetes_logs"]
+  endpoint = "http://loki.observability.svc.cluster.local:3100"
+  encoding.codec = "json"
+  
+  # Sink to Prometheus (Expose metrics)
+  [sources.internal_metrics]
+  type = "internal_metrics"
+
+  [sinks.prometheus]
+  type = "prometheus_exporter"
+  inputs = ["internal_metrics"]
+  address = "0.0.0.0:9090"

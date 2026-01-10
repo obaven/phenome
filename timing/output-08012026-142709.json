@@ -1,0 +1,350 @@
+{
+  "total_elapsed_ms": 1866181,
+  "steps": [
+    {
+      "step_id": "cilium",
+      "phase": "Total",
+      "duration_ms": 3350,
+      "success": true
+    },
+    {
+      "step_id": "k3s",
+      "phase": "Total",
+      "duration_ms": 1,
+      "success": true
+    },
+    {
+      "step_id": "prometheus",
+      "phase": "Total",
+      "duration_ms": 20433,
+      "success": true
+    },
+    {
+      "step_id": "kro",
+      "phase": "Total",
+      "duration_ms": 127,
+      "success": true
+    },
+    {
+      "step_id": "ntfy",
+      "phase": "Total",
+      "duration_ms": 1,
+      "success": true
+    },
+    {
+      "step_id": "prowlarr",
+      "phase": "Total",
+      "duration_ms": 341,
+      "success": true
+    },
+    {
+      "step_id": "bazarr",
+      "phase": "Total",
+      "duration_ms": 1,
+      "success": true
+    },
+    {
+      "step_id": "readarr",
+      "phase": "Total",
+      "duration_ms": 1,
+      "success": true
+    },
+    {
+      "step_id": "metallb",
+      "phase": "Total",
+      "duration_ms": 440,
+      "success": true
+    },
+    {
+      "step_id": "nfs",
+      "phase": "Total",
+      "duration_ms": 575,
+      "success": true
+    },
+    {
+      "step_id": "unpackerr",
+      "phase": "Total",
+      "duration_ms": 3,
+      "success": true
+    },
+    {
+      "step_id": "redis",
+      "phase": "Total",
+      "duration_ms": 9312,
+      "success": true
+    },
+    {
+      "step_id": "cloudnative-pg",
+      "phase": "Total",
+      "duration_ms": 19047,
+      "success": true
+    },
+    {
+      "step_id": "hnc",
+      "phase": "Total",
+      "duration_ms": 286,
+      "success": true
+    },
+    {
+      "step_id": "keda",
+      "phase": "Total",
+      "duration_ms": 40779,
+      "success": true
+    },
+    {
+      "step_id": "jellyfin",
+      "phase": "Total",
+      "duration_ms": 313,
+      "success": true
+    },
+    {
+      "step_id": "sealed-secrets",
+      "phase": "Total",
+      "duration_ms": 627,
+      "success": true
+    },
+    {
+      "step_id": "sonarr",
+      "phase": "Total",
+      "duration_ms": 266,
+      "success": true
+    },
+    {
+      "step_id": "appflowy",
+      "phase": "Total",
+      "duration_ms": 1,
+      "success": true
+    },
+    {
+      "step_id": "external-secrets",
+      "phase": "Total",
+      "duration_ms": 130485,
+      "success": false
+    },
+    {
+      "step_id": "argo-rollouts",
+      "phase": "Total",
+      "duration_ms": 6934,
+      "success": true
+    },
+    {
+      "step_id": "trino",
+      "phase": "Total",
+      "duration_ms": 30623,
+      "success": true
+    },
+    {
+      "step_id": "external-dns",
+      "phase": "Total",
+      "duration_ms": 54,
+      "success": true
+    },
+    {
+      "step_id": "cloudflared",
+      "phase": "Total",
+      "duration_ms": 165,
+      "success": true
+    },
+    {
+      "step_id": "flaresolverr",
+      "phase": "Total",
+      "duration_ms": 1,
+      "success": true
+    },
+    {
+      "step_id": "kyverno",
+      "phase": "Total",
+      "duration_ms": 1,
+      "success": true
+    },
+    {
+      "step_id": "qdrant",
+      "phase": "Total",
+      "duration_ms": 117,
+      "success": true
+    },
+    {
+      "step_id": "harbor",
+      "phase": "Total",
+      "duration_ms": 121,
+      "success": true
+    },
+    {
+      "step_id": "stalwart",
+      "phase": "Total",
+      "duration_ms": 1,
+      "success": true
+    },
+    {
+      "step_id": "vector",
+      "phase": "Total",
+      "duration_ms": 119,
+      "success": true
+    },
+    {
+      "step_id": "loki",
+      "phase": "Total",
+      "duration_ms": 4143,
+      "success": false
+    },
+    {
+      "step_id": "grafana",
+      "phase": "Total",
+      "duration_ms": 126,
+      "success": true
+    },
+    {
+      "step_id": "homepage",
+      "phase": "Total",
+      "duration_ms": 127,
+      "success": true
+    },
+    {
+      "step_id": "argo-events",
+      "phase": "Total",
+      "duration_ms": 5773,
+      "success": true
+    },
+    {
+      "step_id": "headscale",
+      "phase": "Total",
+      "duration_ms": 200,
+      "success": true
+    },
+    {
+      "step_id": "tdarr",
+      "phase": "Total",
+      "duration_ms": 1,
+      "success": true
+    },
+    {
+      "step_id": "jellyseerr",
+      "phase": "Total",
+      "duration_ms": 134,
+      "success": true
+    },
+    {
+      "step_id": "authelia",
+      "phase": "Total",
+      "duration_ms": 963187,
+      "success": true
+    },
+    {
+      "step_id": "cert-manager",
+      "phase": "Total",
+      "duration_ms": 587,
+      "success": false
+    },
+    {
+      "step_id": "nginx",
+      "phase": "Total",
+      "duration_ms": 84,
+      "success": false
+    },
+    {
+      "step_id": "radarr",
+      "phase": "Total",
+      "duration_ms": 88359,
+      "success": false
+    },
+    {
+      "step_id": "vaultwarden",
+      "phase": "Total",
+      "duration_ms": 3,
+      "success": true
+    },
+    {
+      "step_id": "redpanda",
+      "phase": "Total",
+      "duration_ms": 88810,
+      "success": false
+    },
+    {
+      "step_id": "lidarr",
+      "phase": "Total",
+      "duration_ms": 5,
+      "success": true
+    },
+    {
+      "step_id": "uptime-kuma",
+      "phase": "Total",
+      "duration_ms": 5,
+      "success": true
+    },
+    {
+      "step_id": "argocd",
+      "phase": "Total",
+      "duration_ms": 89884,
+      "success": false
+    },
+    {
+      "step_id": "crowdsec",
+      "phase": "Total",
+      "duration_ms": 6,
+      "success": true
+    },
+    {
+      "step_id": "local-path",
+      "phase": "Total",
+      "duration_ms": 88607,
+      "success": false
+    },
+    {
+      "step_id": "mongo",
+      "phase": "Total",
+      "duration_ms": 5,
+      "success": true
+    },
+    {
+      "step_id": "cassandra",
+      "phase": "Total",
+      "duration_ms": 5,
+      "success": true
+    },
+    {
+      "step_id": "minio",
+      "phase": "Total",
+      "duration_ms": 88710,
+      "success": false
+    },
+    {
+      "step_id": "argo-workflows",
+      "phase": "Total",
+      "duration_ms": 88628,
+      "success": false
+    },
+    {
+      "step_id": "velero",
+      "phase": "Total",
+      "duration_ms": 91768,
+      "success": false
+    }
+  ],
+  "hotspots": [
+    {
+      "step_id": "authelia",
+      "total_ms": 963187,
+      "runs": 1
+    },
+    {
+      "step_id": "external-secrets",
+      "total_ms": 130485,
+      "runs": 1
+    },
+    {
+      "step_id": "velero",
+      "total_ms": 91768,
+      "runs": 1
+    },
+    {
+      "step_id": "argocd",
+      "total_ms": 89884,
+      "runs": 1
+    },
+    {
+      "step_id": "redpanda",
+      "total_ms": 88810,
+      "runs": 1
+    }
+  ]
+}

@@ -1,54 +1,25 @@
-# Velero Backup System Values
-# See: https://vmware-tanzu.github.io/helm-charts/
-
+# Velero Values - Used for context variable injection transparency
 configuration:
   backupStorageLocation:
-    - name: default
+    - name: data
       provider: aws
-      bucket: velero-backups
+      bucket: "velero-backups"
       config:
-        region: us-east-1
-        s3ForcePathStyle: true
-        s3Url: http://minio.minio.svc.cluster.local:9000
+        s3Url: http://minio.storage.svc:9000
+        region: minio
 
-  volumeSnapshotLocation: []
-
-snapshotsEnabled: false
-
-deployNodeAgent: true
+schedules:
+  cluster-backup:
+    schedule: "0 2 * * *"
+    template:
+      ttl: "720h"
+      includedNamespaces:
+      - "*"
+      includeClusterResources: true
 
 initContainers:
   - name: velero-plugin-for-aws
-    image: velero/velero-plugin-for-aws:v1.8.0
-    imagePullPolicy: IfNotPresent
+    image: velero/velero-plugin-for-aws:v1.6.0
     volumeMounts:
-      - mountPath: /target
-        name: plugins
-
-schedules:
-  daily-backup:
-    schedule: "0 2 * * *"
-    template:
-      ttl: "7d"
-      includedNamespaces:
-        - "*"
-      excludedNamespaces:
-        - kube-system
-        - velero
-      includeClusterResources: true
-      storageLocation: default
-
-credentials:
-  secretContents:
-    cloud: |
-      [default]
-      aws_access_key_id=${MINIO_ACCESS_KEY}
-      aws_secret_access_key=${MINIO_SECRET_KEY}
-
-resources:
-  requests:
-    memory: 128Mi
-    cpu: 100m
-  limits:
-    memory: 512Mi
-    cpu: 500m
+    - mountPath: /target
+      name: plugins

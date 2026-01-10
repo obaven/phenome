@@ -1,4 +1,15 @@
 mode: standalone
+global:
+  security:
+    allowInsecureImages: true
+
+image:
+  registry: public.ecr.aws
+  repository: bitnami/minio
+  tag: latest
+
+console:
+  enabled: false
 replicas: 1
 persistence:
   enabled: true
@@ -10,7 +21,7 @@ resources:
     cpu: 100m
 auth:
   rootUser: "admin"
-  rootPassword: "00FDm6k/vH0d3wJ41RZt5dglAy/O/vT0NNRlvjp33KA="
+  rootPassword: "SuperSecureMinioPassword123!"
 service:
   ports:
     api: 9000
@@ -28,3 +39,18 @@ apiIngress:
     - s3.obaven.org
   annotations:
     cert-manager.io/cluster-issuer: "cloudflare-dns-issuer"
+
+extraEnvVars:
+  - name: MINIO_IDENTITY_OPENID_CONFIG_URL
+    value: "https://auth.obaven.org/.well-known/openid-configuration"
+  - name: MINIO_IDENTITY_OPENID_CLIENT_ID
+    value: "minio"
+  - name: MINIO_IDENTITY_OPENID_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: minio-oidc-creds
+        key: minio_client_secret
+  - name: MINIO_IDENTITY_OPENID_DISPLAY_NAME
+    value: "SSO"
+  - name: MINIO_IDENTITY_OPENID_SCOPES
+    value: "openid,profile,email,groups"

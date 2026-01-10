@@ -15,6 +15,12 @@ env:
       secretKeyRef:
         name: minio-creds
         key: AWS_SECRET_ACCESS_KEY
+  # CloudNativePG primary database credentials
+  - name: POSTGRES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: primary-app
+        key: password
 
 coordinator:
   resources:

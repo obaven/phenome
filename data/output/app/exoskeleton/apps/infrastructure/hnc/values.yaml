@@ -1,19 +1,4 @@
-# Hierarchical Namespace Controller Values
-# See: https://github.com/kubernetes-sigs/hierarchical-namespaces
-
-# HNC is typically installed via kubectl apply -f
-# This values file is for customization
-
-manager:
-  resources:
-    limits:
-      memory: 256Mi
-      cpu: 100m
-    requests:
-      memory: 64Mi
-      cpu: 50m
-
-# Propagation configuration is done via HNCConfiguration CRD after install
-# Root namespace: platform
-# Propagate secrets: true
-# Propagate quotas: false
+# HNC Values - Used for context variable injection transparency
+rootNamespace: "platform"
+propagateSecrets: true
+propagateQuotas: false

@@ -127,6 +127,12 @@ pub enum Commands {
         force: bool,
     },
 
+    /// Cluster lifecycle utilities
+    Cluster {
+        #[command(subcommand)]
+        action: ClusterAction,
+    },
+
     /// Aggressively delete all resources from the cluster
     Nuke {
         /// Path to the bootstrap config YAML
@@ -194,6 +200,20 @@ pub enum AssemblyAction {
         /// Output file path (optional, defaults to stdout for DOT/SVG bytes)
         #[arg(short, long)]
         output: Option<String>,
+    },
+}
+
+#[derive(Subcommand)]
+pub enum ClusterAction {
+    /// Initialize k3s cluster
+    Init {
+        /// Skip upgrade prompt (use existing cluster as-is)
+        #[arg(long, default_value_t = false)]
+        skip_upgrade: bool,
+
+        /// Force reinstall even if cluster exists
+        #[arg(long, default_value_t = false)]
+        force: bool,
     },
 }
 
@@ -367,6 +387,12 @@ async fn dispatch(command: Commands, gitops_dir: String) -> anyhow::Result<()> {
             })
             .await
         }
+        Commands::Cluster { action } => match action {
+            ClusterAction::Init {
+                skip_upgrade,
+                force,
+            } => adapter_controller::cluster::init(skip_upgrade, force).await,
+        },
         Commands::Nuke {
             assembly,
             aggressive,

@@ -8,6 +8,9 @@ storage:
   persistentVolume:
     enabled: true
     size: 20Gi
+    # Redpanda requires XFS or ext4 with io_submit support.
+    # NFS is incompatible and causes "Operation not supported" errors.
+    storageClass: local-path
 
 resources:
   cpu:

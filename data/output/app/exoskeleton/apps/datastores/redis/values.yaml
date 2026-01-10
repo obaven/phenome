@@ -5,6 +5,11 @@ architecture: replication
 
 # Override default images to use latest available tags
 # The chart's default versioned tags may not exist in the registry
+global:
+  storageClass: local-path
+
+# Override default images to use latest available tags
+# The chart's default versioned tags may not exist in the registry
 image:
   registry: docker.io
   repository: bitnami/redis
@@ -14,7 +19,7 @@ image:
 auth:
   enabled: true
   sentinel: true
-  password: "0vujPa0M7ju7mU94OFTwDZ8IGOQq5Jiedes6DenTypw="
+  password: "a+Z20Y6RkEY6HO+QIy8uQrrIz2ZPEZAdHn90hkfx2SY="
 
 master:
   count: 1
@@ -27,7 +32,7 @@ master:
       cpu: 100m
 
 replica:
-  replicaCount: 1
+  replicaCount: 0
   persistence:
     enabled: true
     size: 1Gi

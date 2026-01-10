@@ -42,8 +42,18 @@ certController:
 serviceMonitor:
   enabled: false
 
-# Security context
+# Pod-level security context (fsGroup must be here, not in container securityContext)
+podSecurityContext:
+  fsGroup: 1000
+
+# Container-level security context (fsGroup is NOT valid here)
 securityContext:
   runAsNonRoot: true
   runAsUser: 1000
-  fsGroup: 1000
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+  seccompProfile:
+    type: RuntimeDefault

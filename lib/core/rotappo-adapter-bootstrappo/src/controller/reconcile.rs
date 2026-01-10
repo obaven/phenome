@@ -49,21 +49,21 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
     let fs = Arc::new(
         bootstrappo::adapters::infrastructure::core::filesystem::RealFilesystemAdapter::new(),
     );
-    let k8s = Arc::new(
-        bootstrappo::adapters::infrastructure::kube::kubernetes::KubeRsAdapter::new().await?,
+    let k8s: Arc<dyn bootstrappo::ports::kubernetes::KubernetesPort> = Arc::new(
+        bootstrappo::adapters::infrastructure::kube::clients::k8s::K8sClient::new().await?,
     );
     let helm = Arc::new(bootstrappo::adapters::infrastructure::helm::HelmBinaryAdapter::new());
-    let cmd = Arc::new(
-        bootstrappo::application::runtime::modules::io::command::CommandAdapter::new(),
-    );
+    let cmd =
+        Arc::new(bootstrappo::application::runtime::modules::io::command::CommandAdapter::new());
 
     // 2. Build Assembly
     let modules = bootstrappo::application::runtime::registry::get_all_modules(config.as_ref());
-    let mut assembly = bootstrappo::application::composition::assembly::builder::AssemblyBuilder::new(
-        config.as_ref().clone(),
-    )
-    .with_modules(modules)
-    .build()?;
+    let mut assembly =
+        bootstrappo::application::composition::assembly::builder::AssemblyBuilder::new(
+            config.as_ref().clone(),
+        )
+        .with_modules(modules)
+        .build()?;
 
     // 3. Apply Overlay
     if let Some(ref o) = args.overlay {
@@ -119,6 +119,19 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
         // Converge mode: Use LifecycleManager for one-shot bootstrap
         info!("Running in Converge mode with LifecycleManager");
 
+        // BSP-227: Create native K8sClient for namespace and manifest operations
+        let k8s_client =
+            bootstrappo::adapters::infrastructure::kube::clients::k8s::K8sClient::new()
+                .await
+                .map_err(|e| {
+                    warn!(
+                        "Failed to create native K8sClient, some operations may fail: {}",
+                        e
+                    );
+                    e
+                })
+                .ok();
+
         // BSP-148: Pass force flag to context for fast-path skip bypass
         let mut manager = bootstrappo::application::lifecycle::LifecycleManager::new(
             config,
@@ -129,6 +142,11 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
             cmd.clone(),
         )
         .with_plan(assembly);
+
+        // BSP-227: Set native K8sClient if available
+        if let Some(client) = k8s_client {
+            manager = manager.with_k8s_client(client);
+        }
 
         // Set force mode on the context
         manager.context.force = args.force;

@@ -1,14 +1,25 @@
-cluster:
-  name: cluster.local
-kubeProxyReplacement: strict
-k8sServiceHost: "127.0.0.1"
-k8sServicePort: "6443"
+# Cilium Values with Hubble UI Enabled
+
+k8sServiceHost: 127.0.0.1
+k8sServicePort: 6443
+
 hubble:
+  enabled: true
   relay:
     enabled: true
   ui:
     enabled: true
-ipam:
-  mode: kubernetes
+    replicas: 1
+    ingress:
+      enabled: true
+      hosts:
+        - hubble.cluster.local
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+
 operator:
   replicas: 1
+
+ipam:
+  mode: "kubernetes"

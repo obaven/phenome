@@ -4,5 +4,5 @@ nfs:
   mountOptions:
     - vers=4
 storageClass:
-  defaultClass: false
+  defaultClass: true
   name: nfs-client

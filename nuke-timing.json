@@ -2,73 +2,78 @@
   "phases": [
     {
       "phase": "kill_reconcilers",
-      "duration_secs": 0.061478562,
+      "duration_secs": 0.047028629,
+      "success": true
+    },
+    {
+      "phase": "delete_broken_apiservices",
+      "duration_secs": 0.008081836,
       "success": true
     },
     {
       "phase": "scale_down_controllers",
-      "duration_secs": 2.020520335,
+      "duration_secs": 2.226407014,
       "success": true
     },
     {
       "phase": "delete_webhooks",
-      "duration_secs": 0.014110734,
+      "duration_secs": 0.032454278,
       "success": true
     },
     {
       "phase": "clean_kro_instances",
-      "duration_secs": 0.230857831,
+      "duration_secs": 0.145247079,
       "success": true
     },
     {
       "phase": "clear_released_pvs",
-      "duration_secs": 0.053653032,
+      "duration_secs": 0.006656458,
       "success": true
     },
     {
       "phase": "scan_cluster",
-      "duration_secs": 0.102188514,
+      "duration_secs": 0.100165158,
       "success": true,
-      "details": "21 ns, 62 crds"
+      "details": "17 ns, 88 crds"
     },
     {
       "phase": "delete_helm_releases",
-      "duration_secs": 0.032927033,
+      "duration_secs": 0.03315452,
       "success": true
     },
     {
       "phase": "delete_helm_charts",
-      "duration_secs": 0.001043013,
+      "duration_secs": 0.001045387,
       "success": true
     },
     {
       "phase": "clean_kube_system",
-      "duration_secs": 0.010919561,
+      "duration_secs": 0.024301529,
       "success": true
     },
     {
       "phase": "clean_default_namespace",
-      "duration_secs": 0.188772814,
+      "duration_secs": 0.073899843,
       "success": true
     },
     {
       "phase": "delete_pods",
-      "duration_secs": 0.090437698,
+      "duration_secs": 0.894071037,
       "success": true,
-      "details": "21/21"
+      "details": "17/17"
     },
     {
       "phase": "delete_namespaces",
-      "duration_secs": 1.64783966,
+      "duration_secs": 9.260723577,
       "success": true,
-      "details": "20 namespaces"
+      "details": "16 namespaces"
     },
     {
       "phase": "delete_crds",
-      "duration_secs": 10.127302752,
+      "duration_secs": 70.998179842,
       "success": true,
-      "details": "62/62"
+      "details": "88/88"
     }
   ],
-  "total_duration_secs": 14.582157662
+  "total_duration_secs": 83.851517869
 }

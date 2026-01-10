@@ -32,5 +32,13 @@ redis:
     size: 5Gi
 
 configs:
+  cm:
+    url: "https://argocd.obaven.org"
+    oidc.config: |
+      name: Authelia
+      issuer: "https://auth.obaven.org"
+      clientID: argocd
+      clientSecret: $argocd-oidc-creds:argocd_client_secret
+      requestedScopes: ["openid", "profile", "email", "groups"]
   params:
     server.insecure: true
