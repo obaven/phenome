@@ -41,7 +41,7 @@ fn assert_no_forbidden_dependencies(paths: &[PathBuf], forbidden: &[&str]) {
 fn ui_core_has_no_terminal_or_ratatui_deps() {
     let roots = [
         Path::new(env!("CARGO_MANIFEST_DIR")).join("src/interfaces/ui_core"),
-        Path::new(env!("CARGO_MANIFEST_DIR")).join("crates/ui/rotappo-ui-core/src"),
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("lib/ui/rotappo-ui-core/src"),
     ];
     let mut files = Vec::new();
     for root in roots {
@@ -52,7 +52,7 @@ fn ui_core_has_no_terminal_or_ratatui_deps() {
     }
     assert!(
         !files.is_empty(),
-        "no ui-core sources found in src/interfaces/ui_core or crates/ui/rotappo-ui-core/src"
+        "no ui-core sources found in src/interfaces/ui_core or lib/ui/rotappo-ui-core/src"
     );
 
     let forbidden = [
