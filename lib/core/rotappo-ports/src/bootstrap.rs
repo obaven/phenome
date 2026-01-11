@@ -3,7 +3,7 @@ use std::time::{Duration, Instant};
 
 use anyhow::Result;
 
-use bootstrappo::application::events::InteractiveCommand;
+pub use bootstrappo::application::events::InteractiveCommand;
 use bootstrappo::application::readiness::{DetailedStatus, ReadinessStatus};
 use bootstrappo::application::timing::TimingHistory;
 use bootstrappo::domain::models::assembly::Assembly;

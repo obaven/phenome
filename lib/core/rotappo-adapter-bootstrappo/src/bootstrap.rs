@@ -43,7 +43,7 @@ use bootstrappo::application::events::{
 use bootstrappo::application::readiness::{DetailedStatus, map_check_to_readiness};
 use bootstrappo::application::timing::TimingHistory;
 use bootstrappo::application::timing::storage::{
-    TimingStorage, cluster::ClusterTimingStorage, local::LocalTimingStorage,
+    cluster::ClusterTimingStorage, local::LocalTimingStorage,
 };
 use bootstrappo::domain::models::assembly::Assembly;
 
@@ -506,5 +506,181 @@ impl DetailedStatusCache {
 
     fn invalidate(&mut self, component_id: &str) {
         self.data.remove(component_id);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use bootstrappo::application::events::{DeferReason, EventPayload, TimingBreakdown};
+    use bootstrappo::application::readiness::status::{
+        BasicStatus, ReadinessPhase, ReadinessStatus,
+    };
+
+    fn make_event(payload: EventPayload) -> BootstrapEvent {
+        BootstrapEvent {
+            seq: 1,
+            timestamp: Instant::now(),
+            payload,
+        }
+    }
+
+    fn setup() -> (
+        Arc<RwLock<HashMap<String, ComponentState>>>,
+        Arc<RwLock<BootstrapStatus>>,
+        Arc<Mutex<DetailedStatusCache>>,
+    ) {
+        (
+            Arc::new(RwLock::new(HashMap::new())),
+            Arc::new(RwLock::new(BootstrapStatus::default())),
+            Arc::new(Mutex::new(DetailedStatusCache::new(Duration::from_secs(5)))),
+        )
+    }
+
+    #[test]
+    fn test_component_lifecycle() {
+        let (state, status, cache) = setup();
+        let id = "test-comp".to_string();
+
+        // 1. Started
+        BootstrapAdapter::process_event(
+            &make_event(EventPayload::ComponentStarted { id: id.clone() }),
+            &state,
+            &status,
+            &cache,
+        );
+
+        {
+            let guard = state.read().unwrap();
+            let comp = guard.get(&id).expect("Component should exist");
+            assert_eq!(comp.status, ComponentStatus::Running);
+            assert!(comp.timing.started_at.is_some());
+        }
+
+        // 2. Progress
+        BootstrapAdapter::process_event(
+            &make_event(EventPayload::ComponentProgress {
+                id: id.clone(),
+                status: ReadinessStatus {
+                    basic: BasicStatus {
+                        phase: ReadinessPhase::Rendering,
+                        summary: "loading".into(),
+                        progress: Some(0.5),
+                    },
+                    detailed: None,
+                },
+                elapsed: Duration::from_secs(1),
+            }),
+            &state,
+            &status,
+            &cache,
+        );
+
+        {
+            let guard = state.read().unwrap();
+            let comp = guard.get(&id).unwrap();
+            assert_eq!(comp.status, ComponentStatus::Running);
+            assert_eq!(comp.readiness.as_ref().unwrap().basic.progress, Some(0.5));
+        }
+
+        // 3. Completed
+        BootstrapAdapter::process_event(
+            &make_event(EventPayload::ComponentCompleted {
+                id: id.clone(),
+                duration: Duration::from_secs(2),
+                timing_breakdown: TimingBreakdown {
+                    render_duration: Duration::from_millis(100),
+                    apply_duration: Duration::from_millis(200),
+                    wait_duration: Duration::from_millis(300),
+                },
+            }),
+            &state,
+            &status,
+            &cache,
+        );
+
+        {
+            let guard = state.read().unwrap();
+            let comp = guard.get(&id).unwrap();
+            assert_eq!(comp.status, ComponentStatus::Complete);
+            assert_eq!(comp.timing.total_duration, Some(Duration::from_secs(2)));
+        }
+    }
+
+    #[test]
+    fn test_component_failure() {
+        let (state, status, cache) = setup();
+        let id = "fail-comp".to_string();
+
+        BootstrapAdapter::process_event(
+            &make_event(EventPayload::ComponentFailed {
+                id: id.clone(),
+                duration: Duration::from_secs(1),
+                error: "Something went wrong".into(),
+            }),
+            &state,
+            &status,
+            &cache,
+        );
+
+        let guard = state.read().unwrap();
+        let comp = guard.get(&id).expect("Component should exist");
+        assert_eq!(comp.status, ComponentStatus::Failed);
+        assert_eq!(comp.deferred_reason, Some("Something went wrong".into()));
+    }
+
+    #[test]
+    fn test_component_deferred_cascade() {
+        let (state, status, cache) = setup();
+        let id = "upstream".to_string();
+        let dep = "downstream".to_string();
+
+        BootstrapAdapter::process_event(
+            &make_event(EventPayload::ComponentDeferred {
+                id: id.clone(),
+                reason: DeferReason::DependencyFailed {
+                    dependency: "other".into(),
+                },
+                affected_dependents: vec![dep.clone()],
+            }),
+            &state,
+            &status,
+            &cache,
+        );
+
+        let guard = state.read().unwrap();
+
+        let upstream = guard.get(&id).unwrap();
+        assert_eq!(upstream.status, ComponentStatus::Deferred);
+        // Reason serialization check
+        assert!(
+            upstream
+                .deferred_reason
+                .as_ref()
+                .unwrap()
+                .contains("DependencyFailed")
+        );
+
+        let downstream = guard.get(&dep).unwrap();
+        assert_eq!(downstream.status, ComponentStatus::Deferred);
+        assert!(
+            downstream
+                .deferred_reason
+                .as_ref()
+                .unwrap()
+                .contains("upstream deferred")
+        );
+    }
+
+    #[test]
+    fn test_cache_ttl() {
+        let mut cache = DetailedStatusCache::new(Duration::from_millis(50));
+        let id = "test".to_string();
+
+        cache.insert(id.clone(), DetailedStatus::empty());
+        assert!(cache.get(&id).is_some());
+
+        std::thread::sleep(Duration::from_millis(60));
+        assert!(cache.get(&id).is_none());
     }
 }

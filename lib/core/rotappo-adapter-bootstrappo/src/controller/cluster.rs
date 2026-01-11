@@ -4,8 +4,8 @@ use std::path::Path;
 use tracing::info;
 
 use bootstrappo::adapters::infrastructure::kube::cluster::K3sBootstrapConfig;
-use bootstrappo::application::cluster::{detect_existing_cluster, init_cluster_with_events};
 use bootstrappo::application::events::{EventBus, EventPayload};
+use bootstrappo::application::flows::cluster::{detect_existing_cluster, init_cluster_with_events};
 use bootstrappo::application::runtime::modules::io::command::CommandAdapter;
 use bootstrappo::ports::CommandPort;
 

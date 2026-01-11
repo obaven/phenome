@@ -7,7 +7,7 @@ mod bootstrap;
 
 pub use bootstrap::{
     AccessStatus, AccessUrlInfo, BootstrapPort, BootstrapStatus, ComponentState, ComponentStatus,
-    ComponentTiming,
+    ComponentTiming, InteractiveCommand,
 };
 
 pub trait AssemblyPort: Send + Sync {

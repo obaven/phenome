@@ -152,7 +152,6 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
 
         tui_handle.await.context("Bootstrap TUI task failed")??;
         reconcile_handle.await.context("Reconciler task failed")??;
-        drop(event_bus);
         let _ = log_task.await;
 
         info!("Bootstrap TUI session completed.");
@@ -277,10 +276,9 @@ fn format_bootstrap_log(payload: &EventPayload) -> Option<(EventLevel, String)> 
             EventLevel::Info,
             format!("component {id} completed in {}s", duration.as_secs()),
         )),
-        EventPayload::ComponentFailed { id, error, .. } => Some((
-            EventLevel::Error,
-            format!("component {id} failed: {error}"),
-        )),
+        EventPayload::ComponentFailed { id, error, .. } => {
+            Some((EventLevel::Error, format!("component {id} failed: {error}")))
+        }
         EventPayload::ComponentDeferred {
             id,
             reason,
@@ -327,12 +325,8 @@ fn format_bootstrap_log(payload: &EventPayload) -> Option<(EventLevel, String)> 
         EventPayload::K3sInstallCompleted => {
             Some((EventLevel::Info, "k3s install completed".into()))
         }
-        EventPayload::K3sApiServerReady => {
-            Some((EventLevel::Info, "k3s API server ready".into()))
-        }
-        EventPayload::K3sCoreDnsReady => {
-            Some((EventLevel::Info, "k3s CoreDNS ready".into()))
-        }
+        EventPayload::K3sApiServerReady => Some((EventLevel::Info, "k3s API server ready".into())),
+        EventPayload::K3sCoreDnsReady => Some((EventLevel::Info, "k3s CoreDNS ready".into())),
         EventPayload::K3sBootstrapCompleted => {
             Some((EventLevel::Info, "k3s bootstrap completed".into()))
         }

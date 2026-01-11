@@ -3,6 +3,7 @@
 mod actions;
 mod assembly;
 mod assembly_steps;
+pub mod bootstrap;
 mod capabilities;
 mod header;
 mod help;
