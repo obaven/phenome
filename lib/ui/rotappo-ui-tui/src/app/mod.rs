@@ -18,15 +18,20 @@ mod actions;
 mod collapse;
 mod constants;
 mod core;
+mod graph;
 mod hover;
 mod input;
 mod keyboard;
 mod layout;
 mod lifecycle;
+mod navigation;
 mod panel;
 mod scroll;
 mod tooltips;
 
+pub(crate) use graph::{GraphDirection, GraphRenderState, TerminalImageProtocol};
+#[doc(inline)]
+pub use navigation::{NavAction, NavSection, NavSubItem, NavView, nav_items};
 #[doc(inline)]
 pub use panel::PanelId;
 

@@ -6,7 +6,7 @@ use std::time::Duration;
 use rotappo_domain::{Event, EventLevel};
 use rotappo_ui_presentation::logging::{LOG_INTERVALS_SECS, LogFilter};
 
-use super::App;
+use super::{App, NavView};
 use crate::state::HoldState;
 
 impl App {
@@ -27,7 +27,13 @@ impl App {
         match mouse.kind {
             MouseEventKind::Down(MouseButton::Left) => {
                 let click_pos = (mouse.column, mouse.row).into();
+                if self.handle_navbar_click(mouse.column, mouse.row) {
+                    return Ok(());
+                }
                 if self.handle_header_click(mouse.column, mouse.row) {
+                    return Ok(());
+                }
+                if self.handle_graph_click(mouse.column, mouse.row) {
                     return Ok(());
                 }
                 if self.ui.log_menu_pinned
@@ -51,17 +57,113 @@ impl App {
                 self.handle_action_click(mouse.column, mouse.row, true)?;
             }
             MouseEventKind::ScrollDown => {
-                self.update_hover(mouse.column, mouse.row);
-                self.scroll_active_panel(1);
+                let view = self.active_view();
+                let is_detail_hover = self.ui.show_detail_panel && self.ui.detail_area.contains((mouse.column, mouse.row).into());
+                
+                if is_detail_hover {
+                     self.ui.detail_scroll = self.ui.detail_scroll.saturating_add(1);
+                } else if matches!(view, NavView::TopologyDagGraph | NavView::TopologyDualGraph) {
+                    self.graph.zoom_out();
+                } else {
+                    self.update_hover(mouse.column, mouse.row);
+                    self.scroll_active_panel(1);
+                }
             }
             MouseEventKind::ScrollUp => {
-                self.update_hover(mouse.column, mouse.row);
-                self.scroll_active_panel(-1);
+                let view = self.active_view();
+                let is_detail_hover = self.ui.show_detail_panel && self.ui.detail_area.contains((mouse.column, mouse.row).into());
+
+                if is_detail_hover {
+                    self.ui.detail_scroll = self.ui.detail_scroll.saturating_sub(1);
+                } else if matches!(view, NavView::TopologyDagGraph | NavView::TopologyDualGraph) {
+                    self.graph.zoom_in();
+                } else {
+                    self.update_hover(mouse.column, mouse.row);
+                    self.scroll_active_panel(-1);
+                }
+            }
+            MouseEventKind::Drag(MouseButton::Left) => {
+                let view = self.active_view();
+                if matches!(view, NavView::TopologyDagGraph | NavView::TopologyDualGraph) {
+                    // Calculate delta (we need previous mouse pos, which updates in 'Moved' or store 'drag_start'?)
+                    // `crossterm` Drag events just give current pos.
+                    // We need self.ui.mouse_pos to compare?
+                    if let Some((prev_c, prev_r)) = self.ui.mouse_pos {
+                        let dx = (mouse.column as i16 - prev_c as i16) as f64;
+                        let dy = (mouse.row as i16 - prev_r as i16) as f64;
+
+                        if let Some(layout) = self.graph.layout() {
+                            let bounds = self.graph.view_bounds_for(layout, self.ui.assembly_area);
+                            let screen_w = self.ui.assembly_area.width.max(1) as f64;
+                            let screen_h = self.ui.assembly_area.height.max(1) as f64;
+
+                            let graph_dx = dx * (bounds.x_max - bounds.x_min) / screen_w;
+                            let graph_dy = dy * (bounds.y_max - bounds.y_min) / screen_h;
+
+                            // Invert for "drag paper" feel
+                            self.graph.pan(-graph_dx, graph_dy);
+                        }
+                    }
+                }
+                self.ui.mouse_pos = Some((mouse.column, mouse.row));
             }
             MouseEventKind::Moved => self.update_hover(mouse.column, mouse.row),
             _ => {}
         }
         Ok(())
+    }
+
+    fn handle_navbar_click(&mut self, column: u16, row: u16) -> bool {
+        let pos = (column, row).into();
+        if self.ui.nav_flyout_area.contains(pos) {
+            for (index, area) in self
+                .ui
+                .nav_flyout_item_areas
+                .iter()
+                .take(self.ui.nav_flyout_count)
+                .enumerate()
+            {
+                if area.contains(pos) {
+                    self.activate_nav_sub(index);
+                    return true;
+                }
+            }
+        }
+        for (index, area) in self.ui.navbar_item_areas.iter().enumerate() {
+            if area.contains(pos) {
+                let nav = crate::app::NavSection::from_index(index);
+                self.set_active_nav(nav);
+                return true;
+            }
+        }
+        false
+    }
+
+    fn handle_graph_click(&mut self, column: u16, row: u16) -> bool {
+        let view = self.active_view();
+        if !matches!(view, NavView::TopologyDagGraph | NavView::TopologyDualGraph) {
+            return false;
+        }
+        let area = self.ui.assembly_area;
+        if area.width == 0 || area.height == 0 {
+            return false;
+        }
+        if !area.contains((column, row).into()) {
+            return false;
+        }
+        let Some(bounds) = self.graph.view_bounds(self.ui.assembly_area) else {
+            return true;
+        };
+        let width = area.width.saturating_sub(1).max(1);
+        let height = area.height.saturating_sub(1).max(1);
+        let x_ratio = (column.saturating_sub(area.x) as f64) / (width as f64);
+        let y_ratio = (row.saturating_sub(area.y) as f64) / (height as f64);
+        let x = bounds.x_min + x_ratio * (bounds.x_max - bounds.x_min);
+        let y = bounds.y_max - y_ratio * (bounds.y_max - bounds.y_min);
+        if self.graph.select_node_at(x, y) {
+            self.ui.show_detail_panel = true;
+        }
+        true
     }
 
     fn handle_log_menu_click(&mut self, column: u16, row: u16) -> bool {

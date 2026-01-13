@@ -205,6 +205,13 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
         // BSP-227: Create native K8sClient for namespace and manifest operations
         let k8s_client = Some(k8s_client.clone());
 
+        let discovery_client = kube::Client::try_default().await?;
+        let discovery = Arc::new(
+            bootstrappo::application::runtime::modules::runtime::k8s::cache::ClusterCache::new(
+                discovery_client,
+            ),
+        );
+
         // BSP-148: Pass force flag to context for fast-path skip bypass
         let mut manager = bootstrappo::application::lifecycle::LifecycleManager::new(
             config,
@@ -213,6 +220,7 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
             k8s.clone(),
             helm.clone(),
             cmd.clone(),
+            discovery,
         )
         .with_plan(assembly);
 

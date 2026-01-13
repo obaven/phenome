@@ -1,5 +1,6 @@
 use ratatui::layout::Margin;
 
+use crate::app::NavView;
 use crate::state::HoverPanel;
 use crate::util::{assembly_lines, collect_problems};
 
@@ -61,11 +62,24 @@ impl App {
     pub fn scroll_actions(&mut self, delta: i16) {
         let actions = self.runtime.registry().actions();
         let total = actions.len() as i16;
-        let inner = self.ui.actions_area.inner(Margin {
-            horizontal: 1,
-            vertical: 1,
-        });
-        let visible = (inner.height as usize / 2).max(1) as i16;
+        let margin = if matches!(self.active_view(), NavView::TerminalCommands) {
+            Margin {
+                horizontal: 0,
+                vertical: 0,
+            }
+        } else {
+            Margin {
+                horizontal: 1,
+                vertical: 1,
+            }
+        };
+        let inner = self.ui.actions_area.inner(margin);
+        let item_height = if matches!(self.active_view(), NavView::TerminalCommands) {
+            1
+        } else {
+            2
+        };
+        let visible = (inner.height as usize / item_height).max(1) as i16;
         let max_offset = total.saturating_sub(visible).max(0) as u16;
         let next = if delta.is_positive() {
             self.ui.actions_scroll.saturating_add(delta as u16)
@@ -92,11 +106,24 @@ impl App {
     }
 
     pub fn sync_action_scroll(&mut self, selected: usize) {
-        let inner = self.ui.actions_area.inner(Margin {
-            horizontal: 1,
-            vertical: 1,
-        });
-        let visible = (inner.height as usize / 2).max(1);
+        let margin = if matches!(self.active_view(), NavView::TerminalCommands) {
+            Margin {
+                horizontal: 0,
+                vertical: 0,
+            }
+        } else {
+            Margin {
+                horizontal: 1,
+                vertical: 1,
+            }
+        };
+        let inner = self.ui.actions_area.inner(margin);
+        let item_height = if matches!(self.active_view(), NavView::TerminalCommands) {
+            1
+        } else {
+            2
+        };
+        let visible = (inner.height as usize / item_height).max(1);
         let max_offset = self
             .runtime
             .registry()

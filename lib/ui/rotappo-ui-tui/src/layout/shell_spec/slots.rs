@@ -20,3 +20,6 @@ pub const SLOT_LOG_CONTROLS: &str = "log_controls";
 pub const SLOT_LOGS: &str = "logs";
 pub const SLOT_FOOTER_HELP: &str = "footer_help";
 pub const SLOT_FOOTER_SETTINGS: &str = "footer_settings";
+
+pub const SLOT_NAVBAR: &str = "navbar";
+pub const SLOT_NOTIFICATIONS: &str = "notifications";

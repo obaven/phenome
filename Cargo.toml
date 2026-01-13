@@ -10,6 +10,10 @@ members = [
   "lib/core/rotappo-ports",
   "lib/core/rotappo-application",
   "lib/core/rotappo-adapter-bootstrappo",
+  "lib/core/rotappo-adapter-analytics",
+  "lib/core/rotappo-adapter-ml",
+  "lib/core/rotappo-adapter-notification",
+  "lib/core/rotappo-ml",
   "lib/ui/rotappo-ui-presentation",
   "lib/ui/rotappo-ui-core",
   "lib/ui/rotappo-ui-terminal",
@@ -25,7 +29,9 @@ module-bootstrappo = [
 module-rotato = ["rotappo-ui-terminal/rotato-cli"]
 cli = ["dep:rotappo-ui-terminal", "dep:tokio"]
 ui-core = ["dep:rotappo-ui-core"]
-tui = ["ui-core", "dep:rotappo-ui-tui"]
+tui = ["ui-core", "dep:rotappo-ui-tui", "dep:tokio"]
+analytics = ["dep:rotappo-adapter-analytics"]
+ml = ["dep:rotappo-adapter-ml", "dep:rotappo-ml"]
 
 [[bin]]
 name = "cli"
@@ -37,11 +43,24 @@ name = "tui"
 path = "src/bin/tui.rs"
 required-features = ["tui", "module-bootstrappo"]
 
+[[bin]]
+name = "analytics-service"
+path = "src/bin/analytics-service.rs"
+required-features = ["analytics"]
+
+[[bin]]
+name = "ml-service"
+path = "src/bin/ml-service.rs"
+required-features = ["ml"]
+
 [dependencies]
 anyhow = "1.0.100"
 rotappo-adapter-bootstrappo = { path = "lib/core/rotappo-adapter-bootstrappo", optional = true }
+rotappo-adapter-analytics = { path = "lib/core/rotappo-adapter-analytics", optional = true }
+rotappo-adapter-ml = { path = "lib/core/rotappo-adapter-ml", optional = true }
 rotappo-application = { path = "lib/core/rotappo-application" }
 rotappo-domain = { path = "lib/core/rotappo-domain" }
+rotappo-ml = { path = "lib/core/rotappo-ml", optional = true }
 rotappo-ui-core = { path = "lib/ui/rotappo-ui-core", optional = true }
 rotappo-ui-terminal = { path = "lib/ui/rotappo-ui-terminal", optional = true }
 rotappo-ui-tui = { path = "lib/ui/rotappo-ui-tui", optional = true }
@@ -50,3 +69,7 @@ tokio = { version = "1.48.0", features = ["full"], optional = true }
 [dev-dependencies]
 rotappo-ui-presentation = { path = "lib/ui/rotappo-ui-presentation" }
 rotappo-ui-terminal = { path = "lib/ui/rotappo-ui-terminal" }
+rotappo-adapter-analytics = { path = "lib/core/rotappo-adapter-analytics" }
+rotappo-adapter-ml = { path = "lib/core/rotappo-adapter-ml" }
+tempfile = "3.24.0"
+tokio = { version = "1.48.0", features = ["full", "test-util"] }

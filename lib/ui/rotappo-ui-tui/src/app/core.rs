@@ -3,13 +3,16 @@
 use ratatui::widgets::ListState;
 use std::path::PathBuf;
 use std::time::Instant;
+// use tokio::sync::mpsc;
 
+use super::{GraphRenderState, NavSection, NavView};
 use crate::layout::LayoutPolicy;
 use crate::state::UiState;
 use rotappo_application::Runtime;
-use rotappo_domain::{ActionId, ActionSafety};
+use rotappo_domain::{ActionId, ActionSafety, Anomaly, MetricSample, Recommendation};
 use rotappo_ports::PortSet;
 
+use crate::analytics_client::AnalyticsClient;
 /// External context required to run the TUI.
 #[derive(Clone)]
 pub struct AppContext {
@@ -64,6 +67,23 @@ pub struct App {
     pub should_quit: bool,
     pub ui: UiState,
     pub layout_policy: LayoutPolicy,
+    pub graph: GraphRenderState,
+    pub active_nav: NavSection,
+    pub active_view: NavView,
+    pub nav_sub_index: [usize; 3],
+    pub analytics_metrics: Option<Vec<MetricSample>>,
+    pub analytics_anomalies: Option<Vec<Anomaly>>,
+    pub analytics_recommendations: Option<Vec<Recommendation>>,
+    pub analytics_cache_timestamp: Option<Instant>,
+    pub analytics_client: Option<AnalyticsClient>,
+    pub analytics_rx: Option<tokio::sync::mpsc::Receiver<AnalyticsUpdate>>,
+}
+
+#[derive(Debug)]
+pub enum AnalyticsUpdate {
+    Metrics(Vec<MetricSample>),
+    Anomalies(Vec<Anomaly>),
+    Recommendations(Vec<Recommendation>),
 }
 
 /// Confirmation prompt details for high-risk actions.

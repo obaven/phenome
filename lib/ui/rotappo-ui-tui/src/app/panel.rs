@@ -2,7 +2,8 @@
 
 use crate::layout::{
     SLOT_ACTIONS, SLOT_ASSEMBLY_PROGRESS, SLOT_ASSEMBLY_STEPS, SLOT_CAPABILITIES, SLOT_FOOTER_HELP,
-    SLOT_FOOTER_SETTINGS, SLOT_LOG_CONTROLS, SLOT_LOGS, SLOT_PROBLEMS, SLOT_SNAPSHOT,
+    SLOT_FOOTER_SETTINGS, SLOT_LOG_CONTROLS, SLOT_LOGS, SLOT_NAVBAR, SLOT_NOTIFICATIONS,
+    SLOT_PROBLEMS, SLOT_SNAPSHOT,
 };
 
 /// Panels displayed in the TUI shell.
@@ -18,6 +19,8 @@ pub enum PanelId {
     Problems,
     Logs,
     Help,
+    Navbar,
+    Notifications,
 }
 
 impl PanelId {
@@ -33,6 +36,8 @@ impl PanelId {
             PanelId::Problems => Some(SLOT_PROBLEMS),
             PanelId::Logs => Some(SLOT_LOGS),
             PanelId::Help => Some(SLOT_FOOTER_HELP),
+            PanelId::Navbar => Some(SLOT_NAVBAR),
+            PanelId::Notifications => Some(SLOT_NOTIFICATIONS),
         }
     }
 }

@@ -15,3 +15,17 @@ extend = [
 
 [config]
 skip_core_tasks = true
+
+[tasks.build-analytics]
+command = "cargo"
+args = ["build", "--bin", "analytics-service", "--features", "analytics"]
+
+[tasks.build-ml]
+command = "cargo"
+args = ["build", "--bin", "ml-service", "--features", "ml"]
+
+[tasks.build-all-services]
+dependencies = ["build-analytics", "build-ml", "build"]
+
+[tasks.run-services]
+script = "scripts/start-services.sh"

@@ -1,0 +1,248 @@
+syntax = "proto3";
+
+package analytics;
+
+service AnalyticsService {
+  // Metric Ingestion
+  rpc RecordMetrics (RecordMetricsRequest) returns (RecordMetricsResponse);
+
+  // Queries
+  rpc QueryAggregated (QueryAggregatedRequest) returns (QueryAggregatedResponse);
+  rpc GetTimeSeries (GetTimeSeriesRequest) returns (GetTimeSeriesResponse);
+  rpc GetAnomalies (GetAnomaliesRequest) returns (GetAnomaliesResponse);
+  rpc GetRecommendations (GetRecommendationsRequest) returns (GetRecommendationsResponse);
+  rpc QueryMetrics (QueryMetricsRequest) returns (QueryMetricsResponse);
+}
+
+message RecordMetricsRequest {
+  repeated MetricSample samples = 1;
+}
+
+message RecordMetricsResponse {}
+
+message QueryAggregatedRequest {
+  optional string cluster_id = 1;
+  optional ResourceType resource_type = 2;
+  repeated MetricType metric_types = 3;
+  int64 window_duration_ms = 4;
+  optional TimeRange time_range = 5;
+}
+
+message QueryAggregatedResponse {
+  repeated AggregatedMetric metrics = 1;
+}
+
+message GetTimeSeriesRequest {
+  string resource_id = 1;
+  MetricType metric_type = 2;
+  TimeRange time_range = 3;
+}
+
+message GetTimeSeriesResponse {
+  TimeSeries series = 1;
+}
+
+message GetAnomaliesRequest {
+  optional string cluster_id = 1;
+  optional string resource_id = 2;
+  optional MetricType metric_type = 3;
+  optional Severity severity = 4;
+  optional TimeRange time_range = 5;
+  optional uint32 limit = 6;
+}
+
+message GetAnomaliesResponse {
+  repeated Anomaly anomalies = 1;
+}
+
+message GetRecommendationsRequest {
+  optional string cluster_id = 1;
+  optional Priority priority = 2;
+  optional RecommendationStatusKind status = 3;
+  optional uint32 limit = 4;
+}
+
+message GetRecommendationsResponse {
+  repeated Recommendation recommendations = 1;
+}
+
+message QueryMetricsRequest {
+  optional string cluster_id = 1;
+  optional ResourceType resource_type = 2;
+  repeated string resource_ids = 3;
+  repeated MetricType metric_types = 4;
+  optional TimeRange time_range = 5;
+}
+
+message QueryMetricsResponse {
+  repeated MetricSample samples = 1;
+}
+
+// Shared Messages (mirrors domain models)
+
+message MetricSample {
+  string cluster_id = 1;
+  ResourceType resource_type = 2;
+  string resource_id = 3;
+  MetricType metric_type = 4;
+  int64 timestamp = 5;
+  double value = 6;
+  string unit = 7;
+}
+
+message AggregatedMetric {
+  string cluster_id = 1;
+  ResourceType resource_type = 2;
+  MetricType metric_type = 3;
+  int64 window_start = 4;
+  int64 window_duration_ms = 5;
+  uint64 count = 6;
+  double sum = 7;
+  double min = 8;
+  double max = 9;
+  double avg = 10;
+  double p50 = 11;
+  double p95 = 12;
+  double p99 = 13;
+}
+
+message TimeSeries {
+  string cluster_id = 1;
+  string resource_id = 2;
+  MetricType metric_type = 3;
+  string unit = 4;
+  repeated TimeSeriesPoint points = 5;
+}
+
+message TimeSeriesPoint {
+  int64 timestamp = 1;
+  double value = 2;
+}
+
+message TimeRange {
+  int64 start_ms = 1;
+  int64 end_ms = 2;
+}
+
+message Anomaly {
+  string id = 1;
+  string cluster_id = 2;
+  string resource_id = 3;
+  int64 detected_at = 4;
+  MetricType metric_type = 5;
+  Severity severity = 6;
+  double confidence = 7;
+  string description = 8;
+  double baseline_value = 9;
+  double observed_value = 10;
+  double deviation_sigma = 11;
+  repeated string related_metrics = 12;
+  optional string root_cause = 13;
+}
+
+message Recommendation {
+  string id = 1;
+  string cluster_id = 2;
+  int64 created_at = 3;
+  RecommendationType recommendation_type = 4;
+  Priority priority = 5;
+  double confidence = 6;
+  string title = 7;
+  string description = 8;
+  string impact_estimate = 9;
+  optional CostImpact cost_impact = 10;
+  RecommendationAction action = 11;
+  RecommendationStatus status = 12;
+}
+
+message CostImpact {
+  double daily_change = 1;
+  string currency = 2;
+}
+
+message RecommendationAction {
+    oneof action {
+        ScaleDeploymentAction scale_deployment = 1;
+        UpdateResourceLimitsAction update_limits = 2;
+        ReclaimStorageAction reclaim_storage = 3;
+    }
+}
+
+message ScaleDeploymentAction {
+    string name = 1;
+    uint32 from = 2;
+    uint32 to = 3;
+}
+
+message UpdateResourceLimitsAction {
+    string resource = 1;
+    ResourceLimits limits = 2;
+}
+
+message ResourceLimits {
+    optional string cpu = 1;
+    optional string memory = 2;
+}
+
+message ReclaimStorageAction {
+    string volume = 1;
+    uint64 size_gb = 2;
+}
+
+message RecommendationStatus {
+    oneof status {
+        bool pending = 1;
+        int64 scheduled_at = 2;
+        int64 applied_at = 3;
+        string dismissed_reason = 4;
+    }
+}
+
+enum ResourceType {
+  RESOURCE_TYPE_UNSPECIFIED = 0;
+  RESOURCE_TYPE_POD = 1;
+  RESOURCE_TYPE_NODE = 2;
+  RESOURCE_TYPE_CONTAINER = 3;
+  RESOURCE_TYPE_SERVICE = 4;
+}
+
+enum MetricType {
+  METRIC_TYPE_UNSPECIFIED = 0;
+  METRIC_TYPE_CPU_USAGE = 1;
+  METRIC_TYPE_MEMORY_USAGE = 2;
+  METRIC_TYPE_NETWORK_IN = 3;
+  METRIC_TYPE_NETWORK_OUT = 4;
+  METRIC_TYPE_DISK_READ = 5;
+  METRIC_TYPE_DISK_WRITE = 6;
+}
+
+enum Severity {
+  SEVERITY_UNSPECIFIED = 0;
+  SEVERITY_CRITICAL = 1;
+  SEVERITY_WARNING = 2;
+  SEVERITY_INFO = 3;
+}
+
+enum RecommendationType {
+  RECOMMENDATION_TYPE_UNSPECIFIED = 0;
+  RECOMMENDATION_TYPE_SCALE_UP = 1;
+  RECOMMENDATION_TYPE_SCALE_DOWN = 2;
+  RECOMMENDATION_TYPE_OPTIMIZE_RESOURCES = 3;
+  RECOMMENDATION_TYPE_ADJUST_LIMITS = 4;
+  RECOMMENDATION_TYPE_STORAGE_OPTIMIZATIONS = 5;
+}
+
+enum Priority {
+  PRIORITY_UNSPECIFIED = 0;
+  PRIORITY_HIGH = 1;
+  PRIORITY_MEDIUM = 2;
+  PRIORITY_LOW = 3;
+}
+
+enum RecommendationStatusKind {
+  RECOMMENDATION_STATUS_KIND_UNSPECIFIED = 0;
+  RECOMMENDATION_STATUS_KIND_PENDING = 1;
+  RECOMMENDATION_STATUS_KIND_SCHEDULED = 2;
+  RECOMMENDATION_STATUS_KIND_APPLIED = 3;
+  RECOMMENDATION_STATUS_KIND_DISMISSED = 4;
+}

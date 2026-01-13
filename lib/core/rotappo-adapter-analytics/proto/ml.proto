@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package ml;
+
+import "analytics.proto";
+
+service MLService {
+  rpc DetectAnomalies (DetectAnomaliesRequest) returns (DetectAnomaliesResponse);
+  rpc PredictScalingNeeds (PredictScalingNeedsRequest) returns (PredictScalingNeedsResponse);
+  rpc GenerateRecommendations (GenerateRecommendationsRequest) returns (GenerateRecommendationsResponse);
+}
+
+message DetectAnomaliesRequest {
+  TimeSeriesData data = 1;
+}
+
+message DetectAnomaliesResponse {
+  repeated analytics.Anomaly anomalies = 1;
+}
+
+message PredictScalingNeedsRequest {
+  string resource_id = 1;
+  int64 horizon_ms = 2;
+}
+
+message PredictScalingNeedsResponse {
+  ScalingPrediction prediction = 1;
+}
+
+message GenerateRecommendationsRequest {
+  string cluster_id = 1;
+}
+
+message GenerateRecommendationsResponse {
+  repeated analytics.Recommendation recommendations = 1;
+}
+
+message TimeSeriesData {
+  string cluster_id = 1;
+  analytics.TimeRange range = 2;
+  repeated analytics.TimeSeries series = 3;
+}
+
+message ScalingPrediction {
+  string resource_id = 1;
+  int64 generated_at = 2;
+  int64 horizon = 3; // Duration in ms
+  double predicted_value = 4;
+  string unit = 5;
+
+}

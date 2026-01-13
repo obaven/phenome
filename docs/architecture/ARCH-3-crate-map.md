@@ -12,13 +12,18 @@ adapter/UI dependencies from core logic.
 | `rotappo-domain` | Domain models, invariants, enums, snapshot types | std only | 
 | `rotappo-ports` | Port traits and domain-facing contracts | domain | 
 | `rotappo-application` | Runtime orchestration and state update logic | domain, ports | 
+| `rotappo-ml` | ML model implementations | domain | 
 | `rotappo-ui-presentation` | UI/CLI-agnostic formatting + view models | domain | 
 | `rotappo-ui-core` | Framework-agnostic UI contracts | domain, ui-presentation | 
 | `rotappo-ui-terminal` | CLI formatting + command dispatch | domain, ui-presentation, adapter-bootstrappo | 
 | `rotappo-ui-tui` | TUI adapter (ratatui/crossterm) | domain, ports, application, ui-presentation, ui-core | 
 | `rotappo-adapter-bootstrappo` | Bootstrappo integration + port impls | domain, ports, bootstrappo | 
+| `rotappo-adapter-analytics` | Analytics service adapter | domain, ports | 
+| `rotappo-adapter-ml` | ML service adapter | domain, ports, rotappo-ml | 
 | `bootstrappo` (bin) | Bootstrappo CLI entrypoint | ui-terminal | 
 | `tui` (bin) | TUI composition root | ui-tui, adapter-bootstrappo, application | 
+| `analytics-service` (bin) | Analytics service binary | adapter-analytics | 
+| `ml-service` (bin) | ML service binary | adapter-ml, rotappo-ml | 
 
 Notes:
 - Binaries are the only composition roots that build `Runtime`.
@@ -35,6 +40,9 @@ crates/
     rotappo-ports/
     rotappo-application/
     rotappo-adapter-bootstrappo/
+    rotappo-adapter-analytics/
+    rotappo-adapter-ml/
+    rotappo-ml/
   ui/
     rotappo-ui-presentation/
     rotappo-ui-core/
@@ -66,6 +74,7 @@ Disallowed edges (examples):
 | `crates/core/rotappo-domain/src/*` | `rotappo-domain` | Core model types + snapshot state. |
 | `crates/core/rotappo-ports/src/*` | `rotappo-ports` | Action/Health/Log ports. |
 | `crates/core/rotappo-application/src/*` | `rotappo-application` | Runtime orchestration. |
+| `crates/core/rotappo-ml/src/*` | `rotappo-ml` | ML model implementations. |
 | `crates/ui/rotappo-ui-presentation/src/*` | `rotappo-ui-presentation` | Shared formatting + logging config. |
 | `crates/ui/rotappo-ui-core/src/*` | `rotappo-ui-core` | Framework-agnostic UI types. |
 | `crates/ui/rotappo-ui-terminal/src/*` | `rotappo-ui-terminal` | CLI formatting + dispatch. |
@@ -73,8 +82,12 @@ Disallowed edges (examples):
 | `crates/ui/rotappo-ui-tui/src/*` | `rotappo-ui-tui` | Ratatui adapter and TUI logic. |
 | `crates/core/rotappo-adapter-bootstrappo/src/*` | `rotappo-adapter-bootstrappo` | Port impls + bootstrappo mapping. |
 | `crates/core/rotappo-adapter-bootstrappo/src/controller/*` | `rotappo-adapter-bootstrappo` | Bootstrappo command handlers. |
+| `crates/core/rotappo-adapter-analytics/src/*` | `rotappo-adapter-analytics` | Analytics service components. |
+| `crates/core/rotappo-adapter-ml/src/*` | `rotappo-adapter-ml` | ML service components. |
 | `src/bin/cli.rs` | `cli` | Composition root for bootstrappo CLI. |
 | `src/bin/tui.rs` | `tui` | Composition root for TUI. |
+| `src/bin/analytics-service.rs` | `analytics-service` | Composition root for analytics service. |
+| `src/bin/ml-service.rs` | `ml-service` | Composition root for ML service. |
 | `src/lib.rs` | Workspace root or thin re-export | Prefer thin re-export only. |
 
 ## Decoupling candidates (non-tightly bound logic)

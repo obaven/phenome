@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rotappo-tui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rotappo-tui
+  template:
+    metadata:
+      labels:
+        app: rotappo-tui
+    spec:
+      containers:
+        - name: tui
+          image: rotappo-tui:latest
+          args: ["tui"]

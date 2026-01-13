@@ -46,6 +46,7 @@ use bootstrappo::application::timing::storage::{
     cluster::ClusterTimingStorage, local::LocalTimingStorage,
 };
 use bootstrappo::domain::models::assembly::Assembly;
+use bootstrappo::domain::models::module::spec::ModuleSpec;
 
 use rotappo_ports::{
     AccessStatus, AccessUrlInfo, BootstrapPort, BootstrapStatus, ComponentState, ComponentStatus,
@@ -157,6 +158,19 @@ impl BootstrapAdapter {
     ) {
         let k8s = self.k8s.clone();
         tokio::spawn(async move {
+            // Initial fetch of access URLs (in case bootstrap is already done or ongoing)
+            if let Ok(urls) = Self::fetch_access_urls(&k8s).await {
+                if let Ok(mut guard) = access_urls.write() {
+                    *guard = urls;
+                }
+            }
+            // Initial fetch of timing history
+            if let Ok(history) = Self::load_timing_history().await {
+                if let Ok(mut guard) = timing_history.write() {
+                    *guard = Some(history);
+                }
+            }
+
             let mut rx = event_bus.subscribe();
             while let Ok(event) = rx.recv().await {
                 Self::process_event(&event, &state, &status, &detailed_cache);
@@ -475,6 +489,14 @@ impl BootstrapPort for BootstrapAdapter {
 
         cache.insert(component_key, detailed.clone());
         Ok(detailed)
+    }
+
+    fn registry_specs(&self) -> HashMap<String, ModuleSpec> {
+        let specs = bootstrappo::application::runtime::registry::get_all_specs();
+        specs
+            .into_iter()
+            .map(|spec| (spec.name.to_string(), spec.clone()))
+            .collect()
     }
 }
 

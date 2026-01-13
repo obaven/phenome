@@ -16,6 +16,7 @@
 //! ```
 
 pub mod app;
+pub mod analytics_client;
 pub mod bootstrap;
 pub mod layout;
 pub mod macros;

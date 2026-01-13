@@ -7,6 +7,7 @@ pub use bootstrappo::application::events::InteractiveCommand;
 use bootstrappo::application::readiness::{DetailedStatus, ReadinessStatus};
 use bootstrappo::application::timing::TimingHistory;
 use bootstrappo::domain::models::assembly::Assembly;
+use bootstrappo::domain::models::module::spec::ModuleSpec;
 
 #[derive(Debug, Clone)]
 pub struct ComponentState {
@@ -127,4 +128,5 @@ pub trait BootstrapPort: Send + Sync {
     fn access_urls(&self) -> Vec<AccessUrlInfo>;
     fn send_command(&self, cmd: InteractiveCommand) -> Result<()>;
     fn get_detailed_status(&self, component_id: &str) -> Result<DetailedStatus>;
+    fn registry_specs(&self) -> HashMap<String, ModuleSpec>;
 }

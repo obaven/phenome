@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  analytics:
+    image: rotappo-analytics:latest
+    command: ["analytics-service"]
+    ports:
+      - "50051:50051"
+    volumes:
+      - ./data:/data
+  ml:
+    image: rotappo-ml:latest
+    command: ["ml-service"]
+    ports:
+      - "50052:50052"
+  tui:
+    image: rotappo-tui:latest
+    command: ["tui"]
+    depends_on:
+      - analytics
+      - ml

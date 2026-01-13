@@ -1,57 +1,60 @@
-# Jellyfin Media Server Values
-# Uses bjw-s app-template chart
+# Jellyfin Helm Values
+# Rendered by Bootstrappo Composer
 
-controllers:
-  main:
-    containers:
-      main:
-        image:
-          repository: jellyfin/jellyfin
-          tag: latest
-        env:
-          TZ: America/New_York
-        resources:
-          requests:
-            memory: 512Mi
-            cpu: 500m
-          limits:
-            memory: 4Gi
-            cpu: 4000m
+image:
+  repository: lscr.io/linuxserver/jellyfin
+  tag: latest
+
+env:
+  - name: PUID
+    value: "1000"
+  - name: PGID
+    value: "1000"
+  - name: TZ
+    value: Etc/UTC
 
 service:
-  main:
-    controller: main
-    ports:
-      http:
-        port: 8096
+  type: ClusterIP
+  port: 8096
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: jellyfin.obaven.org
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: jellyfin-tls
+      hosts:
+        - jellyfin.obaven.org
 
 persistence:
   config:
     enabled: true
-    type: persistentVolumeClaim
-    accessMode: ReadWriteOnce
-    size: 5Gi
-  media:
-    enabled: true
-    type: nfs
-    server: nfs-server.nfs-server.svc.cluster.local
-    path: /mnt/media
+    size: 1Gi
+    storageClassName: local-path
   cache:
     enabled: true
-    type: emptyDir
-    medium: Memory
-    sizeLimit: 2Gi
-
-ingress:
-  main:
+    size: 4Gi
+    storageClassName: local-path
+  media:
     enabled: true
-    hosts:
-      - host: jellyfin.obaven.org
-        paths:
-          - path: /
-            pathType: Prefix
-            service:
-              name: main
-              port: http
-    annotations:
-      cert-manager.io/cluster-issuer: cloudflare-dns-issuer
+    existingClaim: media-nfs
+    mountPath: "/mnt/media"
+
+gpu:
+  enabled: false
+  resource: nvidia.com/gpu
+  limit: 1
+
+resources:
+  requests:
+    memory: 1Gi
+    cpu: 100m
+  limits:
+    memory: 4Gi
+    cpu: 2000m

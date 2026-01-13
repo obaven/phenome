@@ -23,14 +23,39 @@ impl App {
         self.ui.hover_problem_index = None;
         self.ui.log_menu_hover_index = None;
         self.ui.hover_snapshot = false;
+        self.ui.hover_node_id = None;
 
         if self.ui.snapshot_area.contains(pos) && !self.ui.collapsed_snapshot {
             self.ui.hover_snapshot = true;
         }
 
         if self.ui.assembly_area.contains(pos) && !self.ui.collapsed_assembly_steps {
-            self.ui.hover_panel = HoverPanel::Assembly;
-            self.ui.hover_action_index = self.hover_index_in_assembly(row);
+            let view = self.active_view();
+            if matches!(
+                view,
+                crate::app::NavView::TopologyDagGraph | crate::app::NavView::TopologyDualGraph
+            ) {
+                // Graph hover logic
+                // Calculate graph coordinates
+                if let Some(bounds) = self.graph.view_bounds(self.ui.assembly_area) {
+                    let area = self.ui.assembly_area;
+                    let width = area.width.max(1) as f64;
+                    let height = area.height.max(1) as f64;
+                    // Use center of cell (+0.5) for better accuracy
+                    let x_ratio = (column.saturating_sub(area.x) as f64 + 0.5) / width;
+                    let y_ratio = (row.saturating_sub(area.y) as f64 + 0.5) / height;
+                    let x = bounds.x_min + x_ratio * (bounds.x_max - bounds.x_min);
+                    let y = bounds.y_max - y_ratio * (bounds.y_max - bounds.y_min);
+
+                    self.ui.hover_node_id = self.graph.node_id_at(x, y);
+                    if self.ui.hover_node_id.is_some() {
+                        self.ui.hover_panel = HoverPanel::Graph;
+                    }
+                }
+            } else {
+                self.ui.hover_panel = HoverPanel::Assembly;
+                self.ui.hover_action_index = self.hover_index_in_assembly(row);
+            }
         } else if self.ui.capabilities_area.contains(pos) && !self.ui.collapsed_capabilities {
             self.ui.hover_panel = HoverPanel::Capabilities;
             self.ui.hover_capability_index = self.hover_index_in_capabilities(row);
@@ -86,15 +111,27 @@ impl App {
     }
 
     pub fn hover_index_in_actions(&self, row: u16) -> Option<usize> {
-        let inner = self.ui.actions_area.inner(Margin {
-            horizontal: 1,
-            vertical: 1,
-        });
+        let margin = if matches!(self.active_view(), crate::app::NavView::TerminalCommands) {
+            Margin {
+                horizontal: 0,
+                vertical: 0,
+            }
+        } else {
+            Margin {
+                horizontal: 1,
+                vertical: 1,
+            }
+        };
+        let inner = self.ui.actions_area.inner(margin);
         if inner.height == 0 || row < inner.y || row >= inner.y + inner.height {
             return None;
         }
         let offset = row.saturating_sub(inner.y) as usize;
-        let item_height = 2usize;
+        let item_height = if matches!(self.active_view(), crate::app::NavView::TerminalCommands) {
+            1usize
+        } else {
+            2usize
+        };
         let index = offset / item_height + self.ui.actions_scroll as usize;
         if index < self.runtime.registry().actions().len() {
             Some(index)

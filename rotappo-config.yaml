@@ -1,0 +1,36 @@
+deployment:
+  mode: single-binary
+
+analytics:
+  storage: sqlite
+  sqlite_path: ~/.rotappo/analytics.db
+  retention:
+    full_resolution_days: 7
+    aggregated_days: 30
+  collection:
+    interval_seconds: 2
+    batch_size: 1000
+
+ml:
+  models:
+    anomaly_detection: isolation_forest
+    scaling_prediction: moving_average
+  thresholds:
+    critical_confidence: 0.90
+    warning_confidence: 0.80
+
+clusters:
+  - name: production-us-east-1
+    context: prod-us-east
+  - name: production-eu-west-1
+    context: prod-eu-west
+
+services:
+  analytics_url: http://localhost:50051
+  ml_url: http://localhost:50052
+
+notifications:
+  channels:
+    - type: ntfy
+      url: https://ntfy.sh
+      topic: rotappo-alerts

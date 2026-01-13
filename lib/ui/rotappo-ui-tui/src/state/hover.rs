@@ -12,6 +12,7 @@
 pub enum HoverPanel {
     None,
     Assembly,
+    Graph,
     Capabilities,
     Actions,
     Logs,

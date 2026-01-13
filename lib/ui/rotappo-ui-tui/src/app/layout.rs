@@ -30,6 +30,7 @@ impl App {
             PanelId::Problems,
             PanelId::Logs,
             PanelId::Help,
+            PanelId::Notifications,
         ];
         for panel in panels {
             if let Some(slot) = panel.slot_id() {

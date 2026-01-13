@@ -1,0 +1,10 @@
+[Unit]
+Description=Rotappo TUI
+After=network.target
+
+[Service]
+ExecStart=%h/.cargo/bin/rotappo tui
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

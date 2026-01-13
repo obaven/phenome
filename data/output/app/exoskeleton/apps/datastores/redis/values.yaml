@@ -19,13 +19,24 @@ image:
 auth:
   enabled: true
   sentinel: true
-  password: "a+Z20Y6RkEY6HO+QIy8uQrrIz2ZPEZAdHn90hkfx2SY="
+  password: "AE5RXAb1ZjshHJsaBmzkDWiAmZuDmnLanWMmUs0W7v4="
+
+volumePermissions:
+  enabled: true
+  image:
+    registry: docker.io
+    repository: bitnami/os-shell
+    tag: 12
+    pullPolicy: IfNotPresent
 
 master:
   count: 1
   persistence:
     enabled: true
     size: 1Gi
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
   resources:
     requests:
       memory: 256Mi

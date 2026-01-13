@@ -3,12 +3,24 @@ use std::sync::{Arc, Mutex};
 
 use rotappo_domain::{Assembly, Event, HealthSnapshot};
 
-mod bootstrap;
+use async_trait::async_trait;
 
+mod analytics;
+mod bootstrap;
+mod metrics;
+mod ml;
+mod notification;
+mod scheduler;
+
+pub use analytics::AnalyticsPort;
 pub use bootstrap::{
     AccessStatus, AccessUrlInfo, BootstrapPort, BootstrapStatus, ComponentState, ComponentStatus,
     ComponentTiming, InteractiveCommand,
 };
+pub use metrics::MetricsPort;
+pub use ml::MLPort;
+pub use notification::NotificationPort;
+pub use scheduler::SchedulerPort;
 
 pub trait AssemblyPort: Send + Sync {
     fn assembly(&self) -> Option<Assembly>;
@@ -30,6 +42,11 @@ pub struct PortSet {
     pub health: Arc<dyn HealthPort>,
     pub logs: Arc<dyn LogPort>,
     pub bootstrap: Arc<dyn BootstrapPort>,
+    pub metrics: Arc<dyn MetricsPort>,
+    pub analytics: Arc<dyn AnalyticsPort>,
+    pub ml: Arc<dyn MLPort>,
+    pub notifications: Arc<dyn NotificationPort>,
+    pub scheduler: Arc<dyn SchedulerPort>,
 }
 
 impl PortSet {
@@ -39,6 +56,11 @@ impl PortSet {
             health: Arc::new(NullHealthPort),
             logs: Arc::new(NullLogPort),
             bootstrap: Arc::new(NullBootstrapPort),
+            metrics: Arc::new(NullMetricsPort),
+            analytics: Arc::new(NullAnalyticsPort),
+            ml: Arc::new(NullMLPort),
+            notifications: Arc::new(NullNotificationPort),
+            scheduler: Arc::new(NullSchedulerPort),
         }
     }
 }
@@ -139,5 +161,163 @@ impl BootstrapPort for NullBootstrapPort {
         _component_id: &str,
     ) -> anyhow::Result<bootstrappo::application::readiness::DetailedStatus> {
         Ok(bootstrappo::application::readiness::DetailedStatus::empty())
+    }
+
+    fn registry_specs(
+        &self,
+    ) -> std::collections::HashMap<String, bootstrappo::domain::models::module::spec::ModuleSpec>
+    {
+        std::collections::HashMap::new()
+    }
+}
+
+#[derive(Clone, Default)]
+struct NullMetricsPort;
+
+#[async_trait]
+impl MetricsPort for NullMetricsPort {
+    async fn collect_metrics(
+        &self,
+        _cluster_id: rotappo_domain::ClusterId,
+    ) -> anyhow::Result<Vec<rotappo_domain::MetricSample>> {
+        Ok(Vec::new())
+    }
+
+    async fn query_metrics(
+        &self,
+        _query: rotappo_domain::MetricsQuery,
+    ) -> anyhow::Result<Vec<rotappo_domain::MetricSample>> {
+        Ok(Vec::new())
+    }
+}
+
+#[derive(Clone, Default)]
+struct NullAnalyticsPort;
+
+#[async_trait]
+impl AnalyticsPort for NullAnalyticsPort {
+    async fn record_metrics(
+        &self,
+        _samples: Vec<rotappo_domain::MetricSample>,
+    ) -> anyhow::Result<()> {
+        Ok(())
+    }
+
+    async fn query_aggregated(
+        &self,
+        _query: rotappo_domain::AggregatedQuery,
+    ) -> anyhow::Result<Vec<rotappo_domain::AggregatedMetric>> {
+        Ok(Vec::new())
+    }
+
+    async fn get_time_series(
+        &self,
+        resource_id: String,
+        metric_type: rotappo_domain::MetricType,
+        _range: rotappo_domain::TimeRange,
+    ) -> anyhow::Result<rotappo_domain::TimeSeries> {
+        Ok(rotappo_domain::TimeSeries {
+            cluster_id: String::new(),
+            resource_id,
+            metric_type,
+            unit: String::new(),
+            points: Vec::new(),
+        })
+    }
+
+    async fn get_anomalies(
+        &self,
+        _filter: rotappo_domain::AnomalyFilter,
+    ) -> anyhow::Result<Vec<rotappo_domain::Anomaly>> {
+        Ok(Vec::new())
+    }
+
+    async fn get_recommendations(
+        &self,
+        _filter: rotappo_domain::RecommendationFilter,
+    ) -> anyhow::Result<Vec<rotappo_domain::Recommendation>> {
+        Ok(Vec::new())
+    }
+
+    async fn query_metrics(
+        &self,
+        _query: rotappo_domain::MetricsQuery,
+    ) -> anyhow::Result<Vec<rotappo_domain::MetricSample>> {
+        Ok(Vec::new())
+    }
+}
+
+#[derive(Clone, Default)]
+struct NullMLPort;
+
+#[async_trait]
+impl MLPort for NullMLPort {
+    async fn detect_anomalies(
+        &self,
+        _data: rotappo_domain::TimeSeriesData,
+    ) -> anyhow::Result<Vec<rotappo_domain::Anomaly>> {
+        Ok(Vec::new())
+    }
+
+    async fn predict_scaling_needs(
+        &self,
+        resource_id: String,
+        horizon: std::time::Duration,
+    ) -> anyhow::Result<rotappo_domain::ScalingPrediction> {
+        Ok(rotappo_domain::ScalingPrediction {
+            resource_id,
+            generated_at: 0,
+            horizon,
+            predicted_value: 0.0,
+            unit: String::new(),
+        })
+    }
+
+    async fn generate_recommendations(
+        &self,
+        _cluster_id: rotappo_domain::ClusterId,
+    ) -> anyhow::Result<Vec<rotappo_domain::Recommendation>> {
+        Ok(Vec::new())
+    }
+}
+
+#[derive(Clone, Default)]
+struct NullNotificationPort;
+
+#[async_trait]
+impl NotificationPort for NullNotificationPort {
+    async fn send_notification(
+        &self,
+        _notification: rotappo_domain::Notification,
+    ) -> anyhow::Result<()> {
+        Ok(())
+    }
+
+    async fn configure_channel(
+        &self,
+        _channel: rotappo_domain::NotificationChannel,
+    ) -> anyhow::Result<()> {
+        Ok(())
+    }
+}
+
+#[derive(Clone, Default)]
+struct NullSchedulerPort;
+
+#[async_trait]
+impl SchedulerPort for NullSchedulerPort {
+    async fn schedule_action(
+        &self,
+        _action: rotappo_domain::ScheduledAction,
+    ) -> anyhow::Result<rotappo_domain::ScheduleId> {
+        Ok(String::new())
+    }
+
+    async fn cancel_schedule(&self, _id: rotappo_domain::ScheduleId) -> anyhow::Result<()> {
+        Ok(())
+    }
+
+    async fn list_scheduled(&self) -> anyhow::Result<Vec<rotappo_domain::ScheduledAction>> {
+        Ok(Vec::new())
     }
 }

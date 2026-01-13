@@ -6,7 +6,9 @@ publish = false
 
 [dependencies]
 anyhow = "1.0.100"
+base64 = "0.22.1"
 crossterm = "0.28.1"
+graphviz-rust = "0.9.6"
 ratatui = "0.29.0"
 rotappo-application = { path = "../../core/rotappo-application" }
 rotappo-domain = { path = "../../core/rotappo-domain" }
@@ -15,3 +17,6 @@ rotappo-ui-core = { path = "../rotappo-ui-core" }
 rotappo-ui-presentation = { path = "../rotappo-ui-presentation" }
 tokio = { version = "1.48.0", features = ["rt-multi-thread", "time"] }
 bootstrappo = { path = "../../../../bootstrappo" }
+tonic = "0.12.3"
+serde_json = "1.0"
+rotappo-adapter-analytics = { version = "0.0.1", path = "../../core/rotappo-adapter-analytics" }

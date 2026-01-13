@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package ml;
+
+import "src/grpc/analytics.proto";
+
+service MlService {
+  // Detects anomalies in the provided time series data
+  rpc DetectAnomalies(DetectAnomaliesRequest) returns (DetectAnomaliesResponse);
+
+  // Predicts future resource usage for scaling decisions
+  rpc PredictScaling(PredictScalingRequest) returns (PredictScalingResponse);
+
+  // Generates optimization recommendations based on metrics
+  rpc GenerateRecommendations(GenerateRecommendationsRequest) returns (GenerateRecommendationsResponse);
+}
+
+message DetectAnomaliesRequest {
+  analytics.TimeSeries series = 1;
+  string model_type = 2; // Optional: specific model to use (e.g., "isolation_forest")
+  double sensitivity = 3; // Optional: 0.0 to 1.0
+}
+
+message DetectAnomaliesResponse {
+  repeated analytics.Anomaly anomalies = 1;
+  string model_version = 2;
+}
+
+message PredictScalingRequest {
+  string cluster_id = 1;
+  analytics.ResourceType resource_type = 2;
+  string resource_id = 3;
+  analytics.MetricType metric_type = 4;
+  int64 forecast_horizon_secs = 5;
+  analytics.TimeSeries historical_data = 6;
+}
+
+message PredictScalingResponse {
+  analytics.TimeSeries forecast = 1;
+  double confidence_score = 2;
+  repeated string influencing_factors = 3;
+}
+
+message GenerateRecommendationsRequest {
+  string cluster_id = 1;
+  repeated string resource_ids = 2; // Optional filter
+  bool include_cost_estimates = 3;
+}
+
+message GenerateRecommendationsResponse {
+  repeated analytics.Recommendation recommendations = 1;
+}

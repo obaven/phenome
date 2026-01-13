@@ -341,6 +341,7 @@ mod tests {
     use anyhow::Result;
     use bootstrappo::application::timing::TimingHistory;
     use bootstrappo::domain::models::assembly::Assembly;
+    use bootstrappo::domain::models::module::spec::ModuleSpec;
     use rotappo_ports::{
         AccessUrlInfo, BootstrapPort, BootstrapStatus, ComponentState, ComponentStatus, PortSet,
     };
@@ -376,6 +377,9 @@ mod tests {
             _id: &str,
         ) -> Result<bootstrappo::application::readiness::DetailedStatus> {
             Ok(bootstrappo::application::readiness::DetailedStatus::empty())
+        }
+        fn registry_specs(&self) -> HashMap<String, ModuleSpec> {
+            HashMap::new()
         }
     }
 

@@ -26,6 +26,12 @@ impl App {
             || self.toggle_if_header(PanelId::LogControls, self.ui.log_controls_area, column, row)
             || self.toggle_if_header(PanelId::Problems, self.ui.problems_area, column, row)
             || self.toggle_if_header(PanelId::Logs, self.ui.logs_area, column, row)
+            || self.toggle_if_header(
+                PanelId::Notifications,
+                self.ui.notifications_area,
+                column,
+                row,
+            )
             || self.toggle_if_header(PanelId::Help, self.ui.help_area, column, row)
     }
 
@@ -52,6 +58,10 @@ impl App {
         self.toggle_panel(PanelId::Settings);
     }
 
+    pub fn toggle_notifications_panel(&mut self) {
+        self.toggle_panel(PanelId::Notifications);
+    }
+
     pub(crate) fn is_collapsed(&self, panel: PanelId) -> bool {
         match panel {
             PanelId::AssemblyProgress => self.ui.collapsed_assembly_progress,
@@ -64,6 +74,8 @@ impl App {
             PanelId::Problems => self.ui.collapsed_problems,
             PanelId::Logs => self.ui.collapsed_logs,
             PanelId::Help => self.ui.collapsed_help,
+            PanelId::Notifications => self.ui.collapsed_notifications,
+            PanelId::Navbar => false,
         }
     }
 
@@ -79,6 +91,8 @@ impl App {
             PanelId::Problems => self.ui.collapsed_problems = value,
             PanelId::Logs => self.ui.collapsed_logs = value,
             PanelId::Help => self.ui.collapsed_help = value,
+            PanelId::Notifications => self.ui.collapsed_notifications = value,
+            PanelId::Navbar => {}
         }
     }
 
@@ -120,6 +134,7 @@ impl App {
             PanelId::Problems,
             PanelId::Logs,
             PanelId::Help,
+            PanelId::Notifications,
         ];
         for panel in panels {
             if let Some(slot) = panel.slot_id() {

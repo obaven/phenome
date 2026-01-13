@@ -1,0 +1,10 @@
+[Unit]
+Description=Rotappo ML Service
+After=network.target
+
+[Service]
+ExecStart=%h/.cargo/bin/rotappo ml-service
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
