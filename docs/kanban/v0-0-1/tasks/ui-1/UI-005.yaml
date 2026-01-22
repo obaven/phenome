@@ -11,14 +11,14 @@ description: |
   Provide a web dashboard for Primer with a local API server and
   live event streaming. This enables remote visibility, collaboration,
   and browser-based operations. Package the web UI as Phenome under
-  lib/phenome and integrate with the Rotato GitOps app at
-  /home/jdean/gitops/apps/security/rotato.
+  lib/phenome and integrate with the Plasmid GitOps app at
+  /home/jdean/gitops/apps/security/plasmid.
 
 deliverables:
   - HTTP API for state snapshots, actions, and health
   - SSE or WebSocket event streaming for logs and step updates
   - Web UI shell with routing and API client
-  - GitOps app packaging for Phenome web UI (Rotato integration)
+  - GitOps app packaging for Phenome web UI (Plasmid integration)
   - Dashboard views for action, capabilities, and storage status
 
 acceptance_criteria:

@@ -1,11 +1,11 @@
-//! Rotappo configuration schema and loader.
+//! Phenome configuration schema and loader.
 
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::Path;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct RotappoConfig {
+pub struct PhenomeConfig {
     pub deployment: DeploymentConfig,
     pub analytics: AnalyticsConfig,
     pub ml: MlConfig,
@@ -80,7 +80,7 @@ pub enum NotificationChannelConfig {
     Ntfy { url: String, topic: String },
 }
 
-impl RotappoConfig {
+impl PhenomeConfig {
     pub fn load_from_path(path: &Path) -> anyhow::Result<Self> {
         let contents = fs::read_to_string(path)?;
         let config = serde_yaml::from_str(&contents)?;

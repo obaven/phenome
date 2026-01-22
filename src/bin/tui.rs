@@ -22,7 +22,7 @@ fn main() -> anyhow::Result<()> {
     };
 
     // Check config for single-binary mode (Config field missing, using env var fallback)
-    if std::env::var("ROTAPPO_SINGLE_BINARY").is_ok() {
+    if std::env::var("PHENOME_SINGLE_BINARY").is_ok() {
         // Spawn analytics-service using std::process::Command
         let mut cmd = std::process::Command::new("./target/debug/analytics-service");
         // Or find it in PATH or use absolute path

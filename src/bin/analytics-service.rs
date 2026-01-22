@@ -9,12 +9,12 @@ use phenome_adapter_analytics::AnalyticsService;
 use phenome_adapter_analytics::cluster_manager::ClusterManager;
 use phenome_adapter_analytics::grpc::GrpcServer;
 use phenome_adapter_analytics::storage::sqlite::{RetentionConfig, SqliteStorage};
-use phenome_domain::RotappoConfig;
+use phenome_domain::PhenomeConfig;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     let config_path = config_path();
-    let config = RotappoConfig::load_from_path(&config_path)?;
+    let config = PhenomeConfig::load_from_path(&config_path)?;
 
     let (shutdown_tx, shutdown_rx) = watch::channel(false);
     let shutdown_signal = shutdown_tx.clone();
@@ -109,7 +109,7 @@ async fn main() -> anyhow::Result<()> {
 }
 
 fn config_path() -> PathBuf {
-    if let Ok(path) = env::var("ROTAPPO_CONFIG_PATH") {
+    if let Ok(path) = env::var("PHENOME_CONFIG_PATH") {
         return PathBuf::from(path);
     }
 

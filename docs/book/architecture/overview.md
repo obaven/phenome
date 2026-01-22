@@ -1,6 +1,6 @@
 # Architecture Overview
 
-Rotappo follows a layered design:
+Phenome follows a layered design:
 
 1) domain: pure models and invariants
 2) application: orchestration and runtime flows

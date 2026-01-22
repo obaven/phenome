@@ -1,6 +1,6 @@
 # Introduction
 
-Rotappo is a multi-surface runtime UI with a layered architecture that
+Phenome is a multi-surface runtime UI with a layered architecture that
 separates domain logic from application orchestration, and both from
 CLI/TUI interfaces. This book documents the structure, boundaries, and
 workflow so changes stay consistent across layers.

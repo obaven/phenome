@@ -10,14 +10,14 @@ description: |
   Implement an action router that executes core operations and exposes
   structured results. Add safety gates for destructive actions and
   standardize dry-run handling across surfaces. The router lives in
-  lib/phenome with adapters for Primer and Rotato.
+  lib/phenome with adapters for Primer and Plasmid.
 
 deliverables:
   - Action enum covering reconcile, validate, visualize, rotate, nuke
   - Dispatcher that reuses existing CLI command handlers
   - Safety gate requiring explicit confirmation or guard flags
   - Structured ActionResult with error classification
-  - Primer and Rotato adapter modules
+  - Primer and Plasmid adapter modules
 
 acceptance_criteria:
   - UI action triggers map to the same code paths as the CLI
@@ -46,7 +46,7 @@ source_files:
   - file: lib/phenome/src/adapters/primer/safety.rs
     context: "Integrate safety gate for destructive actions"
   - file: lib/phenome/src/adapters/plasmid/actions.rs
-    context: "Add Rotato action hooks where needed"
+    context: "Add Plasmid action hooks where needed"
 
 status: MustHaves
 state: Backlog

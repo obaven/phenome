@@ -4,12 +4,12 @@ use std::path::{Path, PathBuf};
 
 use phenome_adapter_ml::grpc::GrpcServer;
 use phenome_adapter_ml::MlService;
-use phenome_domain::RotappoConfig;
+use phenome_domain::PhenomeConfig;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     let config_path = config_path();
-    let config = RotappoConfig::load_from_path(&config_path)?;
+    let config = PhenomeConfig::load_from_path(&config_path)?;
     let _service = MlService::new();
 
     let addr = parse_addr(&config.services.ml_url)
@@ -19,7 +19,7 @@ async fn main() -> anyhow::Result<()> {
 }
 
 fn config_path() -> PathBuf {
-    if let Ok(path) = env::var("ROTAPPO_CONFIG_PATH") {
+    if let Ok(path) = env::var("PHENOME_CONFIG_PATH") {
         return PathBuf::from(path);
     }
 

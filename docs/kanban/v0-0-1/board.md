@@ -1,44 +1,44 @@
 # v0.0.1 Kanban Boards (Compact View)
 
-## A. v0.0.1 Release Board (Program) Rotappo Multi-Surface UX Platform
+## A. v0.0.1 Release Board (Program) Phenome Multi-Surface UX Platform
 ### Backlog
-- UI-001 — [Epic] UI-1: Rotappo Multi-Surface UX Platform
-- UI-002 — [Epic] UI-1A: Rotappo Runtime + State API
-- UI-003 — [Epic] UI-1B: Rotappo CLI Parity + Action Registry
-- UI-004 — [Epic] UI-1C: Rotappo Terminal UI (Fullstack Terminal App)
-- UI-005 — [Epic] UI-1D: Rotappo Web UI + API
-- UI-006 — [Epic] UI-1E: Rotappo Cross-Platform Desktop App
-- UI-007 — [Story] Rotappo Runtime State Snapshot + Aggregation
-- UI-008 — [Story] Rotappo Runtime Event Bus + Log Stream
-- UI-009 — [Story] Rotappo Runtime Action Router + Safety Gate
-- UI-010 — [Task] Rotappo Config Schema + Persistence
-- UI-011 — [Story] Rotappo CLI Action Registry + UI Mapping
-- UI-012 — [Story] Rotappo CLI Structured Output Modes
-- UI-013 — [Task] Rotappo CLI Prompt/Confirm + Dry-run Guardrails
-- UI-014 — [Story] Rotappo TUI Shell + Layout Scaffolding
-- UI-015 — [Story] Rotappo TUI Action + Gate Status View
-- UI-016 — [Story] Rotappo TUI Action Panel + Confirmations
-- UI-017 — [Task] Rotappo TUI Log + Event Stream Panel
-- UI-018 — [Story] Rotappo Web API Server + Event Streaming
-- UI-019 — [Story] Rotappo Web UI Shell + Routing
-- UI-020 — [Story] Rotappo Web Dashboard: Action, Capabilities, Storage
-- UI-021 — [Task] Rotappo Web Actions + Access Guardrails
-- UI-022 — [Story] Rotappo Desktop Shell + Webview Integration
-- UI-023 — [Task] Rotappo Desktop Local Runtime Bridge
-- UI-024 — [Task] Rotappo Desktop Packaging + Updates + Notifications
+- UI-001 — [Epic] UI-1: Phenome Multi-Surface UX Platform
+- UI-002 — [Epic] UI-1A: Phenome Runtime + State API
+- UI-003 — [Epic] UI-1B: Phenome CLI Parity + Action Registry
+- UI-004 — [Epic] UI-1C: Phenome Terminal UI (Fullstack Terminal App)
+- UI-005 — [Epic] UI-1D: Phenome Web UI + API
+- UI-006 — [Epic] UI-1E: Phenome Cross-Platform Desktop App
+- UI-007 — [Story] Phenome Runtime State Snapshot + Aggregation
+- UI-008 — [Story] Phenome Runtime Event Bus + Log Stream
+- UI-009 — [Story] Phenome Runtime Action Router + Safety Gate
+- UI-010 — [Task] Phenome Config Schema + Persistence
+- UI-011 — [Story] Phenome CLI Action Registry + UI Mapping
+- UI-012 — [Story] Phenome CLI Structured Output Modes
+- UI-013 — [Task] Phenome CLI Prompt/Confirm + Dry-run Guardrails
+- UI-014 — [Story] Phenome TUI Shell + Layout Scaffolding
+- UI-015 — [Story] Phenome TUI Action + Gate Status View
+- UI-016 — [Story] Phenome TUI Action Panel + Confirmations
+- UI-017 — [Task] Phenome TUI Log + Event Stream Panel
+- UI-018 — [Story] Phenome Web API Server + Event Streaming
+- UI-019 — [Story] Phenome Web UI Shell + Routing
+- UI-020 — [Story] Phenome Web Dashboard: Action, Capabilities, Storage
+- UI-021 — [Task] Phenome Web Actions + Access Guardrails
+- UI-022 — [Story] Phenome Desktop Shell + Webview Integration
+- UI-023 — [Task] Phenome Desktop Local Runtime Bridge
+- UI-024 — [Task] Phenome Desktop Packaging + Updates + Notifications
 ### Ready
 ### In Progress
 ### Review
 ### Blocked
 ### Done
 
-## B. v0.0.1 Meta Board (META-1) Rotappo Refactor + Ports/Adapters
+## B. v0.0.1 Meta Board (META-1) Phenome Refactor + Ports/Adapters
 ### Backlog
-- UI-025 — [Epic] META-1: Rotappo Ports + Adapters Refactor
-- UI-026 — [Story] Rotappo TUI Module Decomposition
-- UI-027 — [Story] Rotappo Runtime Ports + Status Abstractions
-- UI-028 — [Task] Rotappo Adapter Module Cleanup
-- UI-029 — [Task] Rotappo UI Macro Helpers
+- UI-025 — [Epic] META-1: Phenome Ports + Adapters Refactor
+- UI-026 — [Story] Phenome TUI Module Decomposition
+- UI-027 — [Story] Phenome Runtime Ports + Status Abstractions
+- UI-028 — [Task] Phenome Adapter Module Cleanup
+- UI-029 — [Task] Phenome UI Macro Helpers
 ### Ready
 ### In Progress
 ### Review
@@ -58,7 +58,7 @@
 
 ## D. v0.0.1 Animation Board (ANIM-1) TUI Motion + Feedback
 ### Backlog
-- UI-033 — [Epic] ANIM-1: Rotappo TUI Animation Pass
+- UI-033 — [Epic] ANIM-1: Phenome TUI Animation Pass
 - UI-034 — [Story] TUI Loading + Status Animations
 - UI-035 — [Story] TUI Hover + Click Feedback
 - UI-036 — [Task] TUI Scrollbars
@@ -76,7 +76,7 @@
 ### Review
 ### Blocked
 ### Done
-- UI-038 — [Epic] LAYOUT-1: Rotappo TUI Grid Layout System
+- UI-038 — [Epic] LAYOUT-1: Phenome TUI Grid Layout System
 - UI-039 — [Story] LAYOUT-1A: Grid Model + Rect Resolver
 - UI-040 — [Story] LAYOUT-1B: Layout Macro DSL + Composition
 - UI-041 — [Story] LAYOUT-1C: Collapse/Open Policy Engine
@@ -124,7 +124,7 @@
 ## J. v0.0.1 Migration Board (MIG-1) CLI Stability
 ### Backlog
 - ARCH-008 — [Epic] MIG-1: CLI Stability + Non-Migration Guardrails
-- ARCH-009 — [Story] MIG-1A: Rotappo CLI Contract Snapshots + Golden Tests
+- ARCH-009 — [Story] MIG-1A: Phenome CLI Contract Snapshots + Golden Tests
 - ARCH-010 — [Story] MIG-1B: Primer CLI Contract Snapshots + Golden Tests
 - ARCH-011 — [Task] MIG-1C: CLI Boundary Checks (No Cross-Migration)
 - ARCH-012 — [Task] MIG-1D: CLI Surface Inventory + Mapping Doc
@@ -185,7 +185,7 @@
 - UI-047 — [Task] Collapse State + LayoutPolicy Simplification
 - UI-049 — [Task] TUI Documentation Alignment
 - UI-050 — [Task] TUI TODO/HACK Cleanup
-- UI-043 — [Epic] UI-2: Rotappo TUI Simplification + Debt Cleanup
+- UI-043 — [Epic] UI-2: Phenome TUI Simplification + Debt Cleanup
 
 ## N. v0.0.1 Architecture Board (ARCH-4) Structural Hygiene + Macro Consolidation
 ### Backlog

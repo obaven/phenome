@@ -30,7 +30,7 @@ impl LiveStatus {
             shutdown: Arc::new(AtomicBool::new(false)),
         };
 
-        if std::env::var("ROTAPPO_DISABLE_LIVE_STATUS")
+        if std::env::var("PHENOME_DISABLE_LIVE_STATUS")
             .map(|v| v == "1" || v.eq_ignore_ascii_case("true"))
             .unwrap_or(false)
         {

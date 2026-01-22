@@ -13,14 +13,14 @@ description: |
   event streams for all UI surfaces. This runtime becomes the single
   source of truth for UI data and command execution. Implement the
   runtime inside phenome so it can be developed independently and
-  adapted for Primer and Rotato.
+  adapted for Primer and Plasmid.
 
 deliverables:
   - Phenome runtime modules under phenome/src/runtime
   - Action router and command registry used by all surfaces
   - State snapshot model aggregating action, capabilities, and health
   - Event bus for logs and step transitions
-  - Primer + Rotato adapters for runtime data
+  - Primer + Plasmid adapters for runtime data
   - UI configuration schema and persistence
 
 acceptance_criteria:

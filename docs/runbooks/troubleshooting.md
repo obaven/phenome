@@ -3,7 +3,7 @@
 ## Analytics panels show "Metrics unavailable"
 - Confirm `metrics-server` is installed in the cluster.
 - Check analytics service logs for collection errors.
-- Verify `ROTAPPO_ANALYTICS_URL` points to the running service.
+- Verify `PHENOME_ANALYTICS_URL` points to the running service.
 
 ## ML recommendations are empty
 - Ensure the ML service is running and reachable.

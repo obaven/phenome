@@ -3057,14 +3057,14 @@ dependencies = [
  "anyhow",
  "phenome-adapter-primer",
  "phenome-domain",
- "rotappo-adapter-analytics",
- "rotappo-adapter-ml",
- "rotappo-application",
- "rotappo-ml",
- "rotappo-ui-core",
- "rotappo-ui-presentation",
- "rotappo-ui-terminal",
- "rotappo-ui-tui",
+ "phenome-adapter-analytics",
+ "phenome-adapter-ml",
+ "phenome-application",
+ "phenome-ml",
+ "phenome-ui-core",
+ "phenome-ui-presentation",
+ "phenome-ui-terminal",
+ "phenome-ui-tui",
  "tempfile",
  "tokio",
 ]
@@ -3081,7 +3081,7 @@ dependencies = [
  "phenome-domain",
  "phenome-ports",
  "primer",
- "rotappo-ui-tui",
+ "phenome-ui-tui",
  "serde",
  "serde_yaml",
  "tokio",
@@ -4275,7 +4275,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rotappo-adapter-analytics"
+name = "phenome-adapter-analytics"
 version = "0.0.1"
 dependencies = [
  "anyhow",
@@ -4306,7 +4306,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rotappo-adapter-ml"
+name = "phenome-adapter-ml"
 version = "0.0.1"
 dependencies = [
  "anyhow",
@@ -4316,7 +4316,7 @@ dependencies = [
  "phenome-ports",
  "prost",
  "protoc-bin-vendored",
- "rotappo-ml",
+ "phenome-ml",
  "tokio",
  "tonic",
  "tonic-build",
@@ -4324,7 +4324,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rotappo-adapter-notification"
+name = "phenome-adapter-notification"
 version = "0.0.1"
 dependencies = [
  "anyhow",
@@ -4347,7 +4347,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rotappo-application"
+name = "phenome-application"
 version = "0.0.1"
 dependencies = [
  "anyhow",
@@ -4356,7 +4356,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rotappo-ml"
+name = "phenome-ml"
 version = "0.0.1"
 dependencies = [
  "anyhow",
@@ -4370,15 +4370,15 @@ dependencies = [
 ]
 
 [[package]]
-name = "rotappo-ui-core"
+name = "phenome-ui-core"
 version = "0.0.1"
 dependencies = [
  "phenome-domain",
- "rotappo-ui-presentation",
+ "phenome-ui-presentation",
 ]
 
 [[package]]
-name = "rotappo-ui-presentation"
+name = "phenome-ui-presentation"
 version = "0.0.1"
 dependencies = [
  "phenome-domain",
@@ -4386,7 +4386,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rotappo-ui-terminal"
+name = "phenome-ui-terminal"
 version = "0.0.1"
 dependencies = [
  "anyhow",
@@ -4394,7 +4394,7 @@ dependencies = [
  "dotenv",
  "phenome-adapter-primer",
  "phenome-domain",
- "rotappo-ui-presentation",
+ "phenome-ui-presentation",
  "serde",
  "serde_json",
  "tracing",
@@ -4402,7 +4402,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rotappo-ui-tui"
+name = "phenome-ui-tui"
 version = "0.0.1"
 dependencies = [
  "anyhow",
@@ -4413,10 +4413,10 @@ dependencies = [
  "phenome-ports",
  "primer",
  "ratatui",
- "rotappo-adapter-analytics",
- "rotappo-application",
- "rotappo-ui-core",
- "rotappo-ui-presentation",
+ "phenome-adapter-analytics",
+ "phenome-application",
+ "phenome-ui-core",
+ "phenome-ui-presentation",
  "serde_json",
  "tokio",
  "tonic",

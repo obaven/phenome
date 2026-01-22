@@ -40,7 +40,7 @@ impl TerminalImageProtocol {
     }
 
     fn from_env() -> Option<Self> {
-        let value = env::var("ROTAPPO_TUI_GRAPHICS").ok()?;
+        let value = env::var("PHENOME_TUI_GRAPHICS").ok()?;
         match value.to_lowercase().as_str() {
             "kitty" => Some(Self::Kitty),
             "iterm" | "iterm2" | "iterm.app" => Some(Self::ITerm2),

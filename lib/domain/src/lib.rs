@@ -19,7 +19,7 @@ pub use cluster::{ClusterHealth, ClusterId, ClusterMetadata};
 pub use config::{
     AnalyticsConfig, ClusterConfig, CollectionConfig, DeploymentConfig, MlConfig, MlModelsConfig,
     MlThresholdsConfig, NotificationChannelConfig, NotificationsConfig, RetentionConfig,
-    RotappoConfig, ServicesConfig,
+    PhenomeConfig, ServicesConfig,
 };
 pub use events::{Event, EventBus, EventLevel};
 pub use health::{ComponentHealthStatus, HealthSnapshot};

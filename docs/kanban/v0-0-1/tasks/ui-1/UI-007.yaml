@@ -10,14 +10,14 @@ description: |
   Define a state snapshot model that aggregates action execution status,
   capabilities, storage designation, and health into a single payload.
   The snapshot should be cheap to compute and safe for frequent UI polls.
-  Implement it inside lib/phenome with adapters for Primer and Rotato.
+  Implement it inside lib/phenome with adapters for Primer and Plasmid.
 
 deliverables:
   - StateSnapshot struct with action steps, gates, and status fields
   - Aggregation layer that merges action data, config, and cached k8s state
   - JSON serialization for UI surfaces
   - Unit tests for snapshot completeness and defaults
-  - Adapter hooks for Primer and Rotato data sources
+  - Adapter hooks for Primer and Plasmid data sources
 
 acceptance_criteria:
   - Snapshot includes action steps with ready/blocked/running states

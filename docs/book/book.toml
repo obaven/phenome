@@ -1,6 +1,6 @@
 [book]
-title = "Rotappo Architecture and Development Guide"
-authors = ["Rotappo"]
+title = "Phenome Architecture and Development Guide"
+authors = ["Phenome"]
 language = "en"
 src = "."
 

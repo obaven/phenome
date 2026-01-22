@@ -15,11 +15,11 @@ description: |
   app by introducing a shared action/runtime model, consistent state
   snapshots, and standard safety controls. This is packaged as Phenome,
   an independent UI toolkit/app that plugs into Primer and the
-  Rotato GitOps app at /home/jdean/gitops/apps/security/rotato.
+  Plasmid GitOps app at /home/jdean/gitops/apps/security/plasmid.
 
 deliverables:
   - Phenome crate under lib/phenome with shared UI runtime
-  - Primer + Rotato adapters to surface actions and state
+  - Primer + Plasmid adapters to surface actions and state
   - Terminal UI surface for local operations and monitoring
   - Web UI surface for remote dashboards and collaboration
   - Cross-platform desktop app packaging and distribution action
