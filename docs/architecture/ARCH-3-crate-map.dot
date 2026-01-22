@@ -9,8 +9,8 @@ digraph CrateMap {
   ui_core [label="phenome-ui-core"];
   terminal_iface [label="phenome-ui-terminal"];
   tui_iface [label="phenome-ui-tui"];
-  adapter_bootstrappo [label="phenome-adapter-primer"];
-  bin_bootstrappo [label="cli (bin)"];
+  adapter_primer [label="phenome-adapter-primer"];
+  bin_primer [label="cli (bin)"];
   bin_tui [label="tui (bin)"];
 
   ports -> domain;
@@ -21,16 +21,16 @@ digraph CrateMap {
   ui_core -> presentation;
   terminal_iface -> domain;
   terminal_iface -> presentation;
-  terminal_iface -> adapter_bootstrappo;
+  terminal_iface -> adapter_primer;
   tui_iface -> application;
   tui_iface -> domain;
   tui_iface -> ports;
   tui_iface -> presentation;
   tui_iface -> ui_core;
-  adapter_bootstrappo -> domain;
-  adapter_bootstrappo -> ports;
-  bin_bootstrappo -> terminal_iface;
+  adapter_primer -> domain;
+  adapter_primer -> ports;
+  bin_primer -> terminal_iface;
   bin_tui -> tui_iface;
-  bin_tui -> adapter_bootstrappo;
+  bin_tui -> adapter_primer;
   bin_tui -> application;
 }

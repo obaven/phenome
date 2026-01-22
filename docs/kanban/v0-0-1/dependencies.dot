@@ -3,37 +3,37 @@ digraph v0_0_3_Cohesion {
     node [shape = box; style = filled; fillcolor = "#e0e0e0";];
   
     subgraph cluster_ui1 {
-        label = "UI-1: Rotappo Multi-Surface UX Platform";
+        label = "UI-1: Phenome Multi-Surface UX Platform";
         style = filled;
         fillcolor = "#f2f7ff";
-        UI_001 [label = "UI-001\nRotappo Platform";];
-        UI_002 [label = "UI-002\nRotappo Runtime Epic";];
-        UI_003 [label = "UI-003\nRotappo CLI Parity";];
-        UI_004 [label = "UI-004\nRotappo TUI Epic";];
-        UI_005 [label = "UI-005\nRotappo Web Epic";];
-        UI_006 [label = "UI-006\nRotappo Desktop Epic";];
-        UI_007 [label = "UI-007\nRotappo State Snapshot";];
-        UI_008 [label = "UI-008\nRotappo Event Bus";];
-        UI_009 [label = "UI-009\nRotappo Action Router";];
-        UI_010 [label = "UI-010\nRotappo Config";];
-        UI_011 [label = "UI-011\nRotappo Action Registry";];
-        UI_012 [label = "UI-012\nRotappo Structured Output";];
-        UI_013 [label = "UI-013\nRotappo CLI Guardrails";];
-        UI_014 [label = "UI-014\nRotappo TUI Shell";];
-        UI_015 [label = "UI-015\nRotappo TUI Action View";];
-        UI_016 [label = "UI-016\nRotappo TUI Actions";];
-        UI_017 [label = "UI-017\nRotappo TUI Logs";];
-        UI_018 [label = "UI-018\nRotappo Web API";];
-        UI_019 [label = "UI-019\nRotappo Web UI Shell";];
-        UI_020 [label = "UI-020\nRotappo Web Dashboard";];
-        UI_021 [label = "UI-021\nRotappo Web Actions";];
-        UI_022 [label = "UI-022\nRotappo Desktop Shell";];
-        UI_023 [label = "UI-023\nRotappo Desktop Bridge";];
-        UI_024 [label = "UI-024\nRotappo Desktop Packaging";];
+        UI_001 [label = "UI-001\nPhenome Platform";];
+        UI_002 [label = "UI-002\nPhenome Runtime Epic";];
+        UI_003 [label = "UI-003\nPhenome CLI Parity";];
+        UI_004 [label = "UI-004\nPhenome TUI Epic";];
+        UI_005 [label = "UI-005\nPhenome Web Epic";];
+        UI_006 [label = "UI-006\nPhenome Desktop Epic";];
+        UI_007 [label = "UI-007\nPhenome State Snapshot";];
+        UI_008 [label = "UI-008\nPhenome Event Bus";];
+        UI_009 [label = "UI-009\nPhenome Action Router";];
+        UI_010 [label = "UI-010\nPhenome Config";];
+        UI_011 [label = "UI-011\nPhenome Action Registry";];
+        UI_012 [label = "UI-012\nPhenome Structured Output";];
+        UI_013 [label = "UI-013\nPhenome CLI Guardrails";];
+        UI_014 [label = "UI-014\nPhenome TUI Shell";];
+        UI_015 [label = "UI-015\nPhenome TUI Action View";];
+        UI_016 [label = "UI-016\nPhenome TUI Actions";];
+        UI_017 [label = "UI-017\nPhenome TUI Logs";];
+        UI_018 [label = "UI-018\nPhenome Web API";];
+        UI_019 [label = "UI-019\nPhenome Web UI Shell";];
+        UI_020 [label = "UI-020\nPhenome Web Dashboard";];
+        UI_021 [label = "UI-021\nPhenome Web Actions";];
+        UI_022 [label = "UI-022\nPhenome Desktop Shell";];
+        UI_023 [label = "UI-023\nPhenome Desktop Bridge";];
+        UI_024 [label = "UI-024\nPhenome Desktop Packaging";];
     }
 
     subgraph cluster_meta1 {
-        label = "META-1: Rotappo Refactor + Ports/Adapters";
+        label = "META-1: Phenome Refactor + Ports/Adapters";
         style = filled;
         fillcolor = "#f7f2ff";
         UI_025 [label = "UI-025\nPorts + Adapters Refactor";];
