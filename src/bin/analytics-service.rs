@@ -9,7 +9,7 @@ use rotappo_adapter_analytics::AnalyticsService;
 use rotappo_adapter_analytics::cluster_manager::ClusterManager;
 use rotappo_adapter_analytics::grpc::GrpcServer;
 use rotappo_adapter_analytics::storage::sqlite::{RetentionConfig, SqliteStorage};
-use rotappo_domain::RotappoConfig;
+use phenome_domain::RotappoConfig;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -68,13 +68,13 @@ async fn main() -> anyhow::Result<()> {
     };
 
     let mut channels = Vec::new();
-    channels.push(rotappo_domain::NotificationChannel::InTui);
-    channels.push(rotappo_domain::NotificationChannel::System);
+    channels.push(phenome_domain::NotificationChannel::InTui);
+    channels.push(phenome_domain::NotificationChannel::System);
 
     for channel_config in config.notifications.channels {
         match channel_config {
-            rotappo_domain::NotificationChannelConfig::Ntfy { url, topic } => {
-                channels.push(rotappo_domain::NotificationChannel::Ntfy { url, topic });
+            phenome_domain::NotificationChannelConfig::Ntfy { url, topic } => {
+                channels.push(phenome_domain::NotificationChannel::Ntfy { url, topic });
             }
         }
     }

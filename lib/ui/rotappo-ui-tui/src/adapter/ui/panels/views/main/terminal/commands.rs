@@ -5,7 +5,7 @@ use ratatui::text::{Line, Span};
 use ratatui::widgets::{List, ListItem, Scrollbar, ScrollbarOrientation, ScrollbarState};
 
 use crate::app::App;
-use rotappo_domain::ActionSafety;
+use phenome_domain::ActionSafety;
 
 pub fn render_terminal_commands(frame: &mut Frame, area: Rect, app: &mut App) {
     render_action_list(frame, area, app);

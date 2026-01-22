@@ -5,7 +5,7 @@ use crate::bootstrap::panels::{
     dependency_tree, header, logs as logs_panel, menu as menu_panel, status, summary,
 };
 use crate::bootstrap::state::BootstrapUiState;
-use rotappo_ports::PortSet;
+use phenome_ports::PortSet;
 
 mod input;
 mod log_logic;

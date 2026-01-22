@@ -7,10 +7,10 @@ This chapter summarizes the current module tree:
 ```
 lib/
   core/
-    rotappo-domain/
-    rotappo-ports/
+    phenome-domain/
+    phenome-ports/
     rotappo-application/
-    rotappo-adapter-bootstrappo/
+    phenome-adapter-primer/
     rotappo-adapter-analytics/
     rotappo-adapter-ml/
     rotappo-adapter-notification/

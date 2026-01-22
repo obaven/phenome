@@ -1,9 +1,9 @@
 [tasks.check-crate-core-ports]
 workspace = false
 command = "cargo"
-args = ["check", "-p", "rotappo-ports"]
+args = ["check", "-p", "phenome-ports"]
 
 [tasks.test-crate-core-ports]
 workspace = false
 command = "cargo"
-args = ["test", "-p", "rotappo-ports"]
+args = ["test", "-p", "phenome-ports"]

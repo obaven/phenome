@@ -1,0 +1,10 @@
+[package]
+name = "rotappo-application"
+version = "0.0.1"
+edition = "2024"
+publish = false
+
+[dependencies]
+anyhow = "1.0.100"
+phenome-domain = { path = "../../domain/phenome-domain" }
+phenome-ports = { path = "../../ports/phenome-ports" }

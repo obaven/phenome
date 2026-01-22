@@ -24,7 +24,7 @@ Rotappo CLI entrypoint:
 - `cargo run --features cli,module-bootstrappo --bin cli -- --help`
 - Source: `src/bin/cli.rs`
 - CLI parsing/dispatch: `lib/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs`
-- Command handlers: `lib/core/rotappo-adapter-bootstrappo/src/controller/`
+- Command handlers: `lib/adapters/phenome-adapter-primer/src/controller/`
 - Source of truth: CLI behavior is defined here; bootstrappo no longer ships CLI logic.
 
 Commands (from MIG-1 scope; verify in bootstrappo):
@@ -69,9 +69,9 @@ Flags and output modes:
   - `bootstrappo <cmd> --help`
   - If a command has subcommands, also capture
     `bootstrappo <cmd> <subcmd> --help`.
-- Store snapshots under `bootstrappo/tests/fixtures/cli/` with clear
+- Store snapshots under `primer/tests/fixtures/cli/` with clear
   names (example: `help.top.txt`, `help.assembly.txt`, `help.generate.list.txt`).
-- Add a `bootstrappo/tests/cli_golden.rs` harness that runs the binary
+- Add a `primer/tests/cli_golden.rs` harness that runs the binary
   via `std::process::Command` and compares stdout to the fixtures.
   Use `env!("CARGO_BIN_EXE_cli")` to locate the test binary.
 - Support an update flow (example env var: `UPDATE_CLI_SNAPSHOTS=1`) to

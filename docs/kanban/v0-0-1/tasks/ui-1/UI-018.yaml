@@ -39,11 +39,11 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/src/web/server.rs
+  - file: lib/phenome/src/web/server.rs
     context: "Define HTTP server and routing"
-  - file: lib/rotappo/src/web/routes.rs
+  - file: lib/phenome/src/web/routes.rs
     context: "Expose state, action, and event endpoints"
-  - file: lib/rotappo/Cargo.toml
+  - file: lib/phenome/Cargo.toml
     context: "Add web server dependencies"
 
 status: MustHaves

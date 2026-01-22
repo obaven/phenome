@@ -1,6 +1,6 @@
-use rotappo_adapter_bootstrappo::BootstrappoBackend;
+use phenome_adapter_primer::BootstrappoBackend;
 use rotappo_application::Runtime;
-use rotappo_domain::ActionRegistry;
+use phenome_domain::ActionRegistry;
 use rotappo_ui_tui as tui;
 use rotappo_ui_tui::app::AppContext;
 

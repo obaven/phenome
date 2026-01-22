@@ -15,8 +15,8 @@ CLI/TUI behavior stable while updating public paths directly.
    - Rollback: restore previous modules.
 
 2) Domain/application split
-   - Move runtime models into `lib/core/rotappo-domain/`.
-   - Move orchestration into `lib/core/rotappo-application/`.
+   - Move runtime models into `lib/domain/phenome-domain/`.
+   - Move orchestration into `lib/runtime/rotappo-application/`.
    - Checkpoints: unit tests, TUI smoke.
    - Rollback: collapse modules back into a single runtime module.
 

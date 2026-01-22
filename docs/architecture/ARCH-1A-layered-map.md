@@ -10,7 +10,10 @@ move action.
 - Identify shared presentation helpers that are UI/CLI agnostic.
 
 ## Current workspace root (summary)
-- lib/core/
+- lib/domain/
+- lib/ports/
+- lib/runtime/
+- lib/adapters/
 - lib/ui/
 - src/bin/
 - src/lib.rs
@@ -52,15 +55,18 @@ Composition roots:
 ## Target module tree (current)
 
 lib/
-  core/
-    rotappo-domain/
-    rotappo-ports/
+  domain/
+    phenome-domain/
+  ports/
+    phenome-ports/
+  runtime/
     rotappo-application/
-    rotappo-adapter-bootstrappo/
+    rotappo-ml/
+  adapters/
+    phenome-adapter-primer/
     rotappo-adapter-analytics/
     rotappo-adapter-ml/
     rotappo-adapter-notification/
-    rotappo-ml/
   ui/
     rotappo-ui-presentation/
     rotappo-ui-core/
@@ -76,7 +82,7 @@ src/
 
 Notes:
 - Interfaces are nested under `lib/ui/`.
-- Core adapters live under `lib/core/rotappo-adapter-*`.
+- Core adapters live under `lib/adapters/rotappo-adapter-*`.
 - The canonical structure map lives in `docs/architecture/ARCH-4-structure.md`.
 - `rotappo-ui-presentation` collects UI/CLI-agnostic helpers (formatting,
   log config, view models). UI/CLI should not own these helpers.
@@ -84,16 +90,16 @@ Notes:
   public imports (no compatibility re-exports).
 
 ## Completed moves
-- Runtime models -> `lib/core/rotappo-domain/`
-- Orchestration -> `lib/core/rotappo-application/`
+- Runtime models -> `lib/domain/phenome-domain/`
+- Orchestration -> `lib/runtime/rotappo-application/`
 - Formatting/logging -> `lib/ui/rotappo-ui-presentation/`
-- Ports -> `lib/core/rotappo-ports/`
+- Ports -> `lib/ports/phenome-ports/`
 - Interfaces -> `lib/ui/rotappo-ui-*`
-- Bootstrappo adapter -> `lib/core/rotappo-adapter-bootstrappo/`
-- Analytics adapter -> `lib/core/rotappo-adapter-analytics/`
-- ML adapter -> `lib/core/rotappo-adapter-ml/`
-- Notification adapter -> `lib/core/rotappo-adapter-notification/`
-- ML models -> `lib/core/rotappo-ml/`
+- Bootstrappo adapter -> `lib/adapters/phenome-adapter-primer/`
+- Analytics adapter -> `lib/adapters/rotappo-adapter-analytics/`
+- ML adapter -> `lib/adapters/rotappo-adapter-ml/`
+- Notification adapter -> `lib/adapters/rotappo-adapter-notification/`
+- ML models -> `lib/runtime/rotappo-ml/`
 
 ## Known coupling to verify
 1) Ports must stay domain-only; avoid adapter types.

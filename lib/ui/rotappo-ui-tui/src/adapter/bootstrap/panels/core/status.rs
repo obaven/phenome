@@ -7,7 +7,7 @@ use ratatui::prelude::Frame;
 use ratatui::style::{Color, Modifier, Style};
 use ratatui::text::Line;
 use ratatui::widgets::{Block, Borders, Paragraph, Wrap};
-use rotappo_ports::{ComponentState, PortSet};
+use phenome_ports::{ComponentState, PortSet};
 
 pub fn render(frame: &mut Frame, area: Rect, ports: &PortSet, ui: &mut BootstrapUiState) {
     let assembly = ports.bootstrap.dependency_graph();

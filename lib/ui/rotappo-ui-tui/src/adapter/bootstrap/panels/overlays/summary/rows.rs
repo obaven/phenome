@@ -1,5 +1,5 @@
 use ratatui::widgets::Row;
-use rotappo_ports::{AccessUrlInfo, ComponentState};
+use phenome_ports::{AccessUrlInfo, ComponentState};
 use std::collections::HashMap;
 use std::time::Duration;
 

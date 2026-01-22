@@ -36,11 +36,11 @@ labels:
   - bootstrappo
 
 source_files:
-  - file: ../bootstrappo/src/cli
+  - file: ../primer/src/cli
     context: "Bootstrappo CLI surface"
-  - file: ../bootstrappo/src/main.rs
+  - file: ../primer/src/main.rs
     context: "Bootstrappo CLI entry"
-  - file: ../bootstrappo/tests
+  - file: ../primer/tests
     context: "Golden tests and fixtures"
 
 status: MustHaves

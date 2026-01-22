@@ -9,7 +9,7 @@ impl App {
         self.ui.log_config.interval = std::time::Duration::from_secs(next);
     }
 
-    pub fn filtered_events(&self) -> Vec<&rotappo_domain::Event> {
+    pub fn filtered_events(&self) -> Vec<&phenome_domain::Event> {
         self.ui.log_cache.iter().collect()
     }
 

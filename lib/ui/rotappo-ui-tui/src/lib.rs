@@ -3,10 +3,10 @@
 //! # Examples
 //! ```rust,no_run
 //! use rotappo_application::Runtime;
-//! use rotappo_domain::ActionRegistry;
+//! use phenome_domain::ActionRegistry;
 //! use rotappo_ui_tui as tui;
 //! use rotappo_ui_tui::app::AppContext;
-//! use rotappo_ports::PortSet;
+//! use phenome_ports::PortSet;
 //! # fn main() -> anyhow::Result<()> {
 //! let runtime = Runtime::new_with_ports(ActionRegistry::default(), PortSet::empty());
 //! let context = AppContext::new("localhost", "config.yml", "assembly.yml", PortSet::empty());

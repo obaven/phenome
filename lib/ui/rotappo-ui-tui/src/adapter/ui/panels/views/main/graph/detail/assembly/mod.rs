@@ -2,7 +2,7 @@ use ratatui::layout::{Constraint, Direction, Layout, Rect};
 use ratatui::prelude::Frame;
 
 use crate::app::App;
-use rotappo_domain::AssemblyStep;
+use phenome_domain::AssemblyStep;
 
 mod columns;
 mod lineage;

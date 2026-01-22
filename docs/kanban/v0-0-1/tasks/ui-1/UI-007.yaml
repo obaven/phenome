@@ -40,13 +40,13 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/src/runtime/state.rs
+  - file: lib/phenome/src/runtime/state.rs
     context: "Define state snapshot model and aggregation helpers"
-  - file: lib/rotappo/src/adapters/bootstrappo/reconciler.rs
+  - file: lib/phenome/src/adapters/primer/reconciler.rs
     context: "Expose step status for runtime snapshots"
-  - file: lib/rotappo/src/adapters/bootstrappo/capabilities.rs
+  - file: lib/phenome/src/adapters/primer/capabilities.rs
     context: "Surface capabilities for snapshot aggregation"
-  - file: lib/rotappo/src/adapters/bootstrappo/config.rs
+  - file: lib/phenome/src/adapters/primer/config.rs
     context: "Expose config fields needed for snapshots"
 
 status: MustHaves

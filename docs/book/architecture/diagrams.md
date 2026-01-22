@@ -39,8 +39,8 @@ digraph RuntimeComponents {
 
   presentation [label="ui/rotappo-ui-presentation\nformatting\nlogging cfg"];
   application [label="core/rotappo-application\nruntime loop"];
-  ports [label="core/rotappo-ports\nAssemblyPort\nHealthPort\nLogPort"];
-  adapters [label="core/rotappo-adapter-bootstrappo"];
+  ports [label="core/phenome-ports\nAssemblyPort\nHealthPort\nLogPort"];
+  adapters [label="core/phenome-adapter-primer"];
 
   terminal -> presentation;
   terminal -> adapters;

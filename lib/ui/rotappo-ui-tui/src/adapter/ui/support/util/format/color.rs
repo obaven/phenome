@@ -2,7 +2,7 @@
 
 use ratatui::style::Color;
 
-use rotappo_domain::now_millis;
+use phenome_domain::now_millis;
 
 /// Animated hue rotation for accent colors.
 ///

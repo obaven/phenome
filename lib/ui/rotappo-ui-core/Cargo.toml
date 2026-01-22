@@ -5,5 +5,5 @@ edition = "2024"
 publish = false
 
 [dependencies]
-rotappo-domain = { path = "../../core/foundation/rotappo-domain" }
+phenome-domain = { path = "../../domain/phenome-domain" }
 rotappo-ui-presentation = { path = "../rotappo-ui-presentation" }

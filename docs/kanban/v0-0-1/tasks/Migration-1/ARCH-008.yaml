@@ -42,9 +42,9 @@ source_files:
     context: "Rotappo CLI surface"
   - file: src/bin/terminal.rs
     context: "Rotappo CLI entry"
-  - file: ../bootstrappo/src/cli
+  - file: ../primer/src/cli
     context: "Bootstrappo CLI surface"
-  - file: ../bootstrappo/src/main.rs
+  - file: ../primer/src/main.rs
     context: "Bootstrappo CLI entry"
   - file: Makefile.toml
     context: "Guardrail task wiring"

@@ -1,14 +1,14 @@
 # Ports and Adapters
 
 Ports define the runtime boundary for external data. They live in
-`lib/core/rotappo-ports/` and use domain types only.
+`lib/ports/phenome-ports/` and use domain types only.
 
 Adapters implement ports for concrete systems. The Bootstrappo adapter
-lives in `lib/core/rotappo-adapter-bootstrappo/` and translates external types into
+lives in `lib/adapters/phenome-adapter-primer/` and translates external types into
 normalized domain types. Additional adapters live in:
-- `lib/core/rotappo-adapter-analytics/`
-- `lib/core/rotappo-adapter-ml/`
-- `lib/core/rotappo-adapter-notification/`
+- `lib/adapters/rotappo-adapter-analytics/`
+- `lib/adapters/rotappo-adapter-ml/`
+- `lib/adapters/rotappo-adapter-notification/`
 
 Rules:
 - UI/CLI do not import adapters directly, except `rotappo-ui-terminal` calling

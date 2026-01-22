@@ -39,13 +39,13 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/src/runtime/actions.rs
+  - file: lib/phenome/src/runtime/actions.rs
     context: "Define action enum and dispatcher"
-  - file: lib/rotappo/src/adapters/bootstrappo/actions.rs
+  - file: lib/phenome/src/adapters/primer/actions.rs
     context: "Expose command handlers for UI router"
-  - file: lib/rotappo/src/adapters/bootstrappo/safety.rs
+  - file: lib/phenome/src/adapters/primer/safety.rs
     context: "Integrate safety gate for destructive actions"
-  - file: lib/rotappo/src/adapters/rotato/actions.rs
+  - file: lib/phenome/src/adapters/plasmid/actions.rs
     context: "Add Rotato action hooks where needed"
 
 status: MustHaves

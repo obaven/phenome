@@ -13,7 +13,7 @@ description: |
 
 deliverables:
   - Presentation helpers moved into `lib/ui/rotappo-ui-presentation`
-  - `rotappo-ui-presentation` depends on `rotappo-domain`
+  - `rotappo-ui-presentation` depends on `phenome-domain`
   - Imports updated to use `rotappo_ui_presentation`
 
 acceptance_criteria:

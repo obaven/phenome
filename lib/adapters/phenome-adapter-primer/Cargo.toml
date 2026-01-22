@@ -1,0 +1,21 @@
+[package]
+name = "phenome-adapter-primer"
+version = "0.0.1"
+edition = "2024"
+publish = false
+
+[dependencies]
+anyhow = "1.0.100"
+inventory = "0.3.21"
+k8s-openapi = { version = "0.26.1", features = ["v1_30"] }
+kube = { version = "2.0.1", features = ["runtime", "client"] }
+serde_yaml = "0.9"
+serde = { version = "1.0.219", features = ["derive"] }
+tokio = { version = "1.48.0", features = ["rt-multi-thread", "sync", "time"] }
+tracing = "0.1.44"
+validator = "0.20.0"
+bootstrappo = { path = "../../../../primer" }
+bootstrappo-api = { path = "../../../../primer/lib/api" }
+phenome-domain = { path = "../../domain/phenome-domain" }
+phenome-ports = { path = "../../ports/phenome-ports" }
+rotappo-ui-tui = { path = "../../ui/rotappo-ui-tui" }

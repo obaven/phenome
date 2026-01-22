@@ -36,9 +36,9 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/desktop/src/ipc.rs
+  - file: lib/phenome/desktop/src/ipc.rs
     context: "Define IPC transport and message types"
-  - file: lib/rotappo/src/runtime/actions.rs
+  - file: lib/phenome/src/runtime/actions.rs
     context: "Expose runtime action hooks for IPC"
 
 status: MustHaves

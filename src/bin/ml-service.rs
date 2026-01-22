@@ -4,7 +4,7 @@ use std::path::{Path, PathBuf};
 
 use rotappo_adapter_ml::grpc::GrpcServer;
 use rotappo_adapter_ml::MlService;
-use rotappo_domain::RotappoConfig;
+use phenome_domain::RotappoConfig;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {

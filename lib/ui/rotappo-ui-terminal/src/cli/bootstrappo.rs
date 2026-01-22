@@ -1,7 +1,7 @@
 use clap::{Args, Parser, Subcommand};
 use tracing::info;
 
-use rotappo_adapter_bootstrappo::controller as adapter_controller;
+use phenome_adapter_primer::controller as adapter_controller;
 
 #[derive(Parser)]
 #[command(name = "bootstrappo")]
@@ -10,7 +10,7 @@ use rotappo_adapter_bootstrappo::controller as adapter_controller;
 Bootstrappo - Declarative Kubernetes Platform Bootstrap
 
 Primary workflow:
-  1. Edit ../bootstrappo/data/configs/bootstrap-config.yaml
+  1. Edit ../primer/data/configs/bootstrap-config.yaml
   2. Run: bootstrappo reconcile
   3. Cluster converges to desired state
 
@@ -23,7 +23,7 @@ pub struct Cli {
         alias = "config-path",
         env = "BOOTSTRAPPO_CONFIG_PATH",
         global = true,
-        default_value = "../bootstrappo/data/configs/bootstrap-config.yaml"
+        default_value = "../primer/data/configs/bootstrap-config.yaml"
     )]
     pub config_path: String,
 
@@ -32,7 +32,7 @@ pub struct Cli {
         long,
         env = "BOOTSTRAPPO_GITOPS_DIR",
         global = true,
-        default_value = "/home/jdean/bootstrappo/data/output/app/exoskeleton"
+        default_value = "/home/jdean/primer/data/output/app/exoskeleton"
     )]
     pub gitops_dir: String,
 
@@ -76,7 +76,7 @@ pub enum Commands {
         /// Path to the bootstrap config YAML
         #[arg(
             long = "assembly",
-            default_value = "../bootstrappo/data/configs/bootstrap-config.yaml"
+            default_value = "../primer/data/configs/bootstrap-config.yaml"
         )]
         assembly: String,
 
@@ -90,7 +90,7 @@ pub enum Commands {
         /// Path to the bootstrap config YAML
         #[arg(
             long = "assembly",
-            default_value = "../bootstrappo/data/configs/bootstrap-config.yaml"
+            default_value = "../primer/data/configs/bootstrap-config.yaml"
         )]
         assembly: String,
 
@@ -146,7 +146,7 @@ pub enum Commands {
         /// Path to the bootstrap config YAML
         #[arg(
             long = "assembly",
-            default_value = "../bootstrappo/data/configs/bootstrap-config.yaml"
+            default_value = "../primer/data/configs/bootstrap-config.yaml"
         )]
         assembly: String,
 
@@ -183,14 +183,14 @@ pub enum AssemblyAction {
     /// Validate a bootstrap config file
     Validate {
         /// Path to the bootstrap config YAML
-        #[arg(default_value = "../bootstrappo/data/configs/bootstrap-config.yaml")]
+        #[arg(default_value = "../primer/data/configs/bootstrap-config.yaml")]
         path: String,
     },
 
     /// Generate a visualization of the assembly
     Visualize {
         /// Path to the bootstrap config YAML
-        #[arg(default_value = "../bootstrappo/data/configs/bootstrap-config.yaml")]
+        #[arg(default_value = "../primer/data/configs/bootstrap-config.yaml")]
         path: String,
 
         /// View type (full, storage, network, dependencies)
@@ -235,7 +235,7 @@ pub enum DebugAction {
         /// Path to the bootstrap config YAML
         #[arg(
             long = "assembly",
-            default_value = "../bootstrappo/data/configs/bootstrap-config.yaml"
+            default_value = "../primer/data/configs/bootstrap-config.yaml"
         )]
         assembly: String,
     },

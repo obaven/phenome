@@ -1,6 +1,6 @@
 use ratatui::style::{Color, Style, Stylize};
 use ratatui::text::{Line, Span};
-use rotappo_ports::{ComponentStatus, PortSet};
+use phenome_ports::{ComponentStatus, PortSet};
 
 use crate::bootstrap::utils::format_duration;
 

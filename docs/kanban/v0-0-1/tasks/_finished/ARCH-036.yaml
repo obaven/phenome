@@ -44,7 +44,7 @@ source_files:
     context: "Existing layout macro definitions"
   - file: lib/ui/rotappo-ui-tui/src/util
     context: "Helper utilities that may be macro candidates"
-  - file: lib/core
+  - file: lib
     context: "Shared helpers that may be consolidated"
   - file: docs/architecture
     context: "Macro documentation target"

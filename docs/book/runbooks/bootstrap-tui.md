@@ -34,8 +34,8 @@ The bootstrap UI renders:
 
 ## Data flow
 
-- `rotappo-ports` defines `BootstrapPort` and component state shapes.
-- `rotappo-adapter-bootstrappo` subscribes to bootstrappo events and updates
+- `phenome-ports` defines `BootstrapPort` and component state shapes.
+- `phenome-adapter-primer` subscribes to bootstrappo events and updates
   `ComponentState`.
 - The TUI reads state via `PortSet::bootstrap` every tick (200ms).
 

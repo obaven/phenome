@@ -1,6 +1,6 @@
 [env]
-BOOTSTRAPPO_ASSEMBLY_PATH = "../bootstrappo/data/configs/bootstrap-config.yaml"
-BOOTSTRAPPO_GITOPS_DIR = "../bootstrappo/data/output/app/exoskeleton"
+BOOTSTRAPPO_ASSEMBLY_PATH = "../primer/data/configs/bootstrap-config.yaml"
+BOOTSTRAPPO_GITOPS_DIR = "../primer/data/output/app/exoskeleton"
 BOOTSTRAPPO_ASSEMBLY_OUTPUT = "/tmp/bootstrappo-assembly.dot"
 BOOTSTRAPPO_STORAGE_OUTPUT = "/tmp/bootstrappo-storage.dot"
 BOOTSTRAPPO_MIN_STORAGE_GB = "10"

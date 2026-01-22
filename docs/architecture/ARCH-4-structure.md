@@ -17,10 +17,10 @@ adapter model (bootstrappo today).
 ```
 lib/
   core/
-    rotappo-domain/
-    rotappo-ports/
+    phenome-domain/
+    phenome-ports/
     rotappo-application/
-    rotappo-adapter-bootstrappo/
+    phenome-adapter-primer/
     rotappo-adapter-analytics/
     rotappo-adapter-ml/
     rotappo-adapter-notification/
@@ -45,14 +45,14 @@ docs/
 ## Module Index (Crates)
 | Path | Layer | Responsibility | Depends on | Owner |
 | --- | --- | --- | --- | --- |
-| `lib/core/rotappo-domain` | domain | Core models + invariants | none | core |
-| `lib/core/rotappo-ports` | ports | Port traits + contracts | domain | core |
-| `lib/core/rotappo-application` | application | Runtime orchestration | domain, ports | core |
-| `lib/core/rotappo-adapter-bootstrappo` | adapters | Bootstrappo integration | domain, ports | integrations |
-| `lib/core/rotappo-adapter-analytics` | adapters | Analytics service adapter | domain, ports | integrations |
-| `lib/core/rotappo-adapter-ml` | adapters | ML service adapter | domain, ports | integrations |
-| `lib/core/rotappo-adapter-notification` | adapters | Notification adapter | domain, ports | integrations |
-| `lib/core/rotappo-ml` | core | ML models + inference helpers | domain | ml |
+| `lib/domain/phenome-domain` | domain | Core models + invariants | none | core |
+| `lib/ports/phenome-ports` | ports | Port traits + contracts | domain | core |
+| `lib/runtime/rotappo-application` | application | Runtime orchestration | domain, ports | core |
+| `lib/adapters/phenome-adapter-primer` | adapters | Bootstrappo integration | domain, ports | integrations |
+| `lib/adapters/rotappo-adapter-analytics` | adapters | Analytics service adapter | domain, ports | integrations |
+| `lib/adapters/rotappo-adapter-ml` | adapters | ML service adapter | domain, ports | integrations |
+| `lib/adapters/rotappo-adapter-notification` | adapters | Notification adapter | domain, ports | integrations |
+| `lib/runtime/rotappo-ml` | core | ML models + inference helpers | domain | ml |
 | `lib/ui/rotappo-ui-presentation` | presentation | Shared formatting + logging | domain, ports | interfaces |
 | `lib/ui/rotappo-ui-core` | ui-core | Framework-agnostic UI contracts | domain, ports | interfaces |
 | `lib/ui/rotappo-ui-terminal` | interfaces | CLI rendering + dispatch | presentation, application, ports | interfaces |

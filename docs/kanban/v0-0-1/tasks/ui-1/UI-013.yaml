@@ -14,7 +14,7 @@ cli_surface:
 description: |
   Standardize CLI confirmations and dry-run safeguards to align with
   UI action safety gates. This reduces operator error and keeps behavior
-  consistent across surfaces. Implement shared helpers in lib/rotappo
+  consistent across surfaces. Implement shared helpers in lib/phenome
   and adapt Bootstrappo prompts to use them.
 
 deliverables:
@@ -41,11 +41,11 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/src/runtime/confirm.rs
+  - file: lib/phenome/src/runtime/confirm.rs
     context: "Create shared prompt helper"
-  - file: lib/rotappo/src/adapters/bootstrappo/confirm.rs
+  - file: lib/phenome/src/adapters/primer/confirm.rs
     context: "Add shared confirmation guard for Bootstrappo commands"
-  - file: lib/rotappo/src/adapters/bootstrappo/rotate.rs
+  - file: lib/phenome/src/adapters/primer/rotate.rs
     context: "Apply dry-run and prompt conventions"
 
 status: MustHaves

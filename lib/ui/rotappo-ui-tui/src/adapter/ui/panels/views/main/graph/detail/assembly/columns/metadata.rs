@@ -5,7 +5,7 @@ use ratatui::text::{Line, Span};
 use ratatui::widgets::{Paragraph, Wrap};
 
 use crate::app::App;
-use rotappo_domain::AssemblyStep;
+use phenome_domain::AssemblyStep;
 
 pub(super) fn render_metadata(frame: &mut Frame, area: Rect, app: &App, step: &AssemblyStep) {
     let mut lines = Vec::new();

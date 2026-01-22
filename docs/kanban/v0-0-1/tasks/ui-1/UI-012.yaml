@@ -44,11 +44,11 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/src/runtime/output.rs
+  - file: lib/phenome/src/runtime/output.rs
     context: "Define structured output schemas and encoders"
-  - file: lib/rotappo/src/adapters/bootstrappo/output.rs
+  - file: lib/phenome/src/adapters/primer/output.rs
     context: "Render Bootstrappo results in structured formats"
-  - file: lib/rotappo/src/adapters/bootstrappo/commands.rs
+  - file: lib/phenome/src/adapters/primer/commands.rs
     context: "Emit action results through shared output helpers"
 
 status: MustHaves

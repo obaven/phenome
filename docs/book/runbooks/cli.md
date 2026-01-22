@@ -7,7 +7,7 @@ logic.
 ## Architecture map
 - Entry point: `src/bin/cli.rs`
 - CLI parse/dispatch: `lib/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs`
-- Command handlers: `lib/core/rotappo-adapter-bootstrappo/src/controller/`
+- Command handlers: `lib/adapters/phenome-adapter-primer/src/controller/`
 - CLI formatting helpers: `lib/ui/rotappo-ui-terminal/src/format.rs`
 
 Feature flags:
@@ -17,7 +17,7 @@ Feature flags:
 ## Setup (rotappo-ui-terminal)
 - `rotappo-ui-terminal` provides CLI formatting + dispatch.
 - Enable `cli` + `module-bootstrappo` to compile the bootstrappo CLI entrypoint in rotappo.
-- Ensure the bootstrappo repo is present at `../bootstrappo` for adapter calls.
+- Ensure the bootstrappo repo is present at `../primer` for adapter calls.
 
 ## Run the bootstrappo CLI
 From the rotappo repo root:
@@ -48,19 +48,19 @@ cargo run --features cli,module-bootstrappo --bin cli -- --config /path/to/boots
 
 ## Command reference
 All commands run from the rotappo repo root and assume the bootstrappo repo
-exists at `../bootstrappo`.
+exists at `../primer`.
 
 Assembly:
 
 ```bash
 # Validate config/assembly
 cargo run --features cli,module-bootstrappo --bin cli -- \
-  assembly validate ../bootstrappo/data/configs/bootstrap-config.yaml
+  assembly validate ../primer/data/configs/bootstrap-config.yaml
 
 # Visualize assembly
 cargo run --features cli,module-bootstrappo --bin cli -- \
   assembly visualize \
-  ../bootstrappo/data/configs/bootstrap-config.yaml \
+  ../primer/data/configs/bootstrap-config.yaml \
   --view full \
   --format svg \
   --layout dot \
@@ -92,12 +92,12 @@ Reconcile:
 ```bash
 # One-shot converge
 cargo run --features cli,module-bootstrappo --bin cli -- \
-  reconcile --assembly ../bootstrappo/data/configs/bootstrap-config.yaml
+  reconcile --assembly ../primer/data/configs/bootstrap-config.yaml
 
 # Watch mode with caching + parallelism
 cargo run --features cli,module-bootstrappo --bin cli -- \
   reconcile \
-  --assembly ../bootstrappo/data/configs/bootstrap-config.yaml \
+  --assembly ../primer/data/configs/bootstrap-config.yaml \
   --watch \
   --cache \
   --parallel \
@@ -106,7 +106,7 @@ cargo run --features cli,module-bootstrappo --bin cli -- \
 # Override assembly overlay
 cargo run --features cli,module-bootstrappo --bin cli -- \
   reconcile \
-  --assembly ../bootstrappo/data/configs/bootstrap-config.yaml \
+  --assembly ../primer/data/configs/bootstrap-config.yaml \
   --overlay dev
 ```
 
@@ -116,7 +116,7 @@ Rotate:
 # Dry-run rotation
 cargo run --features cli,module-bootstrappo --bin cli -- \
   rotate ingress \
-  --assembly ../bootstrappo/data/configs/bootstrap-config.yaml \
+  --assembly ../primer/data/configs/bootstrap-config.yaml \
   --dry-run
 ```
 
@@ -125,11 +125,11 @@ Nuke:
 ```bash
 # Dry-run deletion order
 cargo run --features cli,module-bootstrappo --bin cli -- \
-  nuke --assembly ../bootstrappo/data/configs/bootstrap-config.yaml --dry-run
+  nuke --assembly ../primer/data/configs/bootstrap-config.yaml --dry-run
 
 # Aggressive mode (skips confirmation)
 cargo run --features cli,module-bootstrappo --bin cli -- \
-  nuke --assembly ../bootstrappo/data/configs/bootstrap-config.yaml --aggressive
+  nuke --assembly ../primer/data/configs/bootstrap-config.yaml --aggressive
 ```
 
 Debug:
@@ -140,7 +140,7 @@ cargo run --features cli,module-bootstrappo --bin cli -- debug registry
 
 # Assembly execution order
 cargo run --features cli,module-bootstrappo --bin cli -- \
-  debug assembly-order --assembly ../bootstrappo/data/configs/bootstrap-config.yaml
+  debug assembly-order --assembly ../primer/data/configs/bootstrap-config.yaml
 ```
 
 Cache:
@@ -175,13 +175,13 @@ cargo run --features cli,module-bootstrappo --bin cli -- \
 
 ## Assembly visualize (smoke runbook)
 1) Choose a config path. From the rotappo root, use the bootstrappo config file:
-   `../bootstrappo/data/configs/bootstrap-config.yaml`
+   `../primer/data/configs/bootstrap-config.yaml`
 2) Generate a DOT graph:
 
 ```bash
 cargo run --features cli,module-bootstrappo --bin cli -- \
   assembly visualize \
-  ../bootstrappo/data/configs/bootstrap-config.yaml \
+  ../primer/data/configs/bootstrap-config.yaml \
   --format dot \
   --layout dot \
   --output /tmp/bootstrappo-assembly.dot
@@ -196,7 +196,7 @@ Notes:
 1) Update CLI args/subcommands in
    `lib/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs`.
 2) Implement or update handlers in
-   `lib/core/rotappo-adapter-bootstrappo/src/controller/`.
+   `lib/adapters/phenome-adapter-primer/src/controller/`.
 3) Keep adapter runtime ports (`health`, `assembly`, `mapping`) private.
 4) Update the inventory doc:
    `docs/architecture/ARCH-1D-cli-inventory.md`.

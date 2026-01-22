@@ -5,7 +5,7 @@ use ratatui::text::{Line, Span};
 use ratatui::widgets::{Paragraph, Wrap};
 
 use crate::app::App;
-use rotappo_domain::AssemblyStep;
+use phenome_domain::AssemblyStep;
 
 use super::access::{gather_ingress_urls, gather_ip_info};
 use super::ProvisionSets;

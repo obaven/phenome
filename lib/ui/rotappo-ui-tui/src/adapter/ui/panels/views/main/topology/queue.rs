@@ -5,7 +5,7 @@ use ratatui::widgets::{Paragraph, Wrap};
 
 use crate::app::App;
 use crate::panels::views::main::shared::section_title;
-use rotappo_domain::AssemblyStepStatus;
+use phenome_domain::AssemblyStepStatus;
 use rotappo_ui_presentation::formatting;
 
 pub fn render_topology_queue(frame: &mut Frame, area: Rect, app: &mut App) {

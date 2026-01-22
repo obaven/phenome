@@ -1,6 +1,6 @@
 //! Time-based UI helpers.
 
-use rotappo_domain::now_millis;
+use phenome_domain::now_millis;
 
 /// Frame used to animate a spinner.
 ///

@@ -36,11 +36,11 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/src/config.rs
+  - file: lib/phenome/src/config.rs
     context: "Add UI config to Rotappo settings"
-  - file: lib/rotappo/src/config/schema.rs
+  - file: lib/phenome/src/config/schema.rs
     context: "Expose UI config in schema output"
-  - file: lib/rotappo/src/config/validation.rs
+  - file: lib/phenome/src/config/validation.rs
     context: "Validate UI config values"
 
 status: MustHaves

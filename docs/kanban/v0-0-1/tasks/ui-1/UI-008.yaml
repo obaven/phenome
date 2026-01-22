@@ -38,11 +38,11 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/src/runtime/events.rs
+  - file: lib/phenome/src/runtime/events.rs
     context: "Define event bus types and subscriber API"
-  - file: lib/rotappo/src/runtime/tracing.rs
+  - file: lib/phenome/src/runtime/tracing.rs
     context: "Add tracing bridge for UI log streaming"
-  - file: lib/rotappo/src/runtime/subscriber.rs
+  - file: lib/phenome/src/runtime/subscriber.rs
     context: "Register UI-aware tracing subscriber"
 
 status: MustHaves

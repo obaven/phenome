@@ -5,7 +5,7 @@ use rotappo_adapter_analytics::grpc::analytics::{
     recommendation_status::Status as GrpcStatus,
     GetRecommendationsRequest, Priority as GrpcPriority, RecommendationType as GrpcType,
 };
-use rotappo_domain::{
+use phenome_domain::{
     CostImpact, Priority, Recommendation, RecommendationAction, RecommendationStatus,
     RecommendationType, ResourceLimits,
 };

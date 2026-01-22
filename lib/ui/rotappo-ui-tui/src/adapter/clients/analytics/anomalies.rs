@@ -1,7 +1,7 @@
 use anyhow::Result;
 
 use rotappo_adapter_analytics::grpc::analytics::GetAnomaliesRequest;
-use rotappo_domain::{Anomaly, MetricType, Severity};
+use phenome_domain::{Anomaly, MetricType, Severity};
 
 use super::AnalyticsClient;
 

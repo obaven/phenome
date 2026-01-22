@@ -2,7 +2,7 @@ use anyhow::Result;
 use tonic::transport::Channel;
 
 use rotappo_adapter_analytics::grpc::analytics::analytics_service_client::AnalyticsServiceClient;
-use rotappo_domain::{Anomaly, MetricSample, Recommendation};
+use phenome_domain::{Anomaly, MetricSample, Recommendation};
 
 mod anomalies;
 mod connection;

@@ -37,9 +37,9 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/src/tui/views/logs.rs
+  - file: lib/phenome/src/tui/views/logs.rs
     context: "Render log stream with filters"
-  - file: lib/rotappo/src/runtime/events.rs
+  - file: lib/phenome/src/runtime/events.rs
     context: "Expose log event stream"
 
 status: MustHaves

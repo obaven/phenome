@@ -35,11 +35,11 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/web/README.md
+  - file: lib/phenome/web/README.md
     context: "Document web UI build and dev workflow"
-  - file: lib/rotappo/web/src/app
+  - file: lib/phenome/web/src/app
     context: "Define routing and layout scaffold"
-  - file: lib/rotappo/web/src/lib/api.ts
+  - file: lib/phenome/web/src/lib/api.ts
     context: "Implement API client for UI runtime"
 
 status: MustHaves

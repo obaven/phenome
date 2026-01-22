@@ -1,7 +1,7 @@
 use ratatui::layout::{Constraint, Direction, Layout, Rect};
 use ratatui::prelude::{Alignment, Frame};
 use ratatui::widgets::{Block, Borders, Paragraph, Table};
-use rotappo_ports::PortSet;
+use phenome_ports::PortSet;
 
 mod comparison;
 mod overview;

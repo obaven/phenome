@@ -2,7 +2,7 @@ use std::collections::BTreeMap;
 
 use serde::Serialize;
 
-use rotappo_domain::{AssemblyStep, Snapshot};
+use phenome_domain::{AssemblyStep, Snapshot};
 
 #[derive(Debug, Clone, Serialize)]
 pub struct AssemblyStepInfo {

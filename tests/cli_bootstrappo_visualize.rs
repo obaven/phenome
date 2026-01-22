@@ -2,7 +2,7 @@
 
 use std::path::{Path, PathBuf};
 
-use rotappo_adapter_bootstrappo::controller as adapter_controller;
+use phenome_adapter_primer::controller as adapter_controller;
 use rotappo_ui_terminal::cli::bootstrappo::{AssemblyAction, Commands};
 
 fn fixture_assembly_path() -> PathBuf {

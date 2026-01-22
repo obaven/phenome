@@ -1,7 +1,7 @@
 use ratatui::widgets::ListState;
 use std::time::Instant;
 
-use rotappo_domain::{Event, EventLevel};
+use phenome_domain::{Event, EventLevel};
 
 use crate::app::{App, AppContext};
 

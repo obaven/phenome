@@ -21,7 +21,7 @@
 //! ## Extension points
 //! - Add new health status variants with matching labels.
 
-use rotappo_domain::{AssemblyStepStatus, ComponentHealthStatus, HealthSnapshot, Snapshot};
+use phenome_domain::{AssemblyStepStatus, ComponentHealthStatus, HealthSnapshot, Snapshot};
 
 /// Build user-facing problem lines from a snapshot and optional health data.
 ///

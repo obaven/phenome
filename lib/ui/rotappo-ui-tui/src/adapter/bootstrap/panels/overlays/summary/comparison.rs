@@ -1,7 +1,7 @@
 use ratatui::text::Line;
 
 use bootstrappo::application::timing::compare_runs;
-use rotappo_ports::PortSet;
+use phenome_ports::PortSet;
 
 pub(super) fn build_comparison_line(ports: &PortSet) -> Option<Line<'static>> {
     let history = ports.bootstrap.timing_history()?;

@@ -9,7 +9,7 @@ default = []
 bootstrappo-cli = [
   "dep:clap",
   "dep:dotenv",
-  "dep:rotappo-adapter-bootstrappo",
+  "dep:phenome-adapter-primer",
   "dep:tracing",
   "dep:tracing-subscriber",
 ]
@@ -24,6 +24,6 @@ serde_json = "1.0.128"
 tracing = { version = "0.1.44", optional = true }
 tracing-subscriber = { version = "0.3", optional = true }
 
-rotappo-adapter-bootstrappo = { path = "../../core/adapters/rotappo-adapter-bootstrappo", optional = true }
-rotappo-domain = { path = "../../core/foundation/rotappo-domain" }
+phenome-adapter-primer = { path = "../../adapters/phenome-adapter-primer", optional = true }
+phenome-domain = { path = "../../domain/phenome-domain" }
 rotappo-ui-presentation = { path = "../rotappo-ui-presentation" }

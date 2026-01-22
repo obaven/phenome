@@ -39,7 +39,7 @@ source_files:
     context: "Guardrail task wiring"
   - file: src
     context: "Rotappo codebase"
-  - file: ../bootstrappo/src/cli
+  - file: ../primer/src/cli
     context: "Bootstrappo CLI modules"
 
 status: MustHaves

@@ -1,6 +1,6 @@
 # Runtime Data Flow
 
-Runtime orchestration lives in `lib/core/rotappo-application/runtime.rs`.
+Runtime orchestration lives in `lib/runtime/rotappo-application/src/runtime.rs`.
 It owns the loop that refreshes ports, aggregates domain snapshots,
 and exposes state to the interfaces.
 

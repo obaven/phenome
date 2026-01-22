@@ -7,10 +7,11 @@ component: module-layout-canon
 cli_surface: []
 
 description: |
-  Define and document the canonical directory layout for lib/core and
-  lib/ui, including naming rules, module boundaries, and the intended
-  ownership for each folder. Highlight adapter boundaries for the
-  distributed TUI and tool ports (bootstrappo today).
+  Define and document the canonical directory layout for lib/domain,
+  lib/ports, lib/runtime, lib/adapters, and lib/ui, including naming
+  rules, module boundaries, and the intended ownership for each folder.
+  Highlight adapter boundaries for the distributed TUI and tool ports
+  (bootstrappo today).
 
 deliverables:
   - `docs/architecture/ARCH-4-structure.md` module map and layout rules
@@ -38,7 +39,7 @@ labels:
   - tui
 
 source_files:
-  - file: lib/core
+  - file: lib
     context: "Core layer crate layout"
   - file: lib/ui
     context: "Interface and presentation crate layout"

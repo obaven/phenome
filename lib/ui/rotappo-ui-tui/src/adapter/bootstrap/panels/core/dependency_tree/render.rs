@@ -3,7 +3,7 @@ use ratatui::prelude::Frame;
 use ratatui::style::{Color, Style};
 use ratatui::text::Line;
 use ratatui::widgets::{Block, Borders, Paragraph, Wrap};
-use rotappo_ports::{ComponentStatus, PortSet};
+use phenome_ports::{ComponentStatus, PortSet};
 
 use crate::bootstrap::state::{BootstrapUiState, FocusTarget};
 use crate::bootstrap::utils::{format_duration, layer_label, status_icon};

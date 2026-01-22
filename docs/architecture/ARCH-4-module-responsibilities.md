@@ -4,11 +4,11 @@
 Document the responsibilities of core and UI modules and align them with the
 canonical layout in `docs/architecture/ARCH-4-structure.md`.
 
-## Core Layer (lib/core)
-- `rotappo-domain`: Domain models, enums, invariants, and identifiers.
-- `rotappo-ports`: Port traits + contracts that adapters implement.
+## Core Layer (lib/domain, lib/ports, lib/runtime, lib/adapters)
+- `phenome-domain`: Domain models, enums, invariants, and identifiers.
+- `phenome-ports`: Port traits + contracts that adapters implement.
 - `rotappo-application`: Runtime orchestration, pipelines, and state sync.
-- `rotappo-adapter-bootstrappo`: Bootstrappo adapter implementations.
+- `phenome-adapter-primer`: Bootstrappo adapter implementations.
 - `rotappo-adapter-analytics`: Analytics service adapter + schedulers.
 - `rotappo-adapter-ml`: ML service adapter and inference hooks.
 - `rotappo-adapter-notification`: Notification adapter.

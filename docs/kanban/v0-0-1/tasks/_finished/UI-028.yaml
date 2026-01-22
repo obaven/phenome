@@ -12,7 +12,7 @@ description: |
   duplicated data mapping. Align adapter layout with ports definitions.
 
 deliverables:
-  - adapters/bootstrappo/{action,health,k8s} modules
+  - adapters/primer/{action,health,k8s} modules
   - Shared mapping helpers for action/capability status
   - Clear separation between IO and domain logic
 

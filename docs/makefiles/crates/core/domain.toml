@@ -1,9 +1,9 @@
 [tasks.check-crate-core-domain]
 workspace = false
 command = "cargo"
-args = ["check", "-p", "rotappo-domain"]
+args = ["check", "-p", "phenome-domain"]
 
 [tasks.test-crate-core-domain]
 workspace = false
 command = "cargo"
-args = ["test", "-p", "rotappo-domain"]
+args = ["test", "-p", "phenome-domain"]

@@ -9,15 +9,15 @@ adapter/UI dependencies from core logic.
 
 | Crate | Scope | Allowed deps |
 | --- | --- | --- |
-| `rotappo-domain` | Domain models, invariants, enums, snapshot types | std only | 
-| `rotappo-ports` | Port traits and domain-facing contracts | domain | 
+| `phenome-domain` | Domain models, invariants, enums, snapshot types | std only | 
+| `phenome-ports` | Port traits and domain-facing contracts | domain | 
 | `rotappo-application` | Runtime orchestration and state update logic | domain, ports | 
 | `rotappo-ml` | ML model implementations | domain | 
 | `rotappo-ui-presentation` | UI/CLI-agnostic formatting + view models | domain | 
 | `rotappo-ui-core` | Framework-agnostic UI contracts | domain, ui-presentation | 
 | `rotappo-ui-terminal` | CLI formatting + command dispatch | domain, ui-presentation, adapter-bootstrappo | 
 | `rotappo-ui-tui` | TUI adapter (ratatui/crossterm) | domain, ports, application, ui-presentation, ui-core | 
-| `rotappo-adapter-bootstrappo` | Bootstrappo integration + port impls | domain, ports, bootstrappo | 
+| `phenome-adapter-primer` | Bootstrappo integration + port impls | domain, ports, bootstrappo | 
 | `rotappo-adapter-analytics` | Analytics service adapter | domain, ports | 
 | `rotappo-adapter-ml` | ML service adapter | domain, ports, rotappo-ml | 
 | `bootstrappo` (bin) | Bootstrappo CLI entrypoint | ui-terminal | 
@@ -36,10 +36,10 @@ Notes:
 ```
 lib/
   core/
-    rotappo-domain/
-    rotappo-ports/
+    phenome-domain/
+    phenome-ports/
     rotappo-application/
-    rotappo-adapter-bootstrappo/
+    phenome-adapter-primer/
     rotappo-adapter-analytics/
     rotappo-adapter-ml/
     rotappo-ml/
@@ -71,19 +71,19 @@ Disallowed edges (examples):
 
 | Path | Target crate | Notes |
 | --- | --- | --- |
-| `lib/core/rotappo-domain/src/*` | `rotappo-domain` | Core model types + snapshot state. |
-| `lib/core/rotappo-ports/src/*` | `rotappo-ports` | Action/Health/Log ports. |
-| `lib/core/rotappo-application/src/*` | `rotappo-application` | Runtime orchestration. |
-| `lib/core/rotappo-ml/src/*` | `rotappo-ml` | ML model implementations. |
+| `lib/domain/phenome-domain/src/*` | `phenome-domain` | Core model types + snapshot state. |
+| `lib/ports/phenome-ports/src/*` | `phenome-ports` | Action/Health/Log ports. |
+| `lib/runtime/rotappo-application/src/*` | `rotappo-application` | Runtime orchestration. |
+| `lib/runtime/rotappo-ml/src/*` | `rotappo-ml` | ML model implementations. |
 | `lib/ui/rotappo-ui-presentation/src/*` | `rotappo-ui-presentation` | Shared formatting + logging config. |
 | `lib/ui/rotappo-ui-core/src/*` | `rotappo-ui-core` | Framework-agnostic UI types. |
 | `lib/ui/rotappo-ui-terminal/src/*` | `rotappo-ui-terminal` | CLI formatting + dispatch. |
 | `lib/ui/rotappo-ui-terminal/src/cli/*` | `rotappo-ui-terminal` | Bootstrappo CLI clap surface. |
 | `lib/ui/rotappo-ui-tui/src/*` | `rotappo-ui-tui` | Ratatui adapter and TUI logic. |
-| `lib/core/rotappo-adapter-bootstrappo/src/*` | `rotappo-adapter-bootstrappo` | Port impls + bootstrappo mapping. |
-| `lib/core/rotappo-adapter-bootstrappo/src/controller/*` | `rotappo-adapter-bootstrappo` | Bootstrappo command handlers. |
-| `lib/core/rotappo-adapter-analytics/src/*` | `rotappo-adapter-analytics` | Analytics service components. |
-| `lib/core/rotappo-adapter-ml/src/*` | `rotappo-adapter-ml` | ML service components. |
+| `lib/adapters/phenome-adapter-primer/src/*` | `phenome-adapter-primer` | Port impls + bootstrappo mapping. |
+| `lib/adapters/phenome-adapter-primer/src/controller/*` | `phenome-adapter-primer` | Bootstrappo command handlers. |
+| `lib/adapters/rotappo-adapter-analytics/src/*` | `rotappo-adapter-analytics` | Analytics service components. |
+| `lib/adapters/rotappo-adapter-ml/src/*` | `rotappo-adapter-ml` | ML service components. |
 | `src/bin/cli.rs` | `cli` | Composition root for bootstrappo CLI. |
 | `src/bin/tui.rs` | `tui` | Composition root for TUI. |
 | `src/bin/analytics-service.rs` | `analytics-service` | Composition root for analytics service. |
@@ -112,20 +112,20 @@ Disallowed edges (examples):
 - Composition roots now live in `src/bin/cli.rs` and `src/bin/tui.rs`.
 - `BootstrappoBackend` exposes ports only; runtime construction happens in bins.
 - TUI `start` accepts injected `Runtime` + `AppContext` instead of a backend.
-- Domain types now live in `lib/core/rotappo-domain`.
+- Domain types now live in `lib/domain/phenome-domain`.
 
 ## Migration checklist (ARCH-3C)
 - [x] Add workspace members for target crates.
 - [x] Scaffold empty crates under `lib/`.
-- [x] Migrate core domain layer into `rotappo-domain`.
-- [x] Update imports to use `rotappo_domain` crate paths.
-- [x] Migrate ports into `rotappo-ports`.
+- [x] Migrate core domain layer into `phenome-domain`.
+- [x] Update imports to use `phenome_domain` crate paths.
+- [x] Migrate ports into `phenome-ports`.
 - [x] Migrate application runtime into `rotappo-application`.
 - [x] Migrate presentation helpers into `rotappo-ui-presentation`.
 - [x] Migrate UI core contracts into `rotappo-ui-core`.
 - [x] Migrate terminal formatting into `rotappo-ui-terminal`.
 - [x] Migrate TUI adapter into `rotappo-ui-tui`.
-- [x] Migrate bootstrappo adapter into `rotappo-adapter-bootstrappo`.
+- [x] Migrate bootstrappo adapter into `phenome-adapter-primer`.
 - [x] Update bins to reference crate-level imports.
 
 ## Guardrails and tests

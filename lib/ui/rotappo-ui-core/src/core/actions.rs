@@ -1,6 +1,6 @@
 //! UI intents emitted by adapters.
 
-use rotappo_domain::ActionId;
+use phenome_domain::ActionId;
 
 use super::panel::UiPanelId;
 use super::state::UiLogMenuMode;

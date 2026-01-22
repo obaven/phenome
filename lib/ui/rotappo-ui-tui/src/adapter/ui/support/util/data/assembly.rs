@@ -5,7 +5,7 @@ use ratatui::{
     text::{Line, Span},
 };
 
-use rotappo_domain::{AssemblyStepStatus, CapabilityStatus};
+use phenome_domain::{AssemblyStepStatus, CapabilityStatus};
 use rotappo_ui_presentation::formatting;
 
 use crate::adapter::ui::support::util::spinner_frame;
@@ -20,7 +20,7 @@ pub struct AssemblyLine {
 ///
 /// # Examples
 /// ```rust
-/// use rotappo_domain::AssemblyStepStatus;
+/// use phenome_domain::AssemblyStepStatus;
 /// use rotappo_ui_tui::util::assembly_status_icon;
 ///
 /// assert_eq!(assembly_status_icon(AssemblyStepStatus::Succeeded), '+');
@@ -39,7 +39,7 @@ pub fn assembly_status_icon(status: AssemblyStepStatus) -> char {
 ///
 /// # Examples
 /// ```rust
-/// use rotappo_domain::CapabilityStatus;
+/// use phenome_domain::CapabilityStatus;
 /// use rotappo_ui_tui::util::capability_icon;
 ///
 /// assert_eq!(capability_icon(CapabilityStatus::Ready), '+');
@@ -53,7 +53,7 @@ pub fn capability_icon(status: CapabilityStatus) -> char {
 }
 
 /// Build the formatted assembly lines for display.
-pub fn assembly_lines(snapshot: &rotappo_domain::Snapshot) -> Vec<AssemblyLine> {
+pub fn assembly_lines(snapshot: &phenome_domain::Snapshot) -> Vec<AssemblyLine> {
     let mut lines = Vec::new();
     for group in formatting::assembly_groups(snapshot) {
         lines.push(AssemblyLine {

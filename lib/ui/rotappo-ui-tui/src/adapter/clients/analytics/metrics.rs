@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 
 use rotappo_adapter_analytics::grpc::analytics::QueryMetricsRequest;
-use rotappo_domain::MetricSample;
+use phenome_domain::MetricSample;
 
 use super::AnalyticsClient;
 

@@ -1,6 +1,6 @@
 // use rotappo_application::Runtime;
-// use rotappo_domain::ActionRegistry;
-// use rotappo_ports::PortSet;
+// use phenome_domain::ActionRegistry;
+// use phenome_ports::PortSet;
 // use rotappo_ui_tui::app::{App, AppContext};
 
 // #[test]

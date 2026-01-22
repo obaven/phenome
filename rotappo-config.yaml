@@ -3,7 +3,7 @@ deployment:
 
 analytics:
   storage: sqlite
-  sqlite_path: ~/.rotappo/analytics.db
+  sqlite_path: ~/.phenome/analytics.db
   retention:
     full_resolution_days: 7
     aggregated_days: 30

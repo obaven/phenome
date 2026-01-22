@@ -1,9 +1,0 @@
-[tasks.check-crate-core-adapter-bootstrappo]
-workspace = false
-command = "cargo"
-args = ["check", "-p", "rotappo-adapter-bootstrappo"]
-
-[tasks.test-crate-core-adapter-bootstrappo]
-workspace = false
-command = "cargo"
-args = ["test", "-p", "rotappo-adapter-bootstrappo"]

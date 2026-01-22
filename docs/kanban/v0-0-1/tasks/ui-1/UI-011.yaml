@@ -45,11 +45,11 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/src/runtime/registry.rs
+  - file: lib/phenome/src/runtime/registry.rs
     context: "Define action registry for UI surfaces"
-  - file: lib/rotappo/src/adapters/bootstrappo/registry.rs
+  - file: lib/phenome/src/adapters/primer/registry.rs
     context: "Expose Bootstrappo CLI actions via registry metadata"
-  - file: lib/rotappo/src/runtime/actions.rs
+  - file: lib/phenome/src/runtime/actions.rs
     context: "Bind registry entries to runtime actions"
 
 status: MustHaves

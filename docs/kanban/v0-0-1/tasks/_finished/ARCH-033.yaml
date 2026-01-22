@@ -7,13 +7,13 @@ component: adapter-bootstrappo-migration
 cli_surface: []
 
 description: |
-  Move the Bootstrappo adapter into rotappo-adapter-bootstrappo so
+  Move the Bootstrappo adapter into phenome-adapter-primer so
   external integration stays isolated from UI and application layers.
 
 deliverables:
-  - Bootstrappo adapter moved into `lib/core/rotappo-adapter-bootstrappo`
-  - `rotappo-adapter-bootstrappo` depends on `rotappo-domain` and `rotappo-ports`
-  - Imports updated to use `rotappo_adapter_bootstrappo`
+  - Bootstrappo adapter moved into `lib/adapters/phenome-adapter-primer`
+  - `phenome-adapter-primer` depends on `phenome-domain` and `phenome-ports`
+  - Imports updated to use `phenome_adapter_primer`
 
 acceptance_criteria:
   - No `src/adapters/bootstrappo` module remains in the root crate
@@ -34,9 +34,9 @@ labels:
   - adapters
 
 source_files:
-  - file: src/adapters/bootstrappo
+  - file: src/adapters/primer
     context: "Adapter implementation to migrate"
-  - file: lib/core/rotappo-adapter-bootstrappo
+  - file: lib/adapters/phenome-adapter-primer
     context: "Target crate for bootstrappo adapter"
   - file: src/bin
     context: "Composition roots that wire the adapter"

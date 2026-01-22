@@ -1,6 +1,6 @@
 use anyhow::Result;
 
-use rotappo_domain::{ActionId, ActionSafety, Event, EventLevel};
+use phenome_domain::{ActionId, ActionSafety, Event, EventLevel};
 
 use super::super::super::{App, ConfirmPrompt};
 

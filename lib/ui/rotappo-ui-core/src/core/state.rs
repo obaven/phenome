@@ -2,7 +2,7 @@
 
 use std::time::Instant;
 
-use rotappo_domain::Event;
+use phenome_domain::Event;
 use rotappo_ui_presentation::logging::LogStreamConfig;
 
 use super::geometry::{UiPoint, UiRect};

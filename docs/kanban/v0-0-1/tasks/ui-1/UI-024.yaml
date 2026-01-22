@@ -34,9 +34,9 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/desktop/tauri.conf.json
+  - file: lib/phenome/desktop/tauri.conf.json
     context: "Define packaging and update settings"
-  - file: lib/rotappo/desktop/src/notifications.rs
+  - file: lib/phenome/desktop/src/notifications.rs
     context: "Emit OS notifications for action results"
 
 status: MustHaves

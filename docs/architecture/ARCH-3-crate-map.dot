@@ -2,14 +2,14 @@ digraph CrateMap {
   rankdir=LR;
   node [shape=box, style="rounded,filled", fillcolor="#f5f5f5"];
 
-  domain [label="rotappo-domain"];
-  ports [label="rotappo-ports"];
+  domain [label="phenome-domain"];
+  ports [label="phenome-ports"];
   application [label="rotappo-application"];
   presentation [label="rotappo-ui-presentation"];
   ui_core [label="rotappo-ui-core"];
   terminal_iface [label="rotappo-ui-terminal"];
   tui_iface [label="rotappo-ui-tui"];
-  adapter_bootstrappo [label="rotappo-adapter-bootstrappo"];
+  adapter_bootstrappo [label="phenome-adapter-primer"];
   bin_bootstrappo [label="cli (bin)"];
   bin_tui [label="tui (bin)"];
 

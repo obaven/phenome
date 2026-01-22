@@ -3,7 +3,7 @@ title: 'Assembly Validation + Capability Diff Pipeline'
 type: Story
 layer: 5
 domain: core
-component: rotappo-adapter-bootstrappo
+component: phenome-adapter-primer
 cli_surface:
   - bootstrappo [status|diff]
 
@@ -39,11 +39,11 @@ labels:
   - status
 
 source_files:
-  - file: lib/core/rotappo-adapter-bootstrappo/src/controller/
+  - file: lib/adapters/phenome-adapter-primer/src/controller/
     context: "Status/diff pipeline"
-  - file: ../bootstrappo/src/application/composition/assembly/builder.rs
+  - file: ../primer/src/application/composition/assembly/builder.rs
     context: "AssemblyBuilder"
-  - file: ../bootstrappo/src/application/composition/discovery/scanner.rs
+  - file: ../primer/src/application/composition/discovery/scanner.rs
     context: "CapabilityScanner"
 
 status: MustHaves

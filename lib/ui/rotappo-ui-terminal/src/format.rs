@@ -3,7 +3,7 @@
 use anyhow::{Result, anyhow};
 use serde::Serialize;
 
-use rotappo_domain::{ActionDefinition, Event, Snapshot};
+use phenome_domain::{ActionDefinition, Event, Snapshot};
 use rotappo_ui_presentation::formatting;
 
 use super::OutputMode;
@@ -13,7 +13,7 @@ use super::OutputMode;
 /// # Examples
 /// ```rust
 /// use rotappo_ui_terminal::{format_actions, OutputMode};
-/// use rotappo_domain::{ActionDefinition, ActionId, ActionSafety};
+/// use phenome_domain::{ActionDefinition, ActionId, ActionSafety};
 ///
 /// let actions = [ActionDefinition::new(
 ///     ActionId::Validate,
@@ -49,7 +49,7 @@ pub fn format_actions(mode: OutputMode, actions: &[ActionDefinition]) -> Result<
 /// # Examples
 /// ```rust
 /// use rotappo_ui_terminal::{format_snapshot, OutputMode};
-/// use rotappo_domain::Snapshot;
+/// use phenome_domain::Snapshot;
 ///
 /// let snapshot = Snapshot::new_default();
 /// let output = format_snapshot(OutputMode::Plain, &snapshot).unwrap();
@@ -73,7 +73,7 @@ pub fn format_snapshot(mode: OutputMode, snapshot: &Snapshot) -> Result<String> 
 /// # Examples
 /// ```rust
 /// use rotappo_ui_terminal::{format_events, OutputMode};
-/// use rotappo_domain::{Event, EventLevel};
+/// use phenome_domain::{Event, EventLevel};
 ///
 /// let events = [Event::new(EventLevel::Info, "ready")];
 /// let output = format_events(OutputMode::Plain, &events).unwrap();
@@ -104,7 +104,7 @@ pub fn format_events(mode: OutputMode, events: &[Event]) -> Result<String> {
 /// # Examples
 /// ```rust
 /// use rotappo_ui_terminal::{format_assembly, OutputMode};
-/// use rotappo_domain::{HealthStatus, AssemblyStep, AssemblyStepStatus, AssemblySummary, Snapshot};
+/// use phenome_domain::{HealthStatus, AssemblyStep, AssemblyStepStatus, AssemblySummary, Snapshot};
 ///
 /// let snapshot = Snapshot {
 ///     assembly: AssemblySummary {

@@ -11,8 +11,8 @@ description: |
   update consumers to import the new crate.
 
 deliverables:
-  - Runtime module moved into `lib/core/rotappo-application`
-  - `rotappo-application` depends on `rotappo-domain` and `rotappo-ports`
+  - Runtime module moved into `lib/runtime/rotappo-application`
+  - `rotappo-application` depends on `phenome-domain` and `phenome-ports`
   - Imports updated to use `rotappo_application` in adapters/interfaces/bins
 
 acceptance_criteria:
@@ -36,7 +36,7 @@ labels:
 source_files:
   - file: src/application
     context: "Runtime module to migrate"
-  - file: lib/core/rotappo-application
+  - file: lib/runtime/rotappo-application
     context: "Target crate for application logic"
   - file: Cargo.toml
     context: "Workspace and dependency wiring"

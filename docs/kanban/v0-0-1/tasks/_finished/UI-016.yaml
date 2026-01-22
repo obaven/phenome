@@ -39,9 +39,9 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/src/tui/views/actions.rs
+  - file: lib/phenome/src/tui/views/actions.rs
     context: "Render action list and dispatch actions"
-  - file: lib/rotappo/src/runtime/actions.rs
+  - file: lib/phenome/src/runtime/actions.rs
     context: "Expose action metadata and results"
 
 status: MustHaves

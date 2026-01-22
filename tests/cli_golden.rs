@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use rotappo_domain::{
+use phenome_domain::{
     ActionId, ActionRegistry, ActionStatus, AssemblyStep, AssemblyStepStatus, AssemblySummary,
     Capability, CapabilityStatus, ComponentHealthStatus, Event, EventLevel, HealthSnapshot,
     HealthStatus, Snapshot,

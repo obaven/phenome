@@ -8,7 +8,7 @@ Purpose:
 Dependencies:
 - rotappo-ui-presentation
 - rotappo-application
-- rotappo-ports
+- phenome-ports
 
 Boundaries:
 - No ratatui dependencies.

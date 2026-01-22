@@ -13,7 +13,7 @@ description: |
 
 deliverables:
   - Terminal interface modules moved into `lib/ui/rotappo-ui-terminal`
-  - `rotappo-ui-terminal` depends on `rotappo-domain` and `rotappo-ui-presentation`
+  - `rotappo-ui-terminal` depends on `phenome-domain` and `rotappo-ui-presentation`
   - Imports updated to use `rotappo_ui_terminal`
 
 acceptance_criteria:

@@ -6,8 +6,8 @@ Purpose:
 - UI/CLI-agnostic formatting, logging config, and view helpers.
 
 Dependencies:
-- rotappo-domain
-- rotappo-ports
+- phenome-domain
+- phenome-ports
 
 Boundaries:
 - No adapter imports.

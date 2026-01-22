@@ -1,5 +1,5 @@
 use crate::bootstrap::state::BootstrapUiState;
-use rotappo_ports::PortSet;
+use phenome_ports::PortSet;
 
 pub fn find_dependents(
     assembly: &bootstrappo::domain::models::assembly::Assembly,

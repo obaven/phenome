@@ -1,0 +1,16 @@
+[package]
+name = "rotappo-ml"
+version = "0.0.1"
+edition = "2024"
+publish = false
+
+[dependencies]
+anyhow = "1.0.100"
+linfa = "0.8.1"
+ndarray = "0.17.2"
+polars = { version = "0.41.0", features = ["lazy"] }
+serde = { version = "1.0.228", features = ["derive"] }
+chrono = "0.4.42"
+smartcore = "0.4.9"
+
+phenome-domain = { path = "../../domain/phenome-domain" }

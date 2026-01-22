@@ -5,7 +5,7 @@ use ratatui::layout::{Constraint, Rect};
 use ratatui::prelude::Frame;
 use ratatui::text::Line;
 use ratatui::widgets::{Block, Borders, Clear, Paragraph, Row, Table, Wrap};
-use rotappo_ports::PortSet;
+use phenome_ports::PortSet;
 
 pub fn render(
     frame: &mut Frame,

@@ -2,7 +2,7 @@ use ratatui::style::{Color, Style};
 use ratatui::text::Line;
 
 use bootstrappo::application::flows::reconcile::visualize::LayerType;
-use rotappo_ports::{ComponentState, ComponentStatus};
+use phenome_ports::{ComponentState, ComponentStatus};
 
 pub fn style_line(line: String, selected: bool) -> Line<'static> {
     if selected {

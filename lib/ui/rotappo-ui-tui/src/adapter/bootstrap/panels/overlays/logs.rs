@@ -7,7 +7,7 @@ use ratatui::text::{Line, Span};
 use ratatui::widgets::{
     Block, Borders, Clear, List, ListItem, Scrollbar, ScrollbarOrientation, ScrollbarState,
 };
-use rotappo_domain::EventLevel;
+use phenome_domain::EventLevel;
 
 pub fn render(frame: &mut Frame, area: Rect, ui: &mut BootstrapUiState) {
     let overlay_area = centered_rect(80, 70, area);

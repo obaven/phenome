@@ -3,7 +3,7 @@ title: 'Catalog Export (YAML)'
 type: Story
 layer: 5
 domain: core
-component: rotappo-adapter-bootstrappo
+component: phenome-adapter-primer
 cli_surface:
   - bootstrappo [catalog]
 
@@ -38,7 +38,7 @@ labels:
   - yaml
 
 source_files:
-  - file: lib/core/rotappo-adapter-bootstrappo/src/controller/
+  - file: lib/adapters/phenome-adapter-primer/src/controller/
     context: "Catalog controller"
   - file: lib/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs
     context: "Catalog command wiring"

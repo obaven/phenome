@@ -7,17 +7,17 @@ component: ports-migration
 cli_surface: []
 
 description: |
-  Move the ports layer into the new rotappo-ports crate and update
+  Move the ports layer into the new phenome-ports crate and update
   all consumers to depend on the crate instead of the root module.
 
 deliverables:
-  - Port traits and PortSet moved into `lib/core/rotappo-ports`
-  - Root crate depends on or re-exports `rotappo-ports`
-  - Imports updated to use `rotappo_ports` across application/adapters
+  - Port traits and PortSet moved into `lib/ports/phenome-ports`
+  - Root crate depends on or re-exports `phenome-ports`
+  - Imports updated to use `phenome_ports` across application/adapters
 
 acceptance_criteria:
   - No `src/ports` module remains in the root crate
-  - `rotappo-ports` depends only on `rotappo-domain`
+  - `phenome-ports` depends only on `phenome-domain`
   - `cargo check -p rotappo` succeeds after migration
 
 dependencies:
@@ -36,7 +36,7 @@ labels:
 source_files:
   - file: src/ports
     context: "Ports module to migrate"
-  - file: lib/core/rotappo-ports
+  - file: lib/ports/phenome-ports
     context: "Target crate for port traits"
   - file: Cargo.toml
     context: "Workspace and dependency wiring"

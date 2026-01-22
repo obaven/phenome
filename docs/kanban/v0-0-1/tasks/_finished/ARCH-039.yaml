@@ -42,7 +42,7 @@ labels:
 source_files:
   - file: lib/ui/rotappo-ui-tui
     context: "Current TUI adapter implementation"
-  - file: lib/core/rotappo-ports
+  - file: lib/ports/phenome-ports
     context: "Port contracts for tool adapters"
   - file: docs/architecture
     context: "System design documentation"

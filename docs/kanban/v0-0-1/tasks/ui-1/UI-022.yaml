@@ -35,9 +35,9 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/desktop/README.md
+  - file: lib/phenome/desktop/README.md
     context: "Document desktop build and packaging"
-  - file: lib/rotappo/desktop/src/main.rs
+  - file: lib/phenome/desktop/src/main.rs
     context: "Initialize desktop shell and webview"
 
 status: MustHaves

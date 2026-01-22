@@ -1,4 +1,4 @@
-use rotappo_ports::ComponentStatus;
+use phenome_ports::ComponentStatus;
 
 use crate::bootstrap::state::MenuAction;
 

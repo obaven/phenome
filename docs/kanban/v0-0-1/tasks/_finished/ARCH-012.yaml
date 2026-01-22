@@ -40,7 +40,7 @@ source_files:
     context: "CLI inventory documentation"
   - file: src/bin/terminal.rs
     context: "Rotappo CLI entry"
-  - file: ../bootstrappo/src/cli/commands
+  - file: ../primer/src/cli/commands
     context: "Bootstrappo CLI commands"
 
 status: MustHaves

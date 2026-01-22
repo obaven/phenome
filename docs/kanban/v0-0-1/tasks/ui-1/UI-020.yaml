@@ -37,9 +37,9 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/web/src/app/dashboard
+  - file: lib/phenome/web/src/app/dashboard
     context: "Render action and capability dashboards"
-  - file: lib/rotappo/web/src/components
+  - file: lib/phenome/web/src/components
     context: "Shared UI components for status views"
 
 status: MustHaves

@@ -12,7 +12,7 @@ description: |
 
 deliverables:
   - UI core modules moved into `lib/ui/rotappo-ui-core`
-  - `rotappo-ui-core` depends on `rotappo-domain` and `rotappo-ui-presentation`
+  - `rotappo-ui-core` depends on `phenome-domain` and `rotappo-ui-presentation`
   - Imports updated to use `rotappo_ui_core`
 
 acceptance_criteria:

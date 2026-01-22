@@ -38,11 +38,11 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/src/bin/tui.rs
+  - file: lib/phenome/src/bin/tui.rs
     context: "Define TUI entrypoint"
-  - file: lib/rotappo/src/tui/mod.rs
+  - file: lib/phenome/src/tui/mod.rs
     context: "Set up layout and event loop"
-  - file: lib/rotappo/Cargo.toml
+  - file: lib/phenome/Cargo.toml
     context: "Add ratatui and crossterm dependencies"
 
 status: MustHaves

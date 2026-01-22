@@ -3100,6 +3100,46 @@ dependencies = [
 ]
 
 [[package]]
+name = "phenome-adapter-primer"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "bootstrappo",
+ "bootstrappo-api",
+ "inventory",
+ "k8s-openapi",
+ "kube",
+ "phenome-domain",
+ "phenome-ports",
+ "rotappo-ui-tui",
+ "serde",
+ "serde_yaml",
+ "tokio",
+ "tracing",
+ "validator",
+]
+
+[[package]]
+name = "phenome-domain"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+]
+
+[[package]]
+name = "phenome-ports"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "bootstrappo",
+ "phenome-domain",
+]
+
+[[package]]
 name = "phf"
 version = "0.11.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4220,11 +4260,11 @@ name = "rotappo"
 version = "0.0.1"
 dependencies = [
  "anyhow",
+ "phenome-adapter-primer",
+ "phenome-domain",
  "rotappo-adapter-analytics",
- "rotappo-adapter-bootstrappo",
  "rotappo-adapter-ml",
  "rotappo-application",
- "rotappo-domain",
  "rotappo-ml",
  "rotappo-ui-core",
  "rotappo-ui-presentation",
@@ -4245,13 +4285,13 @@ dependencies = [
  "kube",
  "notify",
  "notify-rust",
+ "phenome-domain",
+ "phenome-ports",
  "polars",
  "prost",
  "protoc-bin-vendored",
  "r2d2",
  "r2d2_sqlite",
- "rotappo-domain",
- "rotappo-ports",
  "rusqlite",
  "serde",
  "serde_json",
@@ -4266,37 +4306,17 @@ dependencies = [
 ]
 
 [[package]]
-name = "rotappo-adapter-bootstrappo"
-version = "0.0.1"
-dependencies = [
- "anyhow",
- "bootstrappo",
- "bootstrappo-api",
- "inventory",
- "k8s-openapi",
- "kube",
- "rotappo-domain",
- "rotappo-ports",
- "rotappo-ui-tui",
- "serde",
- "serde_yaml",
- "tokio",
- "tracing",
- "validator",
-]
-
-[[package]]
 name = "rotappo-adapter-ml"
 version = "0.0.1"
 dependencies = [
  "anyhow",
  "async-trait",
  "chrono",
+ "phenome-domain",
+ "phenome-ports",
  "prost",
  "protoc-bin-vendored",
- "rotappo-domain",
  "rotappo-ml",
- "rotappo-ports",
  "tokio",
  "tonic",
  "tonic-build",
@@ -4312,11 +4332,11 @@ dependencies = [
  "chrono",
  "notify",
  "notify-rust",
+ "phenome-domain",
+ "phenome-ports",
  "prost",
  "protoc-bin-vendored",
  "reqwest",
- "rotappo-domain",
- "rotappo-ports",
  "serde",
  "serde_json",
  "serde_yaml",
@@ -4331,18 +4351,8 @@ name = "rotappo-application"
 version = "0.0.1"
 dependencies = [
  "anyhow",
- "rotappo-domain",
- "rotappo-ports",
-]
-
-[[package]]
-name = "rotappo-domain"
-version = "0.0.1"
-dependencies = [
- "anyhow",
- "serde",
- "serde_json",
- "serde_yaml",
+ "phenome-domain",
+ "phenome-ports",
 ]
 
 [[package]]
@@ -4353,27 +4363,17 @@ dependencies = [
  "chrono",
  "linfa",
  "ndarray 0.17.2",
+ "phenome-domain",
  "polars",
- "rotappo-domain",
  "serde",
  "smartcore",
-]
-
-[[package]]
-name = "rotappo-ports"
-version = "0.0.1"
-dependencies = [
- "anyhow",
- "async-trait",
- "bootstrappo",
- "rotappo-domain",
 ]
 
 [[package]]
 name = "rotappo-ui-core"
 version = "0.0.1"
 dependencies = [
- "rotappo-domain",
+ "phenome-domain",
  "rotappo-ui-presentation",
 ]
 
@@ -4381,7 +4381,7 @@ dependencies = [
 name = "rotappo-ui-presentation"
 version = "0.0.1"
 dependencies = [
- "rotappo-domain",
+ "phenome-domain",
  "serde",
 ]
 
@@ -4392,8 +4392,8 @@ dependencies = [
  "anyhow",
  "clap",
  "dotenv",
- "rotappo-adapter-bootstrappo",
- "rotappo-domain",
+ "phenome-adapter-primer",
+ "phenome-domain",
  "rotappo-ui-presentation",
  "serde",
  "serde_json",
@@ -4410,11 +4410,11 @@ dependencies = [
  "bootstrappo",
  "crossterm 0.28.1",
  "graphviz-rust",
+ "phenome-domain",
+ "phenome-ports",
  "ratatui",
  "rotappo-adapter-analytics",
  "rotappo-application",
- "rotappo-domain",
- "rotappo-ports",
  "rotappo-ui-core",
  "rotappo-ui-presentation",
  "serde_json",

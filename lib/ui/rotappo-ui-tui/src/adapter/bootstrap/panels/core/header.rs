@@ -4,7 +4,7 @@ use ratatui::prelude::Frame;
 use ratatui::style::{Color, Style, Stylize};
 use ratatui::text::{Line, Span};
 use ratatui::widgets::{Block, Borders, Paragraph};
-use rotappo_ports::{ComponentStatus, PortSet};
+use phenome_ports::{ComponentStatus, PortSet};
 
 pub fn render(frame: &mut Frame, area: Rect, ports: &PortSet) {
     let status = ports.bootstrap.bootstrap_status();

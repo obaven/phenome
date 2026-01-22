@@ -4,7 +4,7 @@ use ratatui::style::{Color, Modifier, Style};
 use ratatui::text::{Line, Span};
 use ratatui::widgets::Paragraph;
 
-use rotappo_domain::{AssemblyStep, Snapshot};
+use phenome_domain::{AssemblyStep, Snapshot};
 
 pub(super) fn render_lineage(
     frame: &mut Frame,

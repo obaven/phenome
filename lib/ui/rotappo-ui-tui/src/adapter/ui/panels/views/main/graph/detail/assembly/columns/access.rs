@@ -1,7 +1,7 @@
 use bootstrappo::application::readiness::ResourceStatus;
 
 use crate::app::App;
-use rotappo_domain::AssemblyStep;
+use phenome_domain::AssemblyStep;
 
 pub(super) fn gather_ingress_urls(app: &App, step: &AssemblyStep) -> Vec<String> {
     let mut ingress_urls = Vec::new();

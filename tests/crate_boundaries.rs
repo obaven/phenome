@@ -90,51 +90,51 @@ fn assert_allowed_deps(rule: &CrateRule) {
 fn crate_dependency_boundaries() {
     let rules = [
         CrateRule {
-            name: "rotappo-domain",
-            manifest_path: "lib/core/rotappo-domain/Cargo.toml",
+            name: "phenome-domain",
+            manifest_path: "lib/domain/phenome-domain/Cargo.toml",
             allowed: &[],
         },
         CrateRule {
-            name: "rotappo-ports",
-            manifest_path: "lib/core/rotappo-ports/Cargo.toml",
-            allowed: &["rotappo-domain"],
+            name: "phenome-ports",
+            manifest_path: "lib/ports/phenome-ports/Cargo.toml",
+            allowed: &["phenome-domain"],
         },
         CrateRule {
             name: "rotappo-application",
-            manifest_path: "lib/core/rotappo-application/Cargo.toml",
-            allowed: &["rotappo-domain", "rotappo-ports"],
+            manifest_path: "lib/runtime/rotappo-application/Cargo.toml",
+            allowed: &["phenome-domain", "phenome-ports"],
         },
         CrateRule {
-            name: "rotappo-adapter-bootstrappo",
-            manifest_path: "lib/core/rotappo-adapter-bootstrappo/Cargo.toml",
-            allowed: &["rotappo-domain", "rotappo-ports", "rotappo-ui-tui"],
+            name: "phenome-adapter-primer",
+            manifest_path: "lib/adapters/phenome-adapter-primer/Cargo.toml",
+            allowed: &["phenome-domain", "phenome-ports", "rotappo-ui-tui"],
         },
         CrateRule {
             name: "rotappo-ui-presentation",
             manifest_path: "lib/ui/rotappo-ui-presentation/Cargo.toml",
-            allowed: &["rotappo-domain"],
+            allowed: &["phenome-domain"],
         },
         CrateRule {
             name: "rotappo-ui-core",
             manifest_path: "lib/ui/rotappo-ui-core/Cargo.toml",
-            allowed: &["rotappo-domain", "rotappo-ui-presentation"],
+            allowed: &["phenome-domain", "rotappo-ui-presentation"],
         },
         CrateRule {
             name: "rotappo-ui-terminal",
             manifest_path: "lib/ui/rotappo-ui-terminal/Cargo.toml",
             allowed: &[
-                "rotappo-domain",
+                "phenome-domain",
                 "rotappo-ui-presentation",
-                "rotappo-adapter-bootstrappo",
+                "phenome-adapter-primer",
             ],
         },
         CrateRule {
             name: "rotappo-ui-tui",
             manifest_path: "lib/ui/rotappo-ui-tui/Cargo.toml",
             allowed: &[
-                "rotappo-domain",
+                "phenome-domain",
                 "rotappo-application",
-                "rotappo-ports",
+                "phenome-ports",
                 "rotappo-ui-core",
                 "rotappo-ui-presentation",
             ],

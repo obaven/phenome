@@ -1,4 +1,4 @@
-use rotappo_domain::{MetricSample, MetricType, ResourceType};
+use phenome_domain::{MetricSample, MetricType, ResourceType};
 
 pub(super) struct MetricTotals {
     pub(super) cpu_sum: f64,

@@ -6,8 +6,8 @@ Purpose:
 - Framework-agnostic UI contracts and shared UI types.
 
 Dependencies:
-- rotappo-domain
-- rotappo-ports
+- phenome-domain
+- phenome-ports
 
 Boundaries:
 - No ratatui or crossterm dependencies.

@@ -37,9 +37,9 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/web/src/app/actions
+  - file: lib/phenome/web/src/app/actions
     context: "Implement action triggers and confirmations"
-  - file: lib/rotappo/src/web/server.rs
+  - file: lib/phenome/src/web/server.rs
     context: "Add access guardrails for action routes"
 
 status: MustHaves

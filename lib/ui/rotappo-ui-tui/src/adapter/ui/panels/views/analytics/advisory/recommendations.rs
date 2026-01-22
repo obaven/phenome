@@ -7,7 +7,7 @@ use ratatui::{
 
 use crate::app::App;
 use crate::util::centered_rect;
-use rotappo_domain::{Priority, RecommendationAction, RecommendationStatus};
+use phenome_domain::{Priority, RecommendationAction, RecommendationStatus};
 
 pub fn render_recommendations(frame: &mut Frame, area: Rect, app: &mut App) {
     let recommendations = app

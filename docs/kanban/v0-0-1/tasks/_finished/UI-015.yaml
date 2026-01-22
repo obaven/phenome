@@ -37,9 +37,9 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/src/tui/views/action.rs
+  - file: lib/phenome/src/tui/views/action.rs
     context: "Render action steps and gate status"
-  - file: lib/rotappo/src/runtime/state.rs
+  - file: lib/phenome/src/runtime/state.rs
     context: "Provide action status fields for UI"
 
 status: MustHaves

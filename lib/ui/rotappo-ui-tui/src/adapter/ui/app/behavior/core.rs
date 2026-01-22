@@ -8,8 +8,8 @@ use std::time::Instant;
 use crate::app::{GraphRenderState, NavSection, NavView};
 use crate::state::UiState;
 use rotappo_application::Runtime;
-use rotappo_domain::{ActionId, ActionSafety, Anomaly, MetricSample, Recommendation};
-use rotappo_ports::PortSet;
+use phenome_domain::{ActionId, ActionSafety, Anomaly, MetricSample, Recommendation};
+use phenome_ports::PortSet;
 
 use crate::analytics_client::AnalyticsClient;
 /// External context required to run the TUI.
@@ -47,10 +47,10 @@ impl AppContext {
 /// # Examples
 /// ```rust,no_run
 /// use rotappo_application::Runtime;
-/// use rotappo_domain::ActionRegistry;
+/// use phenome_domain::ActionRegistry;
 /// use rotappo_ui_tui::app::App;
 /// use rotappo_ui_tui::app::AppContext;
-/// use rotappo_ports::PortSet;
+/// use phenome_ports::PortSet;
 ///
 /// let runtime = Runtime::new_with_ports(ActionRegistry::default(), PortSet::empty());
 /// let context = AppContext::new("localhost", "config.yml", "assembly.yml", PortSet::empty());

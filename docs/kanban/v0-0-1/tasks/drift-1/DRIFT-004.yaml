@@ -3,7 +3,7 @@ title: 'Module Registry + Hook Spec Integration'
 type: Story
 layer: 5
 domain: core
-component: rotappo-adapter-bootstrappo
+component: phenome-adapter-primer
 cli_surface:
   - bootstrappo [explain|status|diff]
 
@@ -36,9 +36,9 @@ labels:
   - hooks
 
 source_files:
-  - file: lib/core/rotappo-adapter-bootstrappo/src/controller/
+  - file: lib/adapters/phenome-adapter-primer/src/controller/
     context: "Explain/status controllers"
-  - file: ../bootstrappo/src/application/flows/reconcile/ops/hooks/registry.rs
+  - file: ../primer/src/application/flows/reconcile/ops/hooks/registry.rs
     context: "Hook registry"
 
 status: MustHaves

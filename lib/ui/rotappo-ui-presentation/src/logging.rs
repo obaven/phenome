@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use rotappo_domain::EventLevel;
+use phenome_domain::EventLevel;
 
 pub const LOG_INTERVALS_SECS: [u64; 4] = [1, 2, 5, 10];
 pub const DEFAULT_LOG_INTERVAL_SECS: u64 = 2;
