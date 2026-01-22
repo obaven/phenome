@@ -7,5 +7,5 @@ publish = false
 [dependencies]
 anyhow = "1.0.100"
 async-trait = "0.1.83"
-phenome-domain = { path = "../../domain/phenome-domain" }
+phenome-domain = { path = "../../domain" }
 primer = { path = "../../../../primer" }

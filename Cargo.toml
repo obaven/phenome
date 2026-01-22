@@ -37,21 +37,21 @@ required-features = ["ml"]
 
 [dependencies]
 anyhow = "1.0.100"
-phenome-adapter-primer = { path = "lib/adapters/phenome-adapter-primer", optional = true }
-phenome-adapter-analytics = { path = "lib/adapters/phenome-adapter-analytics", optional = true }
-phenome-adapter-ml = { path = "lib/adapters/phenome-adapter-ml", optional = true }
-phenome-application = { path = "lib/runtime/phenome-application" }
-phenome-domain = { path = "lib/domain/phenome-domain" }
-phenome-ml = { path = "lib/runtime/phenome-ml", optional = true }
-phenome-ui-core = { path = "lib/ui/phenome-ui-core", optional = true }
-phenome-ui-terminal = { path = "lib/ui/phenome-ui-terminal", optional = true }
-phenome-ui-tui = { path = "lib/ui/phenome-ui-tui", optional = true }
+phenome-adapter-primer = { path = "lib/adapters/primer", optional = true }
+phenome-adapter-analytics = { path = "lib/adapters/analytics", optional = true }
+phenome-adapter-ml = { path = "lib/adapters/ml", optional = true }
+phenome-application = { path = "lib/runtime/application" }
+phenome-domain = { path = "lib/domain" }
+phenome-ml = { path = "lib/runtime/ml", optional = true }
+phenome-ui-core = { path = "lib/ui/core", optional = true }
+phenome-ui-terminal = { path = "lib/ui/terminal", optional = true }
+phenome-ui-tui = { path = "lib/ui/tui", optional = true }
 tokio = { version = "1.48.0", features = ["full"], optional = true }
 
 [dev-dependencies]
-phenome-ui-presentation = { path = "lib/ui/phenome-ui-presentation" }
-phenome-ui-terminal = { path = "lib/ui/phenome-ui-terminal" }
-phenome-adapter-analytics = { path = "lib/adapters/phenome-adapter-analytics" }
-phenome-adapter-ml = { path = "lib/adapters/phenome-adapter-ml" }
+phenome-ui-presentation = { path = "lib/ui/presentation" }
+phenome-ui-terminal = { path = "lib/ui/terminal" }
+phenome-adapter-analytics = { path = "lib/adapters/analytics" }
+phenome-adapter-ml = { path = "lib/adapters/ml" }
 tempfile = "3.24.0"
 tokio = { version = "1.48.0", features = ["full", "test-util"] }

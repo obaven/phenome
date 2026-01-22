@@ -5,5 +5,5 @@ edition = "2024"
 publish = false
 
 [dependencies]
-phenome-domain = { path = "../../domain/phenome-domain" }
+phenome-domain = { path = "../../domain" }
 serde = { version = "1.0.210", features = ["derive"] }

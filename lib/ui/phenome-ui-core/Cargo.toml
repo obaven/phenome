@@ -1,9 +1,0 @@
-[package]
-name = "phenome-ui-core"
-version = "0.0.1"
-edition = "2024"
-publish = false
-
-[dependencies]
-phenome-domain = { path = "../../domain/phenome-domain" }
-phenome-ui-presentation = { path = "../phenome-ui-presentation" }

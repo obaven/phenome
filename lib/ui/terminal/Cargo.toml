@@ -24,6 +24,6 @@ serde_json = "1.0.128"
 tracing = { version = "0.1.44", optional = true }
 tracing-subscriber = { version = "0.3", optional = true }
 
-phenome-adapter-primer = { path = "../../adapters/phenome-adapter-primer", optional = true }
-phenome-domain = { path = "../../domain/phenome-domain" }
-phenome-ui-presentation = { path = "../phenome-ui-presentation" }
+phenome-adapter-primer = { path = "../../adapters/primer", optional = true }
+phenome-domain = { path = "../../domain" }
+phenome-ui-presentation = { path = "../presentation" }

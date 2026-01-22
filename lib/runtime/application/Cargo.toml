@@ -6,5 +6,5 @@ publish = false
 
 [dependencies]
 anyhow = "1.0.100"
-phenome-domain = { path = "../../domain/phenome-domain" }
-phenome-ports = { path = "../../ports/phenome-ports" }
+phenome-domain = { path = "../../domain" }
+phenome-ports = { path = "../../ports" }
